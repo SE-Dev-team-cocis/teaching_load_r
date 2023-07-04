@@ -4,8 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/react.svg";
-import TextField from "./TextField";
-import SelectField from "./SelectField";
+import TextField from "./utilities/TextField";
+import SelectField from "./utilities/SelectField";
 
 const Register = () => {
   const navigate = useNavigate();

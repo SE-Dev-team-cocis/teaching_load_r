@@ -2,15 +2,21 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
+import Home from "./components/Home";
+import NewTeachingLoad from "./components/load/NewTeachingLoad";
+import Settings from "./components/Settings";
+
 const App = () => {
   return (
-    // <div>
-    //   <h1 className="text-3xl font-bold underline text-center">Hello world!</h1>
-    // </div>
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/teaching-load" element={<Home />} />
+        <Route path="/teaching-load/new" element={<NewTeachingLoad />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </>
   );
 };
 

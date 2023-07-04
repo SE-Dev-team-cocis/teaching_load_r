@@ -1,9 +1,10 @@
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/react.svg";
+import TextField from "./utilities/TextField";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Login = () => {
     username: yup.number().required("Username is required"),
     password: yup.string().required("Password is required"),
   });
+
   return (
     <>
       <div className="login_form border-2 border-green-700 rounded-lg p-5">
@@ -66,6 +68,7 @@ const Login = () => {
           <Formik
             initialValues={initialValues}
             onSubmit={async (values) => {
+              alert("Submitted");
               const username = values.username;
               const password = values.password;
 
@@ -74,99 +77,63 @@ const Login = () => {
                 password: password,
               };
 
-              //Submit login details data into the database
-              const url = " http://localhost:4000/student/login";
+              console.log("Credentials: ", student);
 
-              try {
-                const response = await axios.post(url, student, {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                });
-                if (response.data.login === false) {
-                  // initialValues = {}
-                  // errorNotification(response.data.message)
-                  errorNotification("Invalid login credentials");
-                  return;
-                }
-                if (response.data.login === true) {
-                  //   setComplaints(response.data.complaints);
-                  //   setUser(response.data.user);
-                  //   setLogin(true);
-                  //   setLoggedIn(true);
+              //   //Submit login details data into the database
+              //   const url = " http://localhost:4000/student/login";
 
-                  localStorage.setItem(
-                    "token",
-                    JSON.stringify(response.data.token)
-                  );
-                  navigate("/student");
-                }
-              } catch (err) {
-                // errorNotification(err.toString())
-                errorNotification("503 | Bad Gateway");
-              }
+              //   try {
+              //     const response = await axios.post(url, student, {
+              //       headers: {
+              //         "Content-Type": "application/json",
+              //       },
+              //     });
+              //     if (response.data.login === false) {
+              //       // initialValues = {}
+              //       // errorNotification(response.data.message)
+              //       errorNotification("Invalid login credentials");
+              //       return;
+              //     }
+              //     if (response.data.login === true) {
+              //       //   setComplaints(response.data.complaints);
+              //       //   setUser(response.data.user);
+              //       //   setLogin(true);
+              //       //   setLoggedIn(true);
+
+              //       localStorage.setItem(
+              //         "token",
+              //         JSON.stringify(response.data.token)
+              //       );
+              //       navigate("/student");
+              //     }
+              //   } catch (err) {
+              //     // errorNotification(err.toString())
+              //     errorNotification("503 | Bad Gateway");
+              //   }
             }}
             validationSchema={validate}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, handleSubmit, handleChange }) => (
               <div className=" bg-white mt-2 rounded-md mb-5">
-                <Form className="">
+                <Form className="" onSubmit={handleSubmit}>
                   <h4 className="text-green-700 text-center text-xl font-semibold mb-5">
                     Login into your account
                   </h4>
 
                   <div>
-                    {/* <input
-                      className={`focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-4 bg-white border border-gray focus:border-teal-500 w-full rounded ${
-                        meta.touched && meta.error && "border-red-600 "
-                      }`}
-                      {...field}
-                      {...props}
-                      autoComplete="off"
-                    /> */}
-                    <label
-                      htmlFor="username"
-                      className="block font-normal text-sm mt-2 text-gray-700"
-                    >
-                      Username
-                    </label>
-                    <input
+                    <TextField
+                      label="Username"
                       type="text"
                       name="username"
-                      className={`focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-4 bg-white border border-gray focus:border-teal-500 w-full rounded`}
-                      autoComplete="off"
+                      handleChange={handleChange}
                     />
-
-                    <label
-                      htmlFor="password"
-                      className="block font-normal text-sm mt-2 text-gray-700"
-                    >
-                      Password
-                    </label>
-                    <input
-                      type="password"
+                    <TextField
+                      label="Password"
+                      type="text"
                       name="password"
-                      className={`focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-4 bg-white border border-gray focus:border-teal-500 w-full rounded`}
-                      autoComplete="off"
+                      handleChange={handleChange}
                     />
-                    {/* <ErrorMessage
-                      component="span"
-                      name={field.name}
-                      className="error text-sm"
-                    /> */}
                   </div>
-                  {/* <TextField
-                    label="Username"
-                    name="username"
-                    type="number"
-                    placeholder="Enter your username"
-                  />
-                  <TextField
-                    label="Password"
-                    name="password"
-                    type="password"
-                    placeholder="Enter your password"
-                  /> */}
 
                   <div className="flex justify-center items-center w-full">
                     {isSubmitting ? (

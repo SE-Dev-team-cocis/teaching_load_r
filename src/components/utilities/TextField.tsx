@@ -3,9 +3,16 @@ type TextFieldPops = {
   name: string;
   type: string;
   placeholder?: string;
+  handleChange?: (e: React.ChangeEvent<any>) => void;
 };
 
-const TextField = ({ label, name, type, placeholder }: TextFieldPops) => {
+const TextField = ({
+  label,
+  name,
+  type,
+  placeholder,
+  handleChange,
+}: TextFieldPops) => {
   return (
     <div>
       <label
@@ -20,6 +27,7 @@ const TextField = ({ label, name, type, placeholder }: TextFieldPops) => {
         className={`focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-4 bg-white border border-gray focus:border-teal-500 w-full rounded`}
         autoComplete="off"
         placeholder={placeholder}
+        onChange={handleChange}
       />
     </div>
   );

@@ -16,3 +16,24 @@
     margin: 30px auto;
     /* padding: 2rem; */
 }
+
+
+input.input-error, select.input-error{
+    border-color: red;
+}
+
+
+.card{
+  height: 400px;
+  /* overflow-y: scroll; */
+}
+
+
+.list{
+   overflow-y: scroll;
+   height: 280px;
+} 
+
+.load {
+  margin-left: 20px;
+}
