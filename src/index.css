@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.login_form{
+    width: 440px;
+    /* border: 3px solid green; */
+    margin: 30px auto;
+    /* padding: 2rem; */
+}
+
+.register_form{
+     width: 500px;
+    /* border: 3px solid green; */
+    margin: 30px auto;
+    /* padding: 2rem; */
+}
