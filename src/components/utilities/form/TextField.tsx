@@ -1,18 +1,10 @@
-import {
-  FormikErrors,
-  FieldConfig,
-  FieldInputProps,
-  FormikTouched,
-} from "formik";
+import { FormikTouched, FormikErrors } from "formik";
 
-type InitialValues = {
+type initialValues = {
   firstName: string;
   lastName: string;
-  email: string;
+  username: string;
   password: string;
-  confirmPassword: string;
-  role: string;
-  department: string;
 };
 
 type TextFieldPops = {
@@ -20,13 +12,10 @@ type TextFieldPops = {
   name: string;
   type: string;
   placeholder?: string;
-  // getFieldProps: (
-  //   nameOrOptions: string | FieldConfig<any>
-  // ) => FieldInputProps<any>;
+  errors: FormikErrors<initialValues>;
   handleChange: (e: React.ChangeEvent<any>) => void;
-  errors: FormikErrors<InitialValues>;
   handleBlur: (e: React.FocusEvent<any, Element>) => void;
-  touched: FormikTouched<InitialValues>;
+  touched: FormikTouched<initialValues>;
 };
 
 const TextField = ({
@@ -36,11 +25,10 @@ const TextField = ({
   placeholder,
   handleChange,
   handleBlur,
-  errors,
   touched,
-}: // handleChange,
-TextFieldPops) => {
-  // const {handleChange} = getFieldProps
+  errors,
+}: TextFieldPops) => {
+  const myname = name;
   return (
     <div>
       <label
@@ -52,13 +40,22 @@ TextFieldPops) => {
       <input
         type={type}
         name={name}
-        className={`focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-4 bg-white border border-gray focus:border-teal-500 w-full rounded`}
+        className={`focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-4 bg-white border border-gray focus:border-teal-500 w-full rounded 
+        ${errors.username ? "focus:ring-red-600 border-red-600" : ""}
+        
+        `}
         autoComplete="off"
         placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
-        // {...getFieldProps(name)}
       />
+      {/* {touched && errors ? (
+        <span className="text-red-500 block">
+          {errors.username || errors.password}
+        </span>
+      ) : (
+        ""
+      )} */}
     </div>
   );
 };

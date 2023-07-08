@@ -166,7 +166,7 @@ const Lecturers = () => {
             <p key={lecturer.id} className="flex items-center">
               <input
                 type="checkbox"
-                className="mr-3"
+                className="mr-3 ml-2 h-3 w-3 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
                 name="lecturers[]"
                 checked={lecturer.isChecked}
                 value={lecturer.id}

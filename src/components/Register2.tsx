@@ -1,11 +1,13 @@
 import { Field, Form, Formik, useFormik } from "formik";
-import * as yup from "yup";
 import axios from "axios";
+import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/react.svg";
-import TextField from "./utilities/TextField";
-import SelectField from "./utilities/SelectField";
+// import TextField from "./utilities/TextField";
+import TextField from "./utilities/form/TextField";
+import LoginInput from "./utilities/form/LoginInput";
+import GenericTextField from "./utilities/form/GenericTextField";
 
 type InitialValues = {
   firstName: string;
@@ -16,10 +18,19 @@ type InitialValues = {
   role: string;
   department: string;
 };
+const initialRegisterValues: InitialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  role: "",
+  department: "",
+};
 
-const Register = () => {
+const Register2 = () => {
   const navigate = useNavigate();
-  const customId: string = "Register";
+  const customId: string = "login";
 
   //For the toast notification
   const notify = (message: string) => {
@@ -53,16 +64,6 @@ const Register = () => {
   //   password: "",
   // };
 
-  const initialValues: InitialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "",
-    department: "",
-  };
-
   const RegisterSchema = yup.object().shape({
     firstName: yup.string().required().label("First name"),
     lastName: yup.string().required().label("Last name"),
@@ -74,24 +75,19 @@ const Register = () => {
     confirmPassword: yup.string().min(8).required().label("Password"),
   });
 
-  const departmentOptions: string[] = [
-    "Networks",
-    "Information Systems",
-    "Computer Science",
-  ];
-  const roleOptions: string[] = ["Head of department", "Lecturer", "Dean"];
-
   const {
     handleBlur,
     handleChange,
     handleSubmit,
     values,
+    setTouched,
     errors,
     touched,
+    getFieldProps,
     setSubmitting,
     isSubmitting,
   } = useFormik({
-    initialValues: RegisterSchema,
+    initialValues: initialRegisterValues,
     onSubmit: (values) => {
       setTimeout(() => {
         setSubmitting(false);
@@ -133,11 +129,10 @@ const Register = () => {
     validationSchema: RegisterSchema,
   });
 
-  console.log(errors);
-
+  // console.log("Errors: ", errors);
   return (
     <>
-      <div className="register_form border-2 border-green-700 rounded-lg p-5">
+      <div className="login_form border-2 border-green-700 bg-white rounded-lg p-5">
         <header className="flex justify-center items-center flex-col">
           <img
             src={Logo}
@@ -150,70 +145,51 @@ const Register = () => {
           </p>
           <p className="text-green-700 font-semibold">Teaching Load</p>
         </header>
-
-        {/* <div className="flex justify-center items-center flex-col"> */}
         <div className="">
           <div className=" bg-white mt-2 rounded-md mb-5">
             <form className="" onSubmit={handleSubmit}>
               <h4 className="text-green-700 text-center text-xl font-semibold mb-5">
-                Create an account
+                Login into your account
               </h4>
 
-              <div className="flex justify-between gap-1">
-                <TextField
+              <div className="flex justify-between gap-2">
+                <label htmlFor="" className="block">
+                  First name
+                </label>
+                <Field
+                  type="text"
                   name="firstName"
-                  label="First name"
-                  type="text"
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
-                  errors={errors}
-                  touched={touched}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.firstName}
                 />
-                <TextField
-                  name="lastName"
-                  label="Last name"
-                  type="text"
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
-                  errors={errors}
+              </div>
+              <div>
+                {/* <LoginInput
+                  label="Password"
+                  name="password"
+                  type="password"
                   touched={touched}
+                  errors={errors}
+                  placeholder="Please enter your password name.."
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
                 />
-                {/* <TextField name="lastName" label="Last name" type="text" /> */}
+                {touched.password && errors.password ? (
+                  <span className="text-red-500 block">{errors.password}</span>
+                ) : (
+                  ""
+                )} */}
               </div>
-              {/* <TextField
-                type="email"
-                name="email"
-                label="Email"
-                placeholder="eg. example@gmail.com"
-              /> */}
-              <div className="flex justify-between gap-1">
-                <div className="w-1/2">
-                  {/* <SelectField
-                    name="Department"
-                    label="Department"
-                    options={departmentOptions}
-                  /> */}
-                </div>
-                <div className="w-1/2">
-                  {/* <SelectField name="Role" label="Role" options={roleOptions} /> */}
-                </div>
-              </div>
-              {/* <TextField type="password" name="password" label="Password" />
-                  <TextField
-                    type="password"
-                    name="confirm_password"
-                    label="Confirm password"
-                    placeholder="Please confirm your password..."
-                  /> */}
 
               <div className="flex justify-center items-center w-full">
                 {isSubmitting ? (
                   <button
-                    className="w-full text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"
+                    className="w-full text-white px-4 rounded py-2 bg-green-400 mt-2 "
                     type="submit"
                     disabled
                   >
-                    Registering your account...
+                    Registering...
                   </button>
                 ) : (
                   <button
@@ -226,9 +202,9 @@ const Register = () => {
               </div>
             </form>
             <p className="mt-3 text-dark">
-              Already have an account?{" "}
-              <Link to="/login">
-                <span className="text-green-700">Login</span>
+              Don't have an account?{" "}
+              <Link to="/register">
+                <span className="text-green-700">Register</span>
               </Link>{" "}
               here
             </p>
@@ -239,4 +215,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Register2;
