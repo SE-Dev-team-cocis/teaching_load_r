@@ -3,9 +3,11 @@ import {
   FieldConfig,
   FieldInputProps,
   FormikTouched,
+  Field,
 } from "formik";
 
 type InitialValues = {
+  [key: string]: any;
   firstName: string;
   lastName: string;
   email: string;
@@ -19,12 +21,10 @@ type TextFieldPops = {
   label: string;
   name: string;
   type: string;
+  options?: string[] | undefined;
   placeholder?: string;
-  // getFieldProps: (
-  //   nameOrOptions: string | FieldConfig<any>
-  // ) => FieldInputProps<any>;
-  handleChange: (e: React.ChangeEvent<any>) => void;
   errors: FormikErrors<InitialValues>;
+  handleChange: (e: React.ChangeEvent<any>) => void;
   handleBlur: (e: React.FocusEvent<any, Element>) => void;
   touched: FormikTouched<InitialValues>;
 };
@@ -33,14 +33,13 @@ const TextField = ({
   label,
   name,
   type,
+  options,
   placeholder,
   handleChange,
   handleBlur,
-  errors,
   touched,
-}: // handleChange,
-TextFieldPops) => {
-  // const {handleChange} = getFieldProps
+  errors,
+}: TextFieldPops) => {
   return (
     <div>
       <label
@@ -49,16 +48,47 @@ TextFieldPops) => {
       >
         {label}
       </label>
-      <input
-        type={type}
-        name={name}
-        className={`focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-4 bg-white border border-gray focus:border-teal-500 w-full rounded`}
-        autoComplete="off"
-        placeholder={placeholder}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        // {...getFieldProps(name)}
-      />
+
+      {options ? (
+        <>
+          <select
+            name={name}
+            className={`${
+              errors[`${name}`] && touched[`${name}`]
+                ? "focus:ring-1 focus:ring-red-500 border-red-500 focus:border-red-500"
+                : "focus:ring-1 focus:ring-green-700 focus:border-teal-500"
+            } focus:outline-none shadow-sm py-2 px-4 w-full rounded`}
+            placeholder={placeholder}
+            onChange={handleChange}
+          >
+            <option value="">Select a {name}</option>
+            {options.map((option) => (
+              <option key={option} value={option} onBlur={handleBlur}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </>
+      ) : (
+        <>
+          <input
+            type={type}
+            name={name}
+            className={`${
+              errors[`${name}`] && touched[`${name}`]
+                ? "focus:ring-1 focus:ring-red-500 focus:border-red-500 border-red-500"
+                : "focus:ring-1 focus:ring-green-700 focus:border-teal-500"
+            } outline-none shadow-sm py-2 px-4 w-full rounded`}
+            autoComplete="off"
+            placeholder={placeholder}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </>
+      )}
+      {errors[`${name}`] && touched[`${name}`] && (
+        <span className="block text-red-500">{errors[`${name}`]} </span>
+      )}
     </div>
   );
 };

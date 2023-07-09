@@ -1,6 +1,7 @@
 import { FormikTouched, FormikErrors } from "formik";
 
 type initialValues = {
+  [key: string]: any;
   username: string;
   password: string;
 };
@@ -37,13 +38,19 @@ const LoginInput = ({
       <input
         type={type}
         name={name}
-        className="focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-4 bg-white border border-gray focus:border-teal-500 w-full rounded"
-        // focus:ring-red-600 border-red-600"
+        className={`${
+          errors[`${name}`] && touched[`${name}`]
+            ? "focus:ring-1 focus:ring-red-500 border-red-500 focus:border-red-500"
+            : "focus:ring-1 focus:ring-green-700 focus:border-teal-500"
+        } focus:outline-none shadow-sm py-2 px-4 w-full rounded`}
         autoComplete="off"
         placeholder={placeholder}
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      {errors[`${name}`] && touched[`${name}`] && (
+        <span className="block text-red-500">{errors[name]} </span>
+      )}
     </div>
   );
 };

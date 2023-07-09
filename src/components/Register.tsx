@@ -21,6 +21,13 @@ const Register = () => {
   const navigate = useNavigate();
   const customId: string = "Register";
 
+  const departmentOptions: string[] = [
+    "Networks",
+    "Information Systems",
+    "Computer Science",
+  ];
+  const roleOptions: string[] = ["Head of department", "Lecturer", "Dean"];
+
   //For the toast notification
   const notify = (message: string) => {
     toast.success(message, {
@@ -48,11 +55,6 @@ const Register = () => {
     });
   };
 
-  // let initialValues = {
-  //   username: "",
-  //   password: "",
-  // };
-
   const initialValues: InitialValues = {
     firstName: "",
     lastName: "",
@@ -67,19 +69,16 @@ const Register = () => {
     firstName: yup.string().required().label("First name"),
     lastName: yup.string().required().label("Last name"),
     role: yup.string().required().label("Role"),
-    department: yup.string().required().label("First name"),
+    department: yup.string().required().label("Department"),
+    email: yup.string().email().required().label("Email"),
 
     // username: yup.string().required().label("Username"),
     password: yup.string().min(8).required().label("Password"),
-    confirmPassword: yup.string().min(8).required().label("Password"),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], "Passwords must match")
+      .required("Confirm password is required"),
   });
-
-  const departmentOptions: string[] = [
-    "Networks",
-    "Information Systems",
-    "Computer Science",
-  ];
-  const roleOptions: string[] = ["Head of department", "Lecturer", "Dean"];
 
   const {
     handleBlur,
@@ -91,7 +90,7 @@ const Register = () => {
     setSubmitting,
     isSubmitting,
   } = useFormik({
-    initialValues: RegisterSchema,
+    initialValues: initialValues,
     onSubmit: (values) => {
       setTimeout(() => {
         setSubmitting(false);
@@ -132,9 +131,7 @@ const Register = () => {
     },
     validationSchema: RegisterSchema,
   });
-
-  console.log(errors);
-
+  // console.log(errors)
   return (
     <>
       <div className="register_form border-2 border-green-700 rounded-lg p-5">
@@ -150,8 +147,6 @@ const Register = () => {
           </p>
           <p className="text-green-700 font-semibold">Teaching Load</p>
         </header>
-
-        {/* <div className="flex justify-center items-center flex-col"> */}
         <div className="">
           <div className=" bg-white mt-2 rounded-md mb-5">
             <form className="" onSubmit={handleSubmit}>
@@ -178,33 +173,62 @@ const Register = () => {
                   errors={errors}
                   touched={touched}
                 />
-                {/* <TextField name="lastName" label="Last name" type="text" /> */}
               </div>
-              {/* <TextField
-                type="email"
+              <TextField
                 name="email"
                 label="Email"
-                placeholder="eg. example@gmail.com"
-              /> */}
+                type="email"
+                handleBlur={handleBlur}
+                handleChange={handleChange}
+                errors={errors}
+                touched={touched}
+              />
               <div className="flex justify-between gap-1">
                 <div className="w-1/2">
-                  {/* <SelectField
-                    name="Department"
+                  <TextField
+                    type="select"
+                    name="department"
                     label="Department"
                     options={departmentOptions}
-                  /> */}
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                    errors={errors}
+                    touched={touched}
+                  />
                 </div>
                 <div className="w-1/2">
-                  {/* <SelectField name="Role" label="Role" options={roleOptions} /> */}
+                  <TextField
+                    type="select"
+                    name="role"
+                    label="Role"
+                    options={roleOptions}
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                    errors={errors}
+                    touched={touched}
+                  />
                 </div>
               </div>
-              {/* <TextField type="password" name="password" label="Password" />
-                  <TextField
-                    type="password"
-                    name="confirm_password"
-                    label="Confirm password"
-                    placeholder="Please confirm your password..."
-                  /> */}
+              <TextField
+                type="password"
+                name="password"
+                label="Password"
+                placeholder="Enter a strong password..."
+                handleBlur={handleBlur}
+                handleChange={handleChange}
+                errors={errors}
+                touched={touched}
+              />
+              <TextField
+                type="password"
+                name="confirmPassword"
+                label="Confirm password"
+                placeholder="Please confirm your password..."
+                handleBlur={handleBlur}
+                handleChange={handleChange}
+                errors={errors}
+                touched={touched}
+              />
 
               <div className="flex justify-center items-center w-full">
                 {isSubmitting ? (
@@ -226,10 +250,10 @@ const Register = () => {
               </div>
             </form>
             <p className="mt-3 text-dark">
-              Already have an account?{" "}
+              Already have an account?
               <Link to="/login">
-                <span className="text-green-700">Login</span>
-              </Link>{" "}
+                <span className="text-green-700 mx-2">Login</span>
+              </Link>
               here
             </p>
           </div>

@@ -1,13 +1,10 @@
-import { Form, Formik, useFormik } from "formik";
 import axios from "axios";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/react.svg";
-// import TextField from "./utilities/TextField";
-import TextField from "./utilities/form/TextField";
 import LoginInput from "./utilities/form/LoginInput";
-import GenericTextField from "./utilities/form/GenericTextField";
 
 type InitialValues = {
   username: string;
@@ -49,14 +46,9 @@ const Login = () => {
     });
   };
 
-  // let initialValues = {
-  //   username: "",
-  //   password: "",
-  // };
-
   const LoginSchema = yup.object().shape({
-    username: yup.string().required("Username is required"),
-    password: yup.string().required("Password is required"),
+    username: yup.string().required().label("Username"),
+    password: yup.string().required().label("Password"),
   });
 
   const {
@@ -64,10 +56,8 @@ const Login = () => {
     handleChange,
     handleSubmit,
     values,
-    setTouched,
     errors,
     touched,
-    getFieldProps,
     setSubmitting,
     isSubmitting,
   } = useFormik({
@@ -79,10 +69,10 @@ const Login = () => {
       }, 3000);
 
       //   //Submit login details data into the database
-      //   const url = " http://localhost:4000/student/login";
+      //   const url = " http://localhost:8000/login";
 
       //   try {
-      //     const response = await axios.post(url, student, {
+      //     const response = await axios.post(url, {username: values.username, password: values.password}, {
       //       headers: {
       //         "Content-Type": "application/json",
       //       },
@@ -147,11 +137,6 @@ const Login = () => {
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                 />
-                {touched.username && errors.username ? (
-                  <span className="text-red-500 block">{errors.username}</span>
-                ) : (
-                  ""
-                )}
               </div>
               <div>
                 <LoginInput
@@ -164,11 +149,6 @@ const Login = () => {
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                 />
-                {touched.password && errors.password ? (
-                  <span className="text-red-500 block">{errors.password}</span>
-                ) : (
-                  ""
-                )}
               </div>
 
               <div className="flex justify-center items-center w-full">
