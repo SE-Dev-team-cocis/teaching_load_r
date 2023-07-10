@@ -72,8 +72,6 @@ const Register = () => {
     role: yup.string().required().label("Role"),
     department: yup.string().required().label("Department"),
     email: yup.string().email().required().label("Email"),
-
-    // username: yup.string().required().label("Username"),
     password: yup.string().min(8).required().label("Password"),
     password_confirmation: yup
       .string()
@@ -81,9 +79,8 @@ const Register = () => {
       .required("Confirm password is required"),
   });
 
-  const [errorMessage, setErrorMessage] = useState("")
-  const [login, setLogin] = useState(false)
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [login, setLogin] = useState(false);
 
   const {
     handleBlur,
@@ -97,14 +94,8 @@ const Register = () => {
   } = useFormik({
     initialValues: initialValues,
     onSubmit: async (values) => {
-      // setTimeout(() => {
-      //   setSubmitting(false);
-      //   console.log(values);
-      // }, 3000);
-
       //Submit login details data into the database
       const url = "http://127.0.0.1:8000/api/register";
-      // console.log(values)
       try {
         const response = await axios.post(url, values, {
           headers: {
@@ -112,35 +103,30 @@ const Register = () => {
           },
         });
 
-        console.log(response.data)
+        // console.log(response.data)
         if (response.data.register !== true) {
-          setLogin(false)
-          setErrorMessage(response.data.message)
-          // initialValues = {}
-          // errorNotification(response.data.message)
-          errorNotification("Invalid login credentials");
+          setLogin(false);
+          setErrorMessage(response.data.message);
+          //errorNotification("Invalid login credentials");
           return;
         }
-        if (response.data.register === true) {
-          setLogin(true)
-          //   setComplaints(response.data.complaints);
-          //   setUser(response.data.user);
-          
-          localStorage.setItem("token", JSON.stringify(response.data.access_token));
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-          localStorage.setItem("user_id", JSON.stringify(response.data.user_id));
+        // if (response.data.register === true) {
+        setLogin(true);
+        localStorage.setItem(
+          "token",
+          JSON.stringify(response.data.access_token)
+        );
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("user_id", JSON.stringify(response.data.user_id));
 
-
-          navigate("/teaching-load");
-        }
+        navigate("/teaching-load");
+        // }
       } catch (err) {
-        // errorNotification(err.toString())
         errorNotification("503 | Bad Gateway");
       }
     },
     validationSchema: RegisterSchema,
   });
-  // console.log(errors)
   return (
     <>
       <div className="register_form border-2 border-green-700 rounded-lg p-5">
@@ -163,8 +149,18 @@ const Register = () => {
                 Create an account
               </h4>
 
-            {login === false ? <div className="text-center text-red-500 font-lg">{errorMessage} <Link to={"/login"} className="mr-2 underline"> Login</Link>instead</div>: ""}
-
+              {login === false ? (
+                <div className="text-center text-red-500 font-lg">
+                  {errorMessage}{" "}
+                  <Link to={"/login"} className="mr-2 underline">
+                    {" "}
+                    Login
+                  </Link>
+                  instead
+                </div>
+              ) : (
+                ""
+              )}
 
               <div className="flex justify-between gap-1">
                 <TextField

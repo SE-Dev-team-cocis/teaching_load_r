@@ -6,6 +6,9 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/react.svg";
 import LoginInput from "./utilities/form/LoginInput";
 import { useState } from "react";
+import useUserstore from "../zustand/userStore";
+
+// import { useUse } from "../zustand/userStore";
 
 type InitialValues = {
   username: string;
@@ -16,45 +19,49 @@ const initialLoginValues: InitialValues = {
   password: "",
 };
 
+const customId: string = "login";
+//For the toast notification
+const notify = (message: string) => {
+  toast.success(message, {
+    toastId: customId,
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "light",
+  });
+};
+
+const errorNotification = async (message: string) => {
+  await toast.error(message, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "light",
+  });
+};
+
 const Login = () => {
   const navigate = useNavigate();
-  const customId: string = "login";
 
-  //For the toast notification
-  const notify = (message: string) => {
-    toast.success(message, {
-      toastId: customId,
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-  const errorNotification = async(message: string) => {
-    await toast.error(message, {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
+  //Zustand store import
+  // const user = useUserstore((state) => state.user)
+  const { setUser } = useUserstore();
 
   const LoginSchema = yup.object().shape({
     username: yup.string().required().label("Username"),
     password: yup.string().required().label("Password"),
   });
 
-  const [errorMessage, setErrorMessage] = useState("")
-  const [login, setLogin] = useState(false)
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [login, setLogin] = useState(false);
 
   const {
     handleBlur,
@@ -79,7 +86,7 @@ const Login = () => {
       try {
         const response = await axios.post(
           url,
-          {email:values.username, password: values.password },
+          { email: values.username, password: values.password },
           {
             headers: {
               "Content-Type": "application/json",
@@ -87,23 +94,23 @@ const Login = () => {
           }
         );
         if (response.data.login === false) {
-          console.log(response.data)
-          setLogin(false)
-          setErrorMessage(response.data.message)
+          console.log(response.data);
+          setLogin(false);
+          setErrorMessage(response.data.message);
           await errorNotification(response.data.message);
           return;
         }
-        if (response.data.login === true) {
-          //   setComplaints(response.data.complaints);
-          //   setUser(response.data.user);
-          //   setLogin(true);
-          //   setLoggedIn(true);
-          setLogin(true)
-          localStorage.setItem("token", JSON.stringify(response.data.access_token));
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+        // if (response.data.login === true) {
+        setUser(response.data.user); // setting the user using zustand
+        setLogin(true);
+        localStorage.setItem(
+          "token",
+          JSON.stringify(response.data.access_token)
+        );
+        localStorage.setItem("user", JSON.stringify(response.data.user));
 
-          navigate("/teaching-load");
-        }
+        navigate("/teaching-load");
+        // }
       } catch (err) {
         // errorNotification(err.toString())
         errorNotification("503 | Bad Gateway");
@@ -135,7 +142,13 @@ const Login = () => {
                 Login into your account
               </h4>
 
-            {login === false ? <div className="text-center text-red-500 font-lg">{errorMessage}</div>: ""}
+              {login === false ? (
+                <div className="text-center text-red-500 font-lg">
+                  {errorMessage}
+                </div>
+              ) : (
+                ""
+              )}
 
               <div>
                 <LoginInput
