@@ -62,43 +62,44 @@ const Login = () => {
     isSubmitting,
   } = useFormik({
     initialValues: initialLoginValues,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setTimeout(() => {
         setSubmitting(false);
         console.log(values);
       }, 3000);
 
-      //   //Submit login details data into the database
-      //   const url = " http://localhost:8000/login";
+      //Submit login details data into the database
+      const url = " http://localhost:8000/api/login";
 
-      //   try {
-      //     const response = await axios.post(url, {username: values.username, password: values.password}, {
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //     });
-      //     if (response.data.login === false) {
-      //       // initialValues = {}
-      //       // errorNotification(response.data.message)
-      //       errorNotification("Invalid login credentials");
-      //       return;
-      //     }
-      //     if (response.data.login === true) {
-      //       //   setComplaints(response.data.complaints);
-      //       //   setUser(response.data.user);
-      //       //   setLogin(true);
-      //       //   setLoggedIn(true);
+      try {
+        const response = await axios.post(
+          url,
+          { username: values.username, password: values.password },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.data.login === false) {
+          errorNotification("Invalid login credentials");
+          return;
+        }
+        if (response.data.login === true) {
+          //   setComplaints(response.data.complaints);
+          //   setUser(response.data.user);
+          //   setLogin(true);
+          //   setLoggedIn(true);
 
-      //       localStorage.setItem(
-      //         "token",
-      //         JSON.stringify(response.data.token)
-      //       );
-      //       navigate("/student");
-      //     }
-      //   } catch (err) {
-      //     // errorNotification(err.toString())
-      //     errorNotification("503 | Bad Gateway");
-      //   }
+          localStorage.setItem("token", JSON.stringify(response.data.token));
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+
+          navigate("/teaching-load");
+        }
+      } catch (err) {
+        // errorNotification(err.toString())
+        errorNotification("503 | Bad Gateway");
+      }
     },
     validationSchema: LoginSchema,
   });
