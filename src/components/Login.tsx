@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/react.svg";
 import LoginInput from "./utilities/form/LoginInput";
+import { useState } from "react";
 
 type InitialValues = {
   username: string;
@@ -33,8 +34,8 @@ const Login = () => {
       theme: "light",
     });
   };
-  const errorNotification = (message: string) => {
-    toast.error(message, {
+  const errorNotification = async(message: string) => {
+    await toast.error(message, {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -51,6 +52,10 @@ const Login = () => {
     password: yup.string().required().label("Password"),
   });
 
+  const [errorMessage, setErrorMessage] = useState("")
+  const [login, setLogin] = useState(false)
+
+
   const {
     handleBlur,
     handleChange,
@@ -63,10 +68,10 @@ const Login = () => {
   } = useFormik({
     initialValues: initialLoginValues,
     onSubmit: async (values) => {
-      setTimeout(() => {
-        setSubmitting(false);
-        console.log(values);
-      }, 3000);
+      // setTimeout(() => {
+      //   setSubmitting(false);
+      //   console.log(values);
+      // }, 3000);
 
       //Submit login details data into the database
       const url = " http://localhost:8000/api/login";
@@ -74,7 +79,7 @@ const Login = () => {
       try {
         const response = await axios.post(
           url,
-          { username: values.username, password: values.password },
+          {email:values.username, password: values.password },
           {
             headers: {
               "Content-Type": "application/json",
@@ -82,7 +87,10 @@ const Login = () => {
           }
         );
         if (response.data.login === false) {
-          errorNotification("Invalid login credentials");
+          console.log(response.data)
+          setLogin(false)
+          setErrorMessage(response.data.message)
+          await errorNotification(response.data.message);
           return;
         }
         if (response.data.login === true) {
@@ -90,8 +98,8 @@ const Login = () => {
           //   setUser(response.data.user);
           //   setLogin(true);
           //   setLoggedIn(true);
-
-          localStorage.setItem("token", JSON.stringify(response.data.token));
+          setLogin(true)
+          localStorage.setItem("token", JSON.stringify(response.data.access_token));
           localStorage.setItem("user", JSON.stringify(response.data.user));
 
           navigate("/teaching-load");
@@ -126,6 +134,8 @@ const Login = () => {
               <h4 className="text-green-700 text-center text-xl font-semibold mb-5">
                 Login into your account
               </h4>
+
+            {login === false ? <div className="text-center text-red-500 font-lg">{errorMessage}</div>: ""}
 
               <div>
                 <LoginInput

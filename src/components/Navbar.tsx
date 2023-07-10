@@ -2,6 +2,9 @@ import Logo from "../assets/react.svg";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
+
+  const user:User =localStorage.getItem("user")? JSON.parse(localStorage.getItem("user")):null
+
   return (
     <nav className="nav shadow flex w-full justify-between items-center bg-white px-3 py-3 border-b-3 border-black  text-green-700 text-xl">
       <div className="logo flex items-center flex-row">
@@ -35,7 +38,9 @@ const NavBar = () => {
           <Link href={"/mysettings"}>Settings</Link>
         </div> */}
         {/* <div className="flex items-center justify-center flex-col"> */}
+        <span className="mr-3 block mt-3">Hi, {user.firstName}</span>
         <div className="border-red-600">
+          
           <Link to={"/logout"} className="">
             <button className="flex items-center justify-center flex-row py-1 px-2 border-2 rounded">
               {/* <span>

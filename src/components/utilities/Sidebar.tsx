@@ -2,14 +2,29 @@ import { Link } from "react-router-dom";
 import { BsBook, BsGear, BsHouse } from "react-icons/bs";
 import Image from "../../assets/images/person_holder.png";
 
+type User = {
+  firstName: string
+  lastName: string
+  role: string
+  department: string
+  // password: string
+  email: string
+}
+
 const Sidebar = () => {
+  const user:User =localStorage.getItem("user")? JSON.parse(localStorage.getItem("user")):null
+
+  console.log(user)
   return (
     <div className="bg-white h-screen rounded-sm pt-5 mb-2">
       <div className="profile flex flex-col items-center justify-center border-b-2 border-b-green-700">
         <img src={Image} width={100} height={100} alt="person_image" />
         <div className="pt-2">
-          <h4>Dr. Loor Jacobson</h4>
-          <p className="text-center">Networks dept</p>
+          {/* <h4>Dr. Loor Jacobson</h4> */}
+          {/* <p className="text-center">Networks dept</p> */}
+          <h4>{user.firstName} {user.lastName}</h4>         
+          <p className="text-center">{user.department}</p>
+
         </div>
       </div>
 

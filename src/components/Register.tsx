@@ -6,13 +6,14 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/react.svg";
 import TextField from "./utilities/TextField";
 import SelectField from "./utilities/SelectField";
+import { useState } from "react";
 
 type InitialValues = {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  password_confirmation: string;
   role: string;
   department: string;
 };
@@ -60,7 +61,7 @@ const Register = () => {
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    password_confirmation: "",
     role: "",
     department: "",
   };
@@ -74,11 +75,15 @@ const Register = () => {
 
     // username: yup.string().required().label("Username"),
     password: yup.string().min(8).required().label("Password"),
-    confirmPassword: yup
+    password_confirmation: yup
       .string()
       .oneOf([yup.ref("password")], "Passwords must match")
       .required("Confirm password is required"),
   });
+
+  const [errorMessage, setErrorMessage] = useState("")
+  const [login, setLogin] = useState(false)
+
 
   const {
     handleBlur,
@@ -92,32 +97,39 @@ const Register = () => {
   } = useFormik({
     initialValues: initialValues,
     onSubmit: async (values) => {
-      setTimeout(() => {
-        setSubmitting(false);
-        console.log(values);
-      }, 3000);
+      // setTimeout(() => {
+      //   setSubmitting(false);
+      //   console.log(values);
+      // }, 3000);
 
       //Submit login details data into the database
-      const url = " http://localhost:4000/student/login";
-
+      const url = "http://127.0.0.1:8000/api/register";
+      // console.log(values)
       try {
         const response = await axios.post(url, values, {
           headers: {
             "Content-Type": "application/json",
           },
         });
-        if (response.data.login === false) {
+
+        console.log(response.data)
+        if (response.data.register !== true) {
+          setLogin(false)
+          setErrorMessage(response.data.message)
           // initialValues = {}
           // errorNotification(response.data.message)
           errorNotification("Invalid login credentials");
           return;
         }
-        if (response.data.login === true) {
+        if (response.data.register === true) {
+          setLogin(true)
           //   setComplaints(response.data.complaints);
           //   setUser(response.data.user);
-
-          localStorage.setItem("token", JSON.stringify(response.data.token));
+          
+          localStorage.setItem("token", JSON.stringify(response.data.access_token));
           localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem("user_id", JSON.stringify(response.data.user_id));
+
 
           navigate("/teaching-load");
         }
@@ -150,6 +162,9 @@ const Register = () => {
               <h4 className="text-green-700 text-center text-xl font-semibold mb-5">
                 Create an account
               </h4>
+
+            {login === false ? <div className="text-center text-red-500 font-lg">{errorMessage} <Link to={"/login"} className="mr-2 underline"> Login</Link>instead</div>: ""}
+
 
               <div className="flex justify-between gap-1">
                 <TextField
@@ -218,7 +233,7 @@ const Register = () => {
               />
               <TextField
                 type="password"
-                name="confirmPassword"
+                name="password_confirmation"
                 label="Confirm password"
                 placeholder="Please confirm your password..."
                 handleBlur={handleBlur}
@@ -227,7 +242,9 @@ const Register = () => {
                 touched={touched}
               />
 
-              <div className="flex justify-center items-center w-full">
+              <button type="submit">Register</button>
+
+              {/* <div className="flex justify-center items-center w-full">
                 {isSubmitting ? (
                   <button
                     className="w-full text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"
@@ -244,7 +261,7 @@ const Register = () => {
                     Register
                   </button>
                 )}
-              </div>
+              </div> */}
             </form>
             <p className="mt-3 text-dark">
               Already have an account?
