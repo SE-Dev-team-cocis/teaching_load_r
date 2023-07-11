@@ -6,6 +6,15 @@ type Lecturer = {
   lastName: string;
   department: string;
   role?: string;
+  // isChecked?: boolean;
+};
+
+type RealLecturer = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  department: string;
+  role?: string;
   isChecked?: boolean;
 };
 
@@ -14,27 +23,55 @@ const useLecturerStore = create<{
   setLecturers: (lecturers: Lecturer[]) => void;
   filteredLecturers: Lecturer[];
   filterText: string;
-  setFilterText: (text: string) => void;
+  setFilterText: (text: string, realLecturers: RealLecturer[]) => void;
   handleCheckedLecturer: (id: number) => void;
+  realLecturers: RealLecturer[];
+  setRealLecturers: (lecturers: RealLecturer[]) => void;
 }>((set) => ({
   lecturers: [],
-  setLecturers: (lecturers: Lecturer[]) =>
-    set({ lecturers, filteredLecturers: lecturers }), // Setting both the lecturers and the filtered lecturers to be the same value
+  setLecturers: (lecturers: Lecturer[]) => {
+    const myLecturers: RealLecturer[] = lecturers.map((lecturer) => ({
+      ...lecturer,
+      isChecked: false,
+    }));
+    set({
+      lecturers,
+      filteredLecturers: myLecturers,
+      realLecturers: myLecturers,
+      // filteredLecturers: lecturers,
+    });
+  }, // Setting both the lecturers and the filtered lecturers to be the same value
   filterText: "",
   filteredLecturers: [],
-  setFilterText(text: string) {
+  setFilterText(text: string, realLecturers: RealLecturer[]) {
+    const myFilteredLecturers: RealLecturer[] = realLecturers.filter(
+      (lecturer) => {
+        return text.toLowerCase() === ""
+          ? lecturer
+          : lecturer.firstName.toLowerCase().includes(text) ||
+              lecturer.lastName.toLowerCase().includes(text);
+      }
+    );
     set((state) => ({
       filterText: text, // setting the filter text to be the text we pass in
-      filteredLecturers: state.lecturers.filter((lecturer) => {
-        // filtering the lecturers array
-        lecturer.firstName.toLowerCase().includes(text) ||
-          lecturer.firstName.toLowerCase().includes(text);
-      }),
+      filteredLecturers: myFilteredLecturers,
+    }));
+  },
+  realLecturers: [],
+  setRealLecturers(lecturers: RealLecturer[]) {
+    set((state) => ({
+      realLecturers: state.lecturers.map((lecturer) => ({
+        ...lecturer,
+        isChecked: false,
+      })),
     }));
   },
   handleCheckedLecturer(id: number) {
     set((state) => ({
-      filteredLecturers: state.filteredLecturers.map((lecturer) => {
+      // filteredLecturers: state.lecturers.map((lecturer) => {
+      // filteredLecturers: state.realLecturers.map((lecturer) => {
+      // realLecturers: state.realLecturers.map((lecturer) => {
+      filteredLecturers: state.realLecturers.map((lecturer) => {
         if (lecturer.id === id) {
           return {
             ...lecturer,

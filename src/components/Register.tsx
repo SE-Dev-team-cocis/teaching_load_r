@@ -103,6 +103,20 @@ const Register = () => {
           },
         });
 
+        if (response.data.register === true) {
+          setLogin(true);
+          localStorage.setItem(
+            "token",
+            JSON.stringify(response.data.access_token)
+          );
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem(
+            "user_id",
+            JSON.stringify(response.data.user_id)
+          );
+
+          navigate("/teaching-load");
+        }
         // console.log(response.data)
         if (response.data.register !== true) {
           setLogin(false);
@@ -110,17 +124,6 @@ const Register = () => {
           //errorNotification("Invalid login credentials");
           return;
         }
-        // if (response.data.register === true) {
-        setLogin(true);
-        localStorage.setItem(
-          "token",
-          JSON.stringify(response.data.access_token)
-        );
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        localStorage.setItem("user_id", JSON.stringify(response.data.user_id));
-
-        navigate("/teaching-load");
-        // }
       } catch (err) {
         errorNotification("503 | Bad Gateway");
       }
@@ -151,12 +154,10 @@ const Register = () => {
 
               {login === false ? (
                 <div className="text-center text-red-500 font-lg">
-                  {errorMessage}{" "}
+                  {errorMessage}
                   <Link to={"/login"} className="mr-2 underline">
-                    {" "}
-                    Login
+                    Login, instead
                   </Link>
-                  instead
                 </div>
               ) : (
                 ""

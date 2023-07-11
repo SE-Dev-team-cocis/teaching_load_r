@@ -135,6 +135,7 @@ const Lecturers = () => {
     setLecturers,
     filteredLecturers,
     handleCheckedLecturer,
+    realLecturers,
   } = useLecturerStore();
 
   const url = "http://127.0.0.1:8000/api/getStaff";
@@ -177,6 +178,9 @@ const Lecturers = () => {
   // console.log("Checked lecturers...", checkedLecturers);
 
   console.log("filtered lecturers...", filteredLecturers);
+  // console.log("Lecturers...", lecturers);
+  console.log("Fiter text: ", filterText);
+  // console.log("Real lecturers: ", realLecturers);
 
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
@@ -197,7 +201,7 @@ const Lecturers = () => {
           rounded my-3"
         value={filterText}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setFilterText(e.target.value)
+          setFilterText(e.target.value, realLecturers)
         }
         // onChange={(e: ChangeEvent<HTMLInputElement>) =>
         //   setFilterText(e.target.value)
@@ -206,6 +210,7 @@ const Lecturers = () => {
 
       <div className="list">
         {filteredLecturers.map((lecturer) => (
+          // {realLecturers.map((lecturer) => (
           <p key={lecturer.id} className="flex items-center">
             <input
               type="checkbox"

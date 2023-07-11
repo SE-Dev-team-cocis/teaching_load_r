@@ -53,7 +53,7 @@ const Login = () => {
 
   //Zustand store import
   // const user = useUserstore((state) => state.user)
-  const { setUser } = useUserstore();
+  const { setUser, user } = useUserstore();
 
   const LoginSchema = yup.object().shape({
     username: yup.string().required().label("Username"),
@@ -75,13 +75,8 @@ const Login = () => {
   } = useFormik({
     initialValues: initialLoginValues,
     onSubmit: async (values) => {
-      // setTimeout(() => {
-      //   setSubmitting(false);
-      //   console.log(values);
-      // }, 3000);
-
       //Submit login details data into the database
-      const url = " http://localhost:8000/api/login";
+      const url = "http://127.0.0.1:8000/api/login";
 
       try {
         const response = await axios.post(
@@ -94,23 +89,25 @@ const Login = () => {
           }
         );
         if (response.data.login === false) {
-          console.log(response.data);
+          // console.log(response.data);
           setLogin(false);
           setErrorMessage(response.data.message);
           await errorNotification(response.data.message);
           return;
         }
-        // if (response.data.login === true) {
-        setUser(response.data.user); // setting the user using zustand
-        setLogin(true);
-        localStorage.setItem(
-          "token",
-          JSON.stringify(response.data.access_token)
-        );
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        if (response.data.login === true) {
+          setUser(response.data.user); // setting the user using zustand
 
-        navigate("/teaching-load");
-        // }
+          setLogin(true);
+          // localStorage.setItem(
+          //   "token",
+          //   JSON.stringify(response.data.access_token)
+          // );
+          // localStorage.setItem("user", JSON.stringify(response.data.user));
+          console.log("Zustand user: ", user);
+
+          navigate("/teaching-load");
+        }
       } catch (err) {
         // errorNotification(err.toString())
         errorNotification("503 | Bad Gateway");
@@ -152,7 +149,7 @@ const Login = () => {
 
               <div>
                 <LoginInput
-                  label="Username"
+                  label="Email"
                   name="username"
                   type="text"
                   touched={touched}
