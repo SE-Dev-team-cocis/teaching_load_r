@@ -21,9 +21,11 @@ const initialUser = {
 const useUserstore = create<{
   user: User;
   setUser: (user: User) => void;
+  // deleteUser: (user: User) => void;
 }>((set) => ({
   user: initialUser,
   setUser: (user: User) => set({ user }),
+  // deleteUser: (user: User) => set({}),
 }));
 
 export default useUserstore;

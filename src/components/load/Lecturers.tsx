@@ -7,13 +7,14 @@ import {
   useEffect,
   useMemo,
 } from "react";
+import useLecturerStore from "../../zustand/lecturersStore";
 
 type Lecturer = {
   id: number;
   firstName: string;
   lastName: string;
   department: string;
-  role?: string
+  role?: string;
   isChecked?: boolean;
 };
 
@@ -118,88 +119,65 @@ const initialLecturers: Lecturer[] = [
   },
 ];
 
+const Lecturers = () => {
+  // Initial code which was replaced by zustand
+  // // const [lecturers, setLecturers] = useState<Lecturer[]>(initialLecturers);
+  // const [lecturers, setLecturers] = useState<Lecturer[]>([]);
 
+  // const [filterText, setFilterText] = useState("");
 
+  // const {} = useMemo(() => {}, []);
+  // Using the lecturers store in zustand
+  const {
+    filterText,
+    setFilterText,
+    lecturers,
+    setLecturers,
+    filteredLecturers,
+    handleCheckedLecturer,
+  } = useLecturerStore();
 
-const Lecturers =() => {
-  // const [lecturers, setLecturers] = useState<Lecturer[]>(initialLecturers);
-  const [lecturers, setLecturers] = useState<Lecturer[]>([]);
-
-  const [filterText, setFilterText] = useState("");
-
-  
-
-  const url = "http://127.0.0.1:8000/api/getStaff"
+  const url = "http://127.0.0.1:8000/api/getStaff";
   // const initialLecturers: Lecturer[] = []
   // const [initialLecturers, setInitialLecturers] = useState<Lecturer[]>(null)
 
-   const getStaff=async()=>{
+  const getStaff = async () => {
     try {
-      const response = await axios.get(
-        url,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
-          },
-        }
-      );
-
-      setLecturers(response.data.staff)
-    }   catch (err) {
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "application/json",
+          // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+        },
+      });
+      // useLecturerStore.getState().setLecturers(response.data.staff);
+      setLecturers(response.data.staff); // setting the lecturers using zustand
+    } catch (err) {
       // errorNotification(err.toString())
-     // errorNotification("503 | Bad Gateway");
-     console.log("Error")
+      // errorNotification("503 | Bad Gateway");
+      console.log("Error");
     }
-  }
+  };
 
-  useEffect(()=>{
-     getStaff();
-  },[])
+  useEffect(() => {
+    getStaff();
+  }, []);
 
-  
-  
-    // console.log(response.data)
-    
+  // function handleCheckBoxChange(id: number) {
+  //   const updatedList = lecturers.map((lecturer) =>
+  //     lecturer.id === id
+  //       ? { ...lecturer, isChecked: !lecturer.isChecked }
+  //       : lecturer
+  //   );
+  //   setLecturers(updatedList);
+  // }
 
-    // if (response) {
-    //   console.log(response.data)
-    //   // setLogin(false)
-    //   // setErrorMessage(response.data.message)
-    //   // await errorNotification(response.data.message);
-    //   return;
-    // }
-    // if (response.data.login === true) {
-    //   //   setComplaints(response.data.complaints);
-    //   //   setUser(response.data.user);
-    //   //   setLogin(true);
-    //   //   setLoggedIn(true);
-    //   // setLogin(true)
-    //   // localStorage.setItem("token", JSON.stringify(response.data.access_token));
-    //   localStorage.setItem("lecturers", JSON.stringify(response.data.user));
+  // const checkedLecturers: Lecturer[] = lecturers.filter((lecturer) =>
+  //   lecturer.isChecked === true ? lecturer : ""
+  // );
+  // console.log("Checked lecturers...", checkedLecturers);
 
-    //   // navigate("/teaching-load");
-    // }
+  console.log("filtered lecturers...", filteredLecturers);
 
-
-  // console.log(initialLecturers)
-  // const initialLecturers: Lecturer[] = response.data.staff
-  
- 
-
-  function handleCheckBoxChange(id: number) {
-    const updatedList = lecturers.map((lecturer) =>
-      lecturer.id === id
-        ? { ...lecturer, isChecked: !lecturer.isChecked }
-        : lecturer
-    );
-    setLecturers(updatedList);
-  }
-
-  const checkedLecturers: Lecturer[] = lecturers.filter((lecturer) =>
-    lecturer.isChecked === true ? lecturer : ""
-  );
-  console.log("Checked lecturers...", checkedLecturers);
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
       <p className="text-xl font-semibold">Lecturers</p>
@@ -221,8 +199,28 @@ const Lecturers =() => {
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setFilterText(e.target.value)
         }
+        // onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        //   setFilterText(e.target.value)
+        // }
       />
+
       <div className="list">
+        {filteredLecturers.map((lecturer) => (
+          <p key={lecturer.id} className="flex items-center">
+            <input
+              type="checkbox"
+              className="mr-3 ml-2 h-3 w-3 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
+              name="lecturers[]"
+              checked={lecturer.isChecked}
+              value={lecturer.id}
+              onChange={() => handleCheckedLecturer(lecturer.id)}
+            />
+            {lecturer.firstName} {lecturer.lastName}
+          </p>
+        ))}
+      </div>
+
+      {/* <div className="list">
         {lecturers
           .filter((lecturer) => {
             return filterText.toLowerCase() === ""
@@ -243,7 +241,7 @@ const Lecturers =() => {
               {lecturer.firstName} {lecturer.lastName}
             </p>
           ))}
-      </div>
+      </div> */}
     </div>
   );
 };
