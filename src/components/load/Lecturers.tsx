@@ -21,6 +21,7 @@ const Lecturers = () => {
     // filteredLecturers,
     handleCheckedLecturer,
     realLecturers,
+
     setRealLecturers,
   } = useLecturerStore();
 
@@ -45,7 +46,7 @@ const Lecturers = () => {
     getStaff();
   }, []);
 
-  // console.log("Real lecturers: ", realLecturers);
+  console.log("Other lecturers", lecturers);
 
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">

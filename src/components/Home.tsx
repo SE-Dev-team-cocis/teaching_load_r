@@ -6,6 +6,7 @@ import TeachingLoadSummary from "./load/TeachingLoadSummary";
 import Sidebar from "./utilities/Sidebar";
 import Footer from "./Footer";
 import NavBar from "./Navbar";
+import LecturersTrial from "./load/LecturersTrial";
 export default function Home() {
   return (
     <>
@@ -27,7 +28,8 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-3 gap-2 mt-3">
             <CourseUnits />
-            <Lecturers />
+            {/* <Lecturers /> */}
+            <LecturersTrial />
             <TeachingLoadSummary />
           </div>
         </div>

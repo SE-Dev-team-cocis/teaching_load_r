@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, devtools } from "zustand/middleware";
 
 type User = {
   firstName: string;
@@ -18,14 +19,14 @@ const initialUser = {
   role: "",
 };
 
+const store = (set) => ({
+  user: initialUser,
+  setUser: (user: User) => set({ user }),
+});
+
 const useUserstore = create<{
   user: User;
   setUser: (user: User) => void;
-  // deleteUser: (user: User) => void;
-}>((set) => ({
-  user: initialUser,
-  setUser: (user: User) => set({ user }),
-  // deleteUser: (user: User) => set({}),
-}));
+}>(persist(store, { name: "user" }));
 
 export default useUserstore;
