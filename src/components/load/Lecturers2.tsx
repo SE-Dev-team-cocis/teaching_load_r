@@ -1,5 +1,12 @@
 import axios from "axios";
-import { ChangeEvent, useEffect } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+} from "react";
 import useLecturerStore from "../../zustand/lecturersStore2";
 
 type Lecturer = {
@@ -10,6 +17,107 @@ type Lecturer = {
   role?: string;
   isChecked?: boolean;
 };
+
+const initialLecturers: Lecturer[] = [
+  {
+    id: 1,
+    firstName: "Loor",
+    lastName: "Jacobson",
+    department: "Networks",
+    isChecked: false,
+  },
+  {
+    id: 2,
+    firstName: "Peter",
+    lastName: "Sekitoleko",
+    department: "Computer Science",
+    isChecked: false,
+  },
+  {
+    id: 3,
+    firstName: "John",
+    lastName: "Doe",
+    department: "Networks",
+    isChecked: false,
+  },
+  {
+    id: 4,
+    firstName: "Travis",
+    lastName: "Hamz",
+    department: "Computer Science",
+    isChecked: false,
+  },
+  {
+    id: 5,
+    firstName: "Jaden",
+    lastName: "Sendi",
+    department: "Computer Science",
+    isChecked: false,
+  },
+  {
+    id: 6,
+    firstName: "James",
+    lastName: "Doe",
+    department: "Information Systems",
+    isChecked: false,
+  },
+  {
+    id: 7,
+    firstName: "Tevares",
+    lastName: "Nono",
+    department: "Information Systems",
+    isChecked: false,
+  },
+  {
+    id: 8,
+    firstName: "Louis",
+    lastName: "Danke",
+    department: "Software Engneering",
+    isChecked: false,
+  },
+  {
+    id: 9,
+    firstName: "Ssezi",
+    lastName: "Sekitto",
+    department: "Library and Information Systems",
+    isChecked: false,
+  },
+  {
+    id: 10,
+    firstName: "Mason",
+    lastName: "Greenwood",
+    department: "Library and Information Systems",
+    isChecked: false,
+  },
+  {
+    id: 11,
+    firstName: "United",
+    lastName: "Trey",
+    department: "Library and Information Systems",
+    isChecked: false,
+  },
+  {
+    id: 12,
+    firstName: "Jim",
+    lastName: "White",
+    department: "Software Engineering",
+    isChecked: false,
+  },
+  {
+    id: 13,
+    firstName: "Kirsty",
+    lastName: "Gallagher",
+    department: "Computer Science",
+    isChecked: false,
+  },
+  {
+    id: 14,
+    firstName: "Fabrizio",
+    lastName: "Romano",
+    department: "COmputer Science",
+    isChecked: false,
+  },
+];
 
 const Lecturers = () => {
   const {
@@ -78,17 +186,19 @@ const Lecturers = () => {
               : lecturer.firstName.toLowerCase().includes(filterText) ||
                   lecturer.lastName.toLowerCase().includes(filterText);
           })
+
           .map((lecturer) => (
             <p key={lecturer.id} className="flex items-center">
               <input
                 type="checkbox"
-                className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
+                className="mr-3 ml-2 h-3 w-3 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
                 name="lecturers[]"
                 checked={lecturer.isChecked}
                 value={lecturer.id}
                 onChange={() => handleCheckedLecturer(lecturer.id)}
               />
-              {lecturer.firstName} {lecturer.lastName}
+              {lecturer.firstName} {lecturer.lastName}{" "}
+              {lecturer.isChecked ? "true" : "false"}
             </p>
           ))}
       </div>

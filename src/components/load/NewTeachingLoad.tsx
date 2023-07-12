@@ -8,8 +8,16 @@ import Footer from "../Footer";
 import CourseUnits from "./CourseUnits";
 import Lecturers from "./Lecturers";
 import TeachingLoadSummary from "./TeachingLoadSummary";
+import useLecturerStore from "../../zustand/lecturersStore";
 
 export default function NewTeachingLoad() {
+  const { realLecturers } = useLecturerStore();
+  const assignCourses = () => {
+    const CheckedOnes = realLecturers.filter((lecturer) =>
+      lecturer.isChecked ? lecturer : null
+    );
+    console.log("checked lecturers: ", CheckedOnes);
+  };
   return (
     <>
       <NavBar />
@@ -54,7 +62,7 @@ export default function NewTeachingLoad() {
             <button
               className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"
               type="button"
-              disabled
+              onClick={assignCourses}
             >
               Assign
             </button>

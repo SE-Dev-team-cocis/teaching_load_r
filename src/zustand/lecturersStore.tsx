@@ -21,21 +21,27 @@ type RealLecturer = {
 const useLecturerStore = create<{
   lecturers: Lecturer[];
   setLecturers: (lecturers: Lecturer[]) => void;
-  filteredLecturers: Lecturer[];
+  // filteredLecturers: Lecturer[];
+
+  filteredLecturers: RealLecturer[];
+
+  // setFilteredLecturers: (lecturers: RealLecturer[]) => void;
   filterText: string;
-  setFilterText: (text: string, realLecturers: RealLecturer[]) => void;
+  setFilterText: (text: string) => void;
   handleCheckedLecturer: (id: number) => void;
   realLecturers: RealLecturer[];
   setRealLecturers: (lecturers: RealLecturer[]) => void;
 }>((set) => ({
   lecturers: [],
   setLecturers: (lecturers: Lecturer[]) => {
+    // Adding the isChecked property to each lecturer
     const myLecturers: RealLecturer[] = lecturers.map((lecturer) => ({
       ...lecturer,
       isChecked: false,
     }));
     set({
-      lecturers,
+      lecturers: lecturers, // setting the lecturers
+      // lecturers: myLecturers, // setting the lecturers
       filteredLecturers: myLecturers,
       realLecturers: myLecturers,
       // filteredLecturers: lecturers,
@@ -43,8 +49,8 @@ const useLecturerStore = create<{
   }, // Setting both the lecturers and the filtered lecturers to be the same value
   filterText: "",
   filteredLecturers: [],
-  setFilterText(text: string, realLecturers: RealLecturer[]) {
-    const myFilteredLecturers: RealLecturer[] = realLecturers.filter(
+  setFilterText(text: string) {
+    const myFilteredLecturers: RealLecturer[] = this.realLecturers.filter(
       (lecturer) => {
         return text.toLowerCase() === ""
           ? lecturer
@@ -67,11 +73,8 @@ const useLecturerStore = create<{
     }));
   },
   handleCheckedLecturer(id: number) {
-    set((state) => ({
-      // filteredLecturers: state.lecturers.map((lecturer) => {
-      // filteredLecturers: state.realLecturers.map((lecturer) => {
-      // realLecturers: state.realLecturers.map((lecturer) => {
-      filteredLecturers: state.realLecturers.map((lecturer) => {
+    const myCheckedLecturers: RealLecturer[] = this.realLecturers.map(
+      (lecturer) => {
         if (lecturer.id === id) {
           return {
             ...lecturer,
@@ -79,7 +82,13 @@ const useLecturerStore = create<{
           };
         }
         return lecturer;
-      }),
+      }
+    );
+    set((state) => ({
+      // filteredLecturers: state.lecturers.map((lecturer) => {
+      // filteredLecturers: state.realLecturers.map((lecturer) => {
+      // realLecturers: state.realLecturers.map((lecturer) => {
+      filteredLecturers: myCheckedLecturers,
     }));
   },
 }));

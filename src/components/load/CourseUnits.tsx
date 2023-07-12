@@ -110,7 +110,7 @@ const CourseUnits = () => {
             <p key={courseUnit.id} className="flex items-center">
               <input
                 type="checkbox"
-                className="mr-3"
+                className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
                 name="courseUnits[]"
                 checked={courseUnit.isChecked}
                 value={courseUnit.id}
