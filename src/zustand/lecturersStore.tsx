@@ -1,112 +1,82 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import axios from "axios";
+
+import { persist, devtools } from "zustand/middleware";
 
 type Lecturer = {
   id: number;
   firstName: string;
   lastName: string;
   department: string;
-  role?: string;
-  // isChecked?: boolean;
+  role: string;
 };
-
 type RealLecturer = {
   id: number;
   firstName: string;
   lastName: string;
   department: string;
-  role?: string;
-  isChecked?: boolean;
+  role: string;
+  isChecked: boolean;
 };
 
-// const store =
+type MyStore = {
+  mylecturers: Lecturer[];
+  myrealLecturers: RealLecturer[];
+  fetchLecturers: () => void;
+  handleCheckedLecturer: (id: number) => void;
+  myfilterText: string;
+  setMyFilterText: (text: string) => void;
+};
 
 const url = "http://127.0.0.1:8000/api/getStaff";
 
-const useLecturerStore = create<{
-  lecturers: Lecturer[];
-  setLecturers: (lecturers: Lecturer[]) => void;
-  // filteredLecturers: Lecturer[];
-
-  filteredLecturers: RealLecturer[];
-
-  // setFilteredLecturers: (lecturers: RealLecturer[]) => void;
-  filterText: string;
-  setFilterText: (text: string) => void;
-  handleCheckedLecturer: (id: number) => void;
-  realLecturers: RealLecturer[];
-  setRealLecturers: (lecturers: RealLecturer[]) => void;
-}>(
+// const useLecturerTrialStore = create<MyStore>(persist(
+const useLecturersStore = create<MyStore>()(
   persist(
-    (set) => ({
-      lecturers: [],
-      // otherLecturers: [],
-      // fetchLecturers: async (url) => {
-      //   const response = await fetch(url);
-      //   set({ otherLecturers: response.data.staff });
-      //   // console.log(response.data.staff);
-      // },
-      setLecturers: (lecturers: Lecturer[]) => {
-        // Adding the isChecked property to each lecturer
-        const myLecturers: RealLecturer[] = lecturers.map((lecturer) => ({
-          ...lecturer,
-          isChecked: false,
-        }));
-        set((state) => ({
-          // lecturers: lecturers, // setting the lecturers
-          // lecturers: myLecturers, // setting the lecturers
-          filteredLecturers: myLecturers,
-          realLecturers: myLecturers,
-          // filteredLecturers: lecturers,
-        }));
-      }, // Setting both the lecturers and the filtered lecturers to be the same value
-      filterText: "",
-      filteredLecturers: [],
-      setFilterText(text: string) {
-        const myFilteredLecturers: RealLecturer[] = this.realLecturers.filter(
-          (lecturer) => {
-            return text.toLowerCase() === ""
-              ? lecturer
-              : lecturer.firstName.toLowerCase().includes(text) ||
-                  lecturer.lastName.toLowerCase().includes(text);
-          }
-        );
-        set((state) => ({
-          filterText: text, // setting the filter text to be the text we pass in
-          filteredLecturers: myFilteredLecturers,
-        }));
-      },
-      realLecturers: [],
-      setRealLecturers(lecturers: RealLecturer[]) {
-        set((state) => ({
-          realLecturers: state.lecturers.map((lecturer) => ({
-            ...lecturer,
-            isChecked: false,
-          })),
-        }));
-      },
-      handleCheckedLecturer(id: number) {
-        const myCheckedLecturers: RealLecturer[] = this.realLecturers.map(
-          (lecturer) => {
-            if (lecturer.id === id) {
-              return {
-                ...lecturer,
-                isChecked: !lecturer.isChecked,
-              };
+    (set, get) => ({
+      mylecturers: [],
+      myrealLecturers: [],
+      fetchLecturers: async () => {
+        try {
+          const response = await axios.get(url, {
+            headers: {
+              "Content-Type": "application/json",
+              // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+            },
+          });
+          const data = response.data.staff;
+          const initialRealLecturers: RealLecturer[] = data.map(
+            (lecturer: Lecturer) => {
+              return { ...lecturer, isChecked: false };
             }
-            return lecturer;
-          }
+          );
+
+          set({
+            mylecturers: response.data.staff,
+            myrealLecturers: initialRealLecturers,
+          });
+        } catch (err) {
+          console.log("Error");
+        }
+      },
+      handleCheckedLecturer: (id: number) => {
+        const updatedList: RealLecturer[] = get().myrealLecturers.map(
+          (lecturer) =>
+            lecturer.id === id
+              ? { ...lecturer, isChecked: !lecturer.isChecked }
+              : lecturer
         );
-        set((state) => ({
-          // filteredLecturers: state.lecturers.map((lecturer) => {
-          // filteredLecturers: state.realLecturers.map((lecturer) => {
-          // realLecturers: state.realLecturers.map((lecturer) => {
-          filteredLecturers: myCheckedLecturers,
-        }));
+        set({ myrealLecturers: updatedList });
+      },
+      myfilterText: "",
+      setMyFilterText(text: string) {
+        set({ myfilterText: text });
       },
     }),
-    { name: "lecturers" }
+    {
+      name: "lecturers-trial-store",
+    }
   )
 );
 
-export default useLecturerStore;
+export default useLecturersStore;

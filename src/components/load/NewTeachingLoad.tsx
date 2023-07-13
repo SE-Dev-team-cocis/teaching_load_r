@@ -6,17 +6,46 @@ import NavBar from "../Navbar";
 import Footer from "../Footer";
 
 import CourseUnits from "./CourseUnits";
-import Lecturers from "./Lecturers";
 import TeachingLoadSummary from "./TeachingLoadSummary";
-import useLecturerStore from "../../zustand/lecturersStore";
+
+import useLecturersStore from "../../zustand/lecturersStore";
+
+import useCoursesStore from "../../zustand/coursesStore";
+import useUserstore from "../../zustand/userStore";
+import Lecturers from "./Lecturers";
 
 export default function NewTeachingLoad() {
-  const { realLecturers } = useLecturerStore();
+  const { myrealLecturers } = useLecturersStore();
+  const { realCourses } = useCoursesStore();
+  const { user } = useUserstore();
+
   const assignCourses = () => {
-    const CheckedOnes = realLecturers.filter((lecturer) =>
+    const coursesIDs: number[] = [];
+    const courseCreditUnits: number[] = [];
+    const lecturerIDs: number[] = [];
+
+    const CheckedLecturer = myrealLecturers.filter((lecturer) =>
       lecturer.isChecked ? lecturer : null
     );
-    console.log("checked lecturers: ", CheckedOnes);
+    const CheckedCourses = realCourses.filter((course) =>
+      course.isChecked ? course : null
+    );
+
+    CheckedCourses.forEach((course) => {
+      coursesIDs.push(course.id);
+      courseCreditUnits.push(+course.course_cus); // convert to number by adding a + sign
+    });
+    CheckedLecturer.forEach((lecturer) => {
+      lecturerIDs.push(lecturer.id);
+    });
+
+    console.log("checked lecturer: ", CheckedLecturer);
+    console.log("checked courses: ", CheckedCourses);
+
+    console.log("checked courses IDs: ", coursesIDs);
+    console.log("checked lecturer IDs: ", lecturerIDs);
+    console.log("checked course credit units: ", courseCreditUnits);
+    console.log("Staff id: ", user.id);
   };
   return (
     <>
@@ -47,6 +76,8 @@ export default function NewTeachingLoad() {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-2 mt-3">
+            {/* <CourseUnits /> */}
+            {/* <Lecturers /> */}
             <CourseUnits />
             <Lecturers />
             <TeachingLoadSummary />

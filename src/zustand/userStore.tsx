@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
 type User = {
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -10,23 +11,19 @@ type User = {
   role: string;
 };
 
-const initialUser = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  department: "",
-  role: "",
-};
-
-const store = (set) => ({
-  user: initialUser,
-  setUser: (user: User) => set({ user }),
-});
-
-const useUserstore = create<{
+type UserStore = {
   user: User;
   setUser: (user: User) => void;
-}>(persist(store, { name: "user" }));
+};
+
+const useUserstore = create<UserStore>()(
+  persist(
+    (set, get) => ({
+      user: {} as User,
+      setUser: (user: User) => set({ user }),
+    }),
+    { name: "user" }
+  )
+);
 
 export default useUserstore;

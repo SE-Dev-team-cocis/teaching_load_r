@@ -1,6 +1,5 @@
-import axios from "axios";
 import { ChangeEvent, useEffect } from "react";
-import useLecturerStore from "../../zustand/lecturersStore2";
+import useLecturersStore from "../../zustand/lecturersStore";
 
 type Lecturer = {
   id: number;
@@ -13,40 +12,20 @@ type Lecturer = {
 
 const Lecturers = () => {
   const {
-    filterText,
-    setFilterText,
-    lecturers,
-    setLecturers,
-    filteredLecturers,
-    // filteredLecturers,
+    fetchLecturers,
+    mylecturers,
+    myrealLecturers,
+    myfilterText,
+    setMyFilterText,
     handleCheckedLecturer,
-    realLecturers,
-
-    setRealLecturers,
-  } = useLecturerStore();
-
-  const url = "http://127.0.0.1:8000/api/getStaff";
-
-  const getStaff = async () => {
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          "Content-Type": "application/json",
-          // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
-        },
-      });
-      setLecturers(response.data.staff); // setting the lecturers using zustand
-      setRealLecturers(response.data.staff); // setting the real lecturers using zustand
-    } catch (err) {
-      console.log("Error");
-    }
-  };
+  } = useLecturersStore();
 
   useEffect(() => {
-    getStaff();
+    console.log("Fetching data...");
+    fetchLecturers();
   }, []);
 
-  console.log("Other lecturers", lecturers);
+  // console.log("My new zustand real lecturers", myrealLecturers);
 
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
@@ -65,19 +44,19 @@ const Lecturers = () => {
           focus:border-teal-500
           w-full
           rounded my-3"
-        value={filterText}
+        value={myfilterText}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setFilterText(e.target.value)
+          setMyFilterText(e.target.value)
         }
       />
 
       <div className="list">
-        {realLecturers
+        {myrealLecturers
           .filter((lecturer) => {
-            return filterText.toLowerCase() === ""
+            return myfilterText.toLowerCase() === ""
               ? lecturer
-              : lecturer.firstName.toLowerCase().includes(filterText) ||
-                  lecturer.lastName.toLowerCase().includes(filterText);
+              : lecturer.firstName.toLowerCase().includes(myfilterText) ||
+                  lecturer.lastName.toLowerCase().includes(myfilterText);
           })
           .map((lecturer) => (
             <p key={lecturer.id} className="flex items-center">
@@ -93,50 +72,6 @@ const Lecturers = () => {
             </p>
           ))}
       </div>
-
-      {/* Trial 2 */}
-
-      {/* <div className="list">
-        {filteredLecturers.map((lecturer) => (
-          // {realLecturers.map((lecturer) => (
-          <p key={lecturer.id} className="flex items-center">
-            <input
-              type="checkbox"
-              className="mr-3 ml-2 h-3 w-3 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-              name="lecturers[]"
-              checked={lecturer.isChecked}
-              value={lecturer.id}
-              onChange={() => handleCheckedLecturer(lecturer.id)}
-            />
-            {lecturer.firstName} {lecturer.lastName}
-          </p>
-        ))}
-      </div> */}
-
-      {/* Trial 1 */}
-
-      {/* <div className="list">
-        {lecturers
-          .filter((lecturer) => {
-            return filterText.toLowerCase() === ""
-              ? lecturer
-              : lecturer.firstName.toLowerCase().includes(filterText) ||
-                  lecturer.lastName.toLowerCase().includes(filterText);
-          })
-          .map((lecturer) => (
-            <p key={lecturer.id} className="flex items-center">
-              <input
-                type="checkbox"
-                className="mr-3 ml-2 h-3 w-3 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-                name="lecturers[]"
-                checked={lecturer.isChecked}
-                value={lecturer.id}
-                onChange={() => handleCheckBoxChange(lecturer.id)}
-              />
-              {lecturer.firstName} {lecturer.lastName}
-            </p>
-          ))}
-      </div> */}
     </div>
   );
 };

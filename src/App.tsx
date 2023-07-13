@@ -10,7 +10,7 @@ import NewHome from "./components/NewHome";
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<NewHome />} />
+      {/* <Route path="/" element={<NewHome />} /> */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/teaching-load" element={<Home />} />

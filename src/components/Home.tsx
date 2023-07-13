@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import CourseUnits from "./load/CourseUnits";
-import Lecturers from "./load/Lecturers";
+// import Lecturers from "./load/Lecturers";
 import TeachingLoadSummary from "./load/TeachingLoadSummary";
 // import Sidebar from "../utilities/Sidebar";
 import Sidebar from "./utilities/Sidebar";
 import Footer from "./Footer";
 import NavBar from "./Navbar";
-import LecturersTrial from "./load/LecturersTrial";
+import LecturersTrial from "./load/Lecturers";
 export default function Home() {
   return (
     <>
