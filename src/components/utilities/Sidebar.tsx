@@ -32,7 +32,7 @@ const Sidebar = () => {
       </div>
 
       <div className="sidebar_links ">
-        <Link to={"/"}>
+        <Link to={"/teaching-load"}>
           <div className="link_item">
             <p className="flex items-center mt-1 py-1 px-5 ">
               <BsHouse className="mr-2" />
@@ -40,7 +40,7 @@ const Sidebar = () => {
             </p>
           </div>
         </Link>
-        <Link to={"/teaching-load"}>
+        <Link to={"/teaching-load/new"}>
           <div className="link_item">
             <p className="flex items-center mt-1 py-1 px-5 ">
               <BsBook className="mr-2" />

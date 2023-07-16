@@ -51,8 +51,6 @@ const errorNotification = async (message: string) => {
 const Login = () => {
   const navigate = useNavigate();
 
-  //Zustand store import
-  // const user = useUserstore((state) => state.user)
   const { setUser, user } = useUserstore();
 
   const LoginSchema = yup.object().shape({
@@ -67,15 +65,12 @@ const Login = () => {
     handleBlur,
     handleChange,
     handleSubmit,
-    values,
     errors,
     touched,
-    setSubmitting,
     isSubmitting,
   } = useFormik({
     initialValues: initialLoginValues,
     onSubmit: async (values) => {
-      //Submit login details data into the database
       const url = "http://127.0.0.1:8000/api/login";
 
       try {
@@ -99,24 +94,17 @@ const Login = () => {
           setUser(response.data.user); // setting the user using zustand
 
           setLogin(true);
-          // localStorage.setItem(
-          //   "token",
-          //   JSON.stringify(response.data.access_token)
-          // );
-          // localStorage.setItem("user", JSON.stringify(response.data.user));
           console.log("Zustand user: ", user);
 
           navigate("/teaching-load");
         }
       } catch (err) {
-        // errorNotification(err.toString())
         errorNotification("503 | Bad Gateway");
       }
     },
     validationSchema: LoginSchema,
   });
 
-  // console.log("Errors: ", errors);
   return (
     <>
       <div className="login_form border-2 border-green-700 bg-white rounded-lg p-5">

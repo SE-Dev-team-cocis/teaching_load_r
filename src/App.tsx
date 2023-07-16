@@ -1,20 +1,17 @@
 import { Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
-
 import Home from "./components/Home";
-import NewTeachingLoad from "./components/load/NewTeachingLoad";
 import Settings from "./components/Settings";
-import NewHome from "./components/NewHome";
+import HomeAssign from "./components/HomeAssign";
 
 const App = () => {
   return (
     <Routes>
-      {/* <Route path="/" element={<NewHome />} /> */}
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/teaching-load" element={<Home />} />
-      <Route path="/teaching-load/new" element={<NewTeachingLoad />} />
+      <Route path="/teaching-load/new" element={<HomeAssign />} />
       <Route path="/settings" element={<Settings />} />
     </Routes>
   );

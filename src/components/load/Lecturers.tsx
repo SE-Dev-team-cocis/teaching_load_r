@@ -1,31 +1,50 @@
-import { ChangeEvent, useEffect } from "react";
-import useLecturersStore from "../../zustand/lecturersStore";
+import { ChangeEvent, useState } from "react";
+import useNewLoadStore21 from "../../zustand/newLoadStore2";
+import { useMemo } from "react";
 
 type Lecturer = {
   id: number;
   firstName: string;
   lastName: string;
   department: string;
-  role?: string;
-  isChecked?: boolean;
+  role: string;
+  isChecked: boolean;
 };
 
-const Lecturers = () => {
-  const {
-    fetchLecturers,
-    mylecturers,
-    myrealLecturers,
-    myfilterText,
-    setMyFilterText,
-    handleCheckedLecturer,
-  } = useLecturersStore();
+type LecturersProps = {
+  lecturers: Lecturer[];
+};
 
-  useEffect(() => {
-    console.log("Fetching data...");
-    fetchLecturers();
-  }, []);
+const Lecturers = ({ lecturers }: LecturersProps) => {
+  // console.log("Lecturers: ", lecturers);
+  const setLecturers = useNewLoadStore21((state) => state.setLecturers);
 
-  // console.log("My new zustand real lecturers", myrealLecturers);
+  const setCheckedLecturers = useNewLoadStore21(
+    (state) => state.setCheckedLecturers
+  );
+
+  // Getting all the lecturers from the store
+  const allLecturers = useNewLoadStore21((state) => state.lecturers);
+
+  useMemo(() => {
+    setLecturers(lecturers);
+  }, [lecturers]);
+
+  function handleCheckedLecturer(id: number) {
+    const newUpdatedLecturers: Lecturer[] = allLecturers.map(
+      (lecturer: Lecturer) =>
+        lecturer.id === id
+          ? { ...lecturer, isChecked: !lecturer.isChecked }
+          : lecturer
+    );
+    setLecturers(newUpdatedLecturers);
+    const checkedOnes = newUpdatedLecturers.filter((lecturer) => {
+      return lecturer.isChecked === true;
+    });
+
+    setCheckedLecturers(checkedOnes); // Setting only the checked lecturers
+  }
+  const [filterText, setFilterText] = useState("");
 
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
@@ -44,21 +63,22 @@ const Lecturers = () => {
           focus:border-teal-500
           w-full
           rounded my-3"
-        value={myfilterText}
+        value={filterText}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setMyFilterText(e.target.value)
+          setFilterText(e.target.value)
         }
       />
 
       <div className="list">
-        {myrealLecturers
-          .filter((lecturer) => {
-            return myfilterText.toLowerCase() === ""
+        {/* {updatedLecturers */}
+        {allLecturers
+          ?.filter((lecturer: Lecturer) => {
+            return filterText.toLowerCase() === ""
               ? lecturer
-              : lecturer.firstName.toLowerCase().includes(myfilterText) ||
-                  lecturer.lastName.toLowerCase().includes(myfilterText);
+              : lecturer.firstName.toLowerCase().includes(filterText) ||
+                  lecturer.lastName.toLowerCase().includes(filterText);
           })
-          .map((lecturer) => (
+          .map((lecturer: Lecturer) => (
             <p key={lecturer.id} className="flex items-center">
               <input
                 type="checkbox"

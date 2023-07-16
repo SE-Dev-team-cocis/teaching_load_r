@@ -1,13 +1,54 @@
 import { Link } from "react-router-dom";
-import CourseUnits from "./load/CourseUnits";
-// import Lecturers from "./load/Lecturers";
-import TeachingLoadSummary from "./load/TeachingLoadSummary";
-// import Sidebar from "../utilities/Sidebar";
+
 import Sidebar from "./utilities/Sidebar";
 import Footer from "./Footer";
 import NavBar from "./Navbar";
-import LecturersTrial from "./load/Lecturers";
+// import LoadSummary from "../zustand/LoadSummary";
+// import { useQuery } from "@tanstack/react-query";
+// import { fetchLoad } from "../zustand/api/apis";
+
+type TotalLoadDetails = {
+  total: number;
+  id: number;
+  staffId: number;
+  staffName: object;
+};
+
+type NewLoad = {
+  id: number;
+  staff_id: number;
+  courses: string[];
+  CUs: number[];
+};
+
 export default function Home() {
+  // const { data: load } = useQuery({
+  //   queryKey: ["load"],
+  //   queryFn: fetchLoad,
+  // });
+
+  // // const newLoad: NewLoad[] = load?.map((load) =>
+  // const newLoad: NewLoad[] = load?.map((load) => {
+  //   return {
+  //     ...load,
+  //     courses: JSON.parse(load.courses),
+  //     CUs: JSON.parse(load.CUs),
+  //   };
+  // });
+
+  // const totalLoad: TotalLoadDetails[] = newLoad?.map((load) => {
+  //   // return load.CUs.reduce((a, b) => a + b, 0);
+  //   return {
+  //     total: load.CUs.reduce((a, b) => a + b, 0),
+  //     id: load.id,
+  //     staffId: load.staff_id,
+  //     staffName: newLecturers?.find((lecturer) => {
+  //       if (lecturer.id === load.staff_id) {
+  //         return `${lecturer.firstName} ${lecturer.lastName}`;
+  //       }
+  //     }),
+  //   };
+  // });
   return (
     <>
       <NavBar />
@@ -21,16 +62,14 @@ export default function Home() {
                   New
                 </button>
               </Link>
-              {/* <button className="btn hover:bg-green-700 outline-none hover:text-white px-5 py-2 border-2 border-green-400 rounded">
-                    Cancel
-                </button> */}
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-2 mt-3">
-            <CourseUnits />
-            {/* <Lecturers /> */}
-            <LecturersTrial />
-            <TeachingLoadSummary />
+          <div className="mt-3">
+            {/* <TeachingLoadSummary /> */}
+            {/* <LoadSummary totalLoad={totalLoad} /> */}
+            <p className="text-center font-semibold text-green">
+              No Load history at the moment
+            </p>
           </div>
         </div>
       </div>
