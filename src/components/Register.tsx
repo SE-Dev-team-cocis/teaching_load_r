@@ -48,7 +48,7 @@ const Register = () => {
   const errorNotification = (message: string) => {
     toast.error(message, {
       position: "top-center",
-      autoClose: 2000,
+      autoClose: 2500,
       hideProgressBar: false,
       closeOnClick: false,
       pauseOnHover: false,
@@ -101,8 +101,10 @@ const Register = () => {
           // console.log(response.data)
           if (response.data.register !== true) {
             setLogin(false);
-            setErrorMessage(response.data.message);
-            //errorNotification("Invalid login credentials");
+            // setErrorMessage(response.data.message);
+            errorNotification(
+              response.data.message + ". If you are this user, Login instead"
+            );
             return;
           }
         } catch (err) {

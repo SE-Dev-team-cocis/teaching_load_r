@@ -2,6 +2,7 @@ import React from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useMutation, QueryClient } from "@tanstack/react-query";
 import { assignLoad } from "../zustand/api/apis";
+import { toast } from "react-toastify";
 
 type AssignLoad = {
   courses: string;
@@ -43,7 +44,7 @@ const BelowButtons = () => {
     mutate(data); // call the mutation function which will update the assigned load table
   };
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading, isSuccess } = useMutation({
     mutationFn: (data: AssignLoad) => assignLoad(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -55,6 +56,28 @@ const BelowButtons = () => {
       });
     },
   });
+  const assignId = 231;
+  const notify = (message: string) => {
+    toast.success(message, {
+      toastId: assignId,
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
+  if (isSuccess) {
+    notify("Teaching Load has been created successfully");
+    setTimeout(() => {
+      window.location.reload();
+    }, 2005);
+    // window.location.reload();
+  }
 
   return (
     <div className="flex gap-4 justify-center items-center control_buttons ml-4 mt-3">

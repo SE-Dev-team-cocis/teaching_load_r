@@ -38,3 +38,8 @@ input.input-error, select.input-error{
 .load {
   margin-left: 20px;
 }
+
+
+.link{
+  border-right: 2px solid #287e68;
+}
