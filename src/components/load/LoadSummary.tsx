@@ -1,3 +1,5 @@
+import { BsTrash } from "react-icons/bs";
+
 type TotalLoadDetails = {
   total: number;
   id: number;
@@ -17,7 +19,12 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
 
         <div className="flex justify-between items-center px-2">
           <p className="text-lg font-medium">Lecturer</p>
-          <p className="text-lg font-medium pr-3">Load</p>
+          <p
+            className="text-lg font-medium"
+            style={{ paddingRight: "2.25rem" }}
+          >
+            Load
+          </p>
         </div>
 
         <div className="list">
@@ -39,11 +46,22 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
               {totalLoad?.map((load) => (
                 <p key={load.id}>
                   {load.total === 0 ? (
-                    <span className="text-red-700 ml-5 ">{load.total}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-red-700 mr-2 ">{load.total}</span>
+                      <BsTrash className="text-red-400 cursor-pointer" />
+                    </div>
                   ) : load.total < 10 ? (
-                    <span className="text-yellow-500 ">{load.total}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-yellow-500 mr-4 pl-4">
+                        {load.total}
+                      </span>
+                      <BsTrash className="text-red-400 cursor-pointer" />
+                    </div>
                   ) : (
-                    <span className="text-green-700 ">{load.total}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-green-700">{load.total}</span>
+                      <BsTrash className="text-red-400 cursor-pointer ml-5" />
+                    </div>
                   )}
                 </p>
               ))}

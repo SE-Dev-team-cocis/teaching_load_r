@@ -1,5 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { BsBook, BsGear, BsHouse } from "react-icons/bs";
+import {
+  BsBook,
+  BsGear,
+  BsHouse,
+  BsChevronDown,
+  BsPlusCircle,
+  BsCardChecklist,
+} from "react-icons/bs";
 import Image from "../../assets/images/person_holder.png";
 import useUserstore from "../../zustand/userStore";
 
@@ -29,31 +36,75 @@ const Sidebar = () => {
       </div>
 
       <div className="sidebar_links ">
-        <NavLink end to={"/teaching-load"}>
+        <NavLink
+          end
+          to={"/teaching-load"}
+          // className={({ isActive }) => (isActive ? "active" : "")}
+        >
           <div className="link_item ">
             <p className="flex items-center mt-1 py-1 px-5">
               <BsHouse className="mr-2" />
-              <span>Home</span>
+              <span>Dashboard</span>
             </p>
           </div>
         </NavLink>
-        <NavLink end to={"/teaching-load/new"}>
-          <div className="link_item">
-            <p className="flex items-center mt-1 py-1 px-5 ">
-              <BsBook className="mr-2" />
-              {/* <Link href={"/teachingload"}>Teaching Load</Link> */}
-              <span>Teaching Load</span>
+        <NavLink
+          end
+          to={"/teaching-load/central"}
+          // className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <div className="link_item ">
+            <p className="flex items-center mt-1 py-1 px-5">
+              <BsHouse className="mr-2" />
+              <span>Central Dashboard</span>
+            </p>
+          </div>
+        </NavLink>
+        <NavLink
+          end
+          to={"/teaching-load/new"}
+          // className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <div className="link_item flex justify-between items-center mt-1 py-1 px-5 ">
+            <p className="flex justify-around items-center">
+              <span>
+                <BsBook className="mr-2" />
+              </span>
+              Teaching Load
+            </p>
+            <span className="toggle-load">
+              <BsChevronDown className="ml-6" />
+            </span>
+          </div>
+        </NavLink>
 
-              {/* <Link href={"/teachingload"}>Teaching Load</Link> */}
+        <div
+          className="inner-link"
+          style={{
+            marginLeft: "23px",
+            display: "block",
+            backgroundColor: "white",
+          }}
+        >
+          <div className="link_item">
+            <p className="flex items-center gap-2 mt-1 py-1 px-5">
+              <BsPlusCircle />
+              <span>New teaching load</span>
             </p>
           </div>
-        </NavLink>
+          <div className="link_item">
+            <p className="flex items-center gap-2 mt-1 py-1 px-5">
+              <BsCardChecklist />
+              <span>Create semester list</span>
+            </p>
+          </div>
+        </div>
+
         <NavLink end to={"/settings"}>
           <div className="link_item">
             <p className="flex items-center mt-1 py-1 px-5">
               <BsGear className="mr-2" />
               <span>Settings</span>
-              {/* <Link href={"/mysettings"}>Settings</Link> */}
             </p>
           </div>
         </NavLink>

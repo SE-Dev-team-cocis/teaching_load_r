@@ -31,7 +31,7 @@ input.input-error, select.input-error{
 
 
 .list{
-   overflow-y: scroll;
+   overflow: auto;
    height: 280px;
 } 
 
@@ -40,6 +40,17 @@ input.input-error, select.input-error{
 }
 
 
-.link{
-  border-right: 2px solid #287e68;
+.sidebar_links a.active .link_item{
+  /* background-color: #287e68; */
+  border-right: 4px solid #287e68;
+  /* background-color: rgb(214, 214, 214); */
+}
+
+.sidebar_links a.active .toggle-load{
+  cursor: pointer;
+  transition: transform .1s
+}
+
+.sidebar_links a.active .toggle-load{
+  transform: rotate(180deg)
 }

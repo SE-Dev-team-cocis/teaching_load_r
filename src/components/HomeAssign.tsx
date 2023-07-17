@@ -116,35 +116,23 @@ export default function HomeAssign() {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <>
-      <NavBar />
-      <div className="grid grid-cols-4">
-        <Sidebar />
-        <div className="col-span-3">
-          <div className="buttons border-b-2 border-b-green-700 pt-4">
-            <div className="flex gap-4">
-              <Link to={"/teaching-load/new"} className="ml-5 mb-3">
-                <button className="btn hover:bg-green-700 outline-none hover:text-white px-5 py-2 border-2 border-green-400 rounded">
-                  New
-                </button>
-              </Link>
-              <Link to={"/teaching-load/old"} className="ml-5 mb-3">
-                <button className="btn hover:bg-red-600 outline-none hover:text-white px-5 py-2 border-2 border-red-400 rounded">
-                  Cancel
-                </button>
-              </Link>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-2 mt-3">
-            <Courses courses={newCourses} />
-            <Lecturers lecturers={newLecturers} />
-            <LoadSummary totalLoad={totalLoad} />
-          </div>
-
-          <BelowButtons />
+    <div className="col-span-3">
+      <div className="buttons border-b-2 border-b-green-700 pt-4">
+        <div className="flex items-center justify-end">
+          <Link to={"/teaching-load/old"} className="mr-5 mb-3">
+            <button className="btn hover:bg-red-600 outline-none hover:text-white px-5 py-2 border-2 border-red-400 rounded">
+              Cancel
+            </button>
+          </Link>
         </div>
       </div>
-      <Footer />
-    </>
+      <div className="grid grid-cols-3 gap-2 mt-3">
+        <Courses courses={newCourses} />
+        <Lecturers lecturers={newLecturers} />
+        <LoadSummary totalLoad={totalLoad} />
+      </div>
+
+      <BelowButtons />
+    </div>
   );
 }
