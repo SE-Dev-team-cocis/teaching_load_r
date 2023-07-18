@@ -54,3 +54,40 @@ input.input-error, select.input-error{
 .sidebar_links a.active .toggle-load{
   transform: rotate(180deg)
 }
+
+
+/* Subgroup modal */
+
+.overlay{
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 9;
+}
+
+
+.modal{
+  padding: 0.5rem;
+  background: white;
+  border-radius: 20px;
+  z-index: 10;
+
+}
+
+dialog::backdrop{
+  background-color: rgba(0,0,0,0.8) ;
+}
+
+.my-modal{
+  position: relative;
+
+}
+
+.my-modal .close{
+  position: absolute;
+  /* display: inline-block; */
+  top: 0;
+  left: 100;
+  float: right;
+}

@@ -3,11 +3,20 @@ import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useMutation, QueryClient } from "@tanstack/react-query";
 import { assignLoad } from "../zustand/api/apis";
 import { toast } from "react-toastify";
+import CourseSubgroup from "./CourseSubgroup";
 
 type AssignLoad = {
   courses: string;
   staff_id: number;
   CUs: string;
+};
+
+type Course = {
+  id: number;
+  course_name: string;
+  course_code: string;
+  course_cus: number;
+  isChecked: boolean;
 };
 
 const BelowButtons = () => {
@@ -80,29 +89,40 @@ const BelowButtons = () => {
   }
 
   return (
-    <div className="flex gap-4 justify-center items-center control_buttons ml-4 mt-3">
-      <button
-        className="text-green-700 px-4 rounded py-2 border-2 border-green-700 hover:bg-green-700 hover:text-white mt-2 hover:scale-95"
-        type="button"
-        disabled={true}
-      >
-        New Subgroup
-      </button>
-      <button
-        className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-50 disabled:hover:scale-100"
-        type="button"
-        onClick={assignCourses}
-        disabled={isLoading}
-      >
-        {isLoading ? "Assigning load..." : "Assign"}
-      </button>
-      <button
-        className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"
-        type="button"
-      >
-        Broadcast
-      </button>
-    </div>
+    <>
+      <div className="flex gap-4 justify-center items-center control_buttons ml-4 mt-3">
+        <button
+          className="text-green-700 px-4 rounded py-2 border-2 border-green-700 hover:bg-green-700 hover:text-white mt-2 hover:scale-95"
+          type="button"
+          // disabled={true}
+          onClick={() => {
+            const modal = document.querySelector(
+              "[data-modal]"
+            ) as HTMLDialogElement;
+            modal?.showModal();
+          }}
+        >
+          New Subgroup
+        </button>
+        <button
+          className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-50 disabled:hover:scale-100"
+          type="button"
+          onClick={assignCourses}
+          disabled={isLoading}
+        >
+          {isLoading ? "Assigning load..." : "Assign"}
+        </button>
+        <button
+          className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"
+          type="button"
+        >
+          Broadcast
+        </button>
+      </div>
+      <dialog data-modal className="rounded-lg px-4 py-5">
+        <CourseSubgroup checkedCourse={checkedCourses[0]} />
+      </dialog>
+    </>
   );
 };
 
