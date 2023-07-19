@@ -9,7 +9,7 @@ type Lecturer = {
 
 type Load = {
   id: number;
-  staff_id: string;
+  staff_id: number;
   courses: string;
   CUs: string;
 };

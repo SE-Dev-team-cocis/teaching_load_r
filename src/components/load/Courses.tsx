@@ -15,7 +15,9 @@ type CourseProps = {
 };
 
 const Courses = ({ courses }: CourseProps) => {
-  // console.log("Courses: ", courses);
+  // const Courses = ({ courses }: CourseProps) => {
+
+  console.log("Courses: ", courses);
   const setCourses = useNewLoadStore21((state) => state.setCourses);
   const allCourses = useNewLoadStore21((state) => state.allCourses);
   const setCheckedCourses = useNewLoadStore21(

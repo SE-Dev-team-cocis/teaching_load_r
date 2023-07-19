@@ -57,7 +57,7 @@ const BelowButtons = () => {
     mutate(data); // call the mutation function which will update the assigned load table
   };
 
-  const { mutate, isLoading, isSuccess } = useMutation({
+  const { mutate, isLoading, isSuccess, data } = useMutation({
     mutationFn: (data: AssignLoad) => assignLoad(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -84,12 +84,13 @@ const BelowButtons = () => {
     });
   };
 
+  console.log("Mutated response: ", data);
+
   if (isSuccess) {
-    notify("Teaching Load has been created successfully");
+    notify(data.message);
     setTimeout(() => {
       window.location.reload();
     }, 2005);
-    // window.location.reload();
   }
 
   return (

@@ -28,12 +28,12 @@ type RealLecturer = {
   lastName: string;
   department: string;
   role: string;
-  isChecked: boolean;
+  isChecked?: boolean;
 };
 
 type Load = {
   id: number;
-  staff_id: string;
+  staff_id: number;
   courses: string;
   CUs: string;
 };
@@ -70,7 +70,8 @@ export default function HomeAssign() {
     queryFn: fetchLecturers,
   });
 
-  const newLecturers: RealLecturer[] = lecturers?.map((lecturer) => {
+  // const newLecturers: RealLecturer[] = lecturers?.map((lecturer) => {
+  const newLecturers = lecturers?.map((lecturer) => {
     return { ...lecturer, isChecked: false };
   });
 
@@ -81,7 +82,8 @@ export default function HomeAssign() {
   });
   // console.log("Query courses: ", courses);
 
-  const newCourses: Course[] = courses?.map((course) => {
+  // const newCourses: Course[] = courses?.map((course) => {
+  const newCourses = courses?.map((course) => {
     return { ...course, isChecked: false };
   });
   // console.log("Query courses with isChecked: ", newCourses);
@@ -92,7 +94,7 @@ export default function HomeAssign() {
   });
 
   // const newLoad: NewLoad[] = load?.map((load) =>
-  const newLoad: NewLoad[] = load?.map((load) => {
+  const newLoad = load?.map((load) => {
     return {
       ...load,
       courses: JSON.parse(load.courses),
@@ -100,10 +102,12 @@ export default function HomeAssign() {
     };
   });
 
-  const totalLoad: TotalLoadDetails[] = newLoad?.map((load) => {
+  console.log("New load: ", newLoad);
+  // const totalLoad: TotalLoadDetails[] = newLoad?.map((load) => {
+  const totalLoad = newLoad?.map((load) => {
     // return load.CUs.reduce((a, b) => a + b, 0);
     return {
-      total: load.CUs.reduce((a, b) => a + b, 0),
+      total: load.CUs.reduce((a: number, b: number) => a + b, 0),
       id: load.id,
       staffId: load.staff_id,
       staffName: newLecturers?.find((lecturer) => {
@@ -113,6 +117,8 @@ export default function HomeAssign() {
       }),
     };
   });
+  // console.log("New load: ", newLoad);
+  console.log("Total load: ", totalLoad);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -127,6 +133,7 @@ export default function HomeAssign() {
           </Link>
         </div>
       </div>
+
       <div className="grid grid-cols-3 gap-2 mt-3">
         <Courses courses={newCourses} />
         <Lecturers lecturers={newLecturers} />
