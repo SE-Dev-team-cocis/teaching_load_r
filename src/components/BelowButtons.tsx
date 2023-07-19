@@ -105,7 +105,10 @@ const BelowButtons = () => {
   if (isSuccess) {
     if (data.status === false) {
       errorNotification(data.message);
-      return;
+      setTimeout(() => {
+        window.location.reload();
+      }, 2005);
+      // return;
     } else {
       notify(data.message);
       setTimeout(() => {
