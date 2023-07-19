@@ -58,7 +58,8 @@ const errorNotification = async (message: string) => {
 const Login = () => {
   const navigate = useNavigate();
 
-  const { setUser, user } = useUserstore();
+  const user = useUserstore((state) => state.user);
+  const setUser = useUserstore((state) => state.setUser);
 
   const LoginSchema = yup.object().shape({
     username: yup.string().required().label("Username"),
@@ -78,15 +79,6 @@ const Login = () => {
   } = useFormik({
     initialValues: initialLoginValues,
     onSubmit: async (values) => {
-      // const loginDetails: LoginDetails = {
-      //   email: values.username,
-      //   password: values.password
-      // }
-
-      // const {data, isLoading, isError} = useQuery({
-      //   queryKey: ["user"],
-      //   queryFn: UserLogin(loginDetails)
-      // })
       const url = "http://127.0.0.1:8000/api/login";
 
       try {
@@ -143,15 +135,6 @@ const Login = () => {
               <h4 className="text-green-700 text-center text-xl font-semibold mb-5">
                 Login into your account
               </h4>
-              {/* 
-              {login === false ? (
-                <div className="text-center text-red-500 font-lg">
-                  {errorMessage}
-                </div>
-              ) : (
-                ""
-              )} */}
-
               <div>
                 <LoginInput
                   label="Email"

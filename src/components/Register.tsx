@@ -9,6 +9,7 @@ import TextField from "./utilities/TextField";
 import { useState } from "react";
 
 import { RegisterationSchema } from "./YupSchemas/schema";
+import useUserstore from "../zustand/userStore";
 
 type InitialValues = {
   firstName: string;
@@ -68,6 +69,8 @@ const Register = () => {
     department: "",
   };
 
+  const setUser = useUserstore((state) => state.setUser);
+
   const [errorMessage, setErrorMessage] = useState("");
   const [login, setLogin] = useState(false);
 
@@ -92,11 +95,13 @@ const Register = () => {
               "token",
               JSON.stringify(response.data.access_token)
             );
-            localStorage.setItem("user", JSON.stringify(response.data.user));
-            localStorage.setItem(
-              "user_id",
-              JSON.stringify(response.data.user_id)
-            );
+
+            setUser(response.data.user);
+            // localStorage.setItem("user", JSON.stringify(response.data.user));
+            // localStorage.setItem(
+            //   "user_id",
+            //   JSON.stringify(response.data.user_id)
+            // );
 
             navigate("/teaching-load");
           }

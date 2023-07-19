@@ -23,12 +23,7 @@ type Course = {
 
 const BelowButtons = () => {
   const queryClient = new QueryClient();
-
-  // const data = queryClient.getQueryData(["lecturers"]);
-  // console.log("Lecturer cached data: ", data);
-
   const { id } = useUserstore((state) => state.user);
-  console.log("Assignee ID: ", id);
 
   const checkedLecturers = useNewLoadStore21((state) => state.checkedLecturers);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);

@@ -9,7 +9,7 @@ type Course = {
 };
 
 const CourseSubgroup = ({ checkedCourse }) => {
-  console.log("Checked course", checkedCourse);
+  // console.log("Checked course", checkedCourse);
   return (
     <div className="my-modal">
       <p className="text-center text-lg mb-3">

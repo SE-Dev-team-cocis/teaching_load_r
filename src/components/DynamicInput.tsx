@@ -26,7 +26,7 @@ const DynamicInput = () => {
   }
 
   function handleGroup() {
-    console.log("Object: ", subgroup);
+    // console.log("Object: ", subgroup);
   }
   return (
     <div style={{ width: "400px" }} className="mt-3">

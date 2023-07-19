@@ -20,8 +20,8 @@ type User = {
 };
 
 const Sidebar = () => {
-  // const user = useUserstore((state) => state.user);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = useUserstore((state) => state.user);
+  // const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="bg-white h-screen rounded-sm pt-5 mb-2 sidebar">
       <div className="profile flex flex-col items-center justify-center border-b-2 border-b-green-700">

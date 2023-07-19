@@ -4,8 +4,8 @@ import useUserstore from "../zustand/userStore";
 
 const NavBar = () => {
   // const user:User =localStorage.getItem("user")? JSON.parse(localStorage.getItem("user")):null
-  // const { user } = useUserstore();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = useUserstore((state) => state.user);
+  // const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <nav className="nav shadow flex w-full justify-between items-center bg-white px-3 py-3 border-b-3 border-black  text-green-700 text-xl">
