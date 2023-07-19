@@ -69,10 +69,12 @@ const BelowButtons = () => {
       });
     },
   });
-  const assignId = 231;
+  const successId = 231;
+  const errorId = 232;
+
   const notify = (message: string) => {
     toast.success(message, {
-      toastId: assignId,
+      toastId: successId,
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -86,6 +88,7 @@ const BelowButtons = () => {
 
   const errorNotification = async (message: string) => {
     await toast.error(message, {
+      toastId: errorId,
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
