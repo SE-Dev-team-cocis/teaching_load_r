@@ -4,11 +4,13 @@ import { useMutation, QueryClient } from "@tanstack/react-query";
 import { assignLoad } from "../zustand/api/apis";
 import { toast } from "react-toastify";
 import CourseSubgroup from "./load/CourseSubgroup";
+import useUserstore from "../zustand/userStore";
 
 type AssignLoad = {
   courses: string;
   staff_id: number;
   CUs: string;
+  assignee_id: number;
 };
 
 type Course = {
@@ -22,8 +24,11 @@ type Course = {
 const BelowButtons = () => {
   const queryClient = new QueryClient();
 
-  const data = queryClient.getQueryData(["lecturers"]);
-  console.log("Lecturer cached data: ", data);
+  // const data = queryClient.getQueryData(["lecturers"]);
+  // console.log("Lecturer cached data: ", data);
+
+  const { id } = useUserstore((state) => state.user);
+  console.log("Assignee ID: ", id);
 
   const checkedLecturers = useNewLoadStore21((state) => state.checkedLecturers);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
@@ -50,6 +55,7 @@ const BelowButtons = () => {
       courses: JSON.stringify(courseNames),
       staff_id: lecturerID,
       CUs: JSON.stringify(courseCreditUnits),
+      assignee_id: id,
     };
 
     // console.log("Data: ", data);
