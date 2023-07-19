@@ -82,8 +82,8 @@ export default function HomeAssign() {
   });
   // console.log("Query courses: ", courses);
 
-  // const newCourses: Course[] = courses?.map((course) => {
-  const newCourses = courses?.map((course) => {
+  const newCourses: Course[] = courses?.map((course) => {
+    // const newCourses = courses?.map((course) => {
     return { ...course, isChecked: false };
   });
   // console.log("Query courses with isChecked: ", newCourses);
@@ -93,8 +93,8 @@ export default function HomeAssign() {
     queryFn: fetchLoad,
   });
 
-  // const newLoad: NewLoad[] = load?.map((load) =>
-  const newLoad = load?.map((load) => {
+  const newLoad: NewLoad[] = load?.map((load) => {
+    // const newLoad = load?.map((load) => {
     return {
       ...load,
       courses: JSON.parse(load.courses),
@@ -102,7 +102,7 @@ export default function HomeAssign() {
     };
   });
 
-  console.log("New load: ", newLoad);
+  // console.log("New load: ", newLoad);
   // const totalLoad: TotalLoadDetails[] = newLoad?.map((load) => {
   const totalLoad = newLoad?.map((load) => {
     // return load.CUs.reduce((a, b) => a + b, 0);
@@ -118,7 +118,7 @@ export default function HomeAssign() {
     };
   });
   // console.log("New load: ", newLoad);
-  console.log("Total load: ", totalLoad);
+  // console.log("Total load: ", totalLoad);
 
   if (isLoading) return <p>Loading...</p>;
 

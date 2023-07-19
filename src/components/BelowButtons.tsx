@@ -84,7 +84,7 @@ const BelowButtons = () => {
     });
   };
 
-  console.log("Mutated response: ", data);
+  // console.log("Mutated response: ", data);
 
   if (isSuccess) {
     notify(data.message);
