@@ -86,6 +86,8 @@ const Register = () => {
 
           if (response.data.register === true) {
             setLogin(true);
+            localStorage.clear();
+
             localStorage.setItem(
               "token",
               JSON.stringify(response.data.access_token)
@@ -134,7 +136,7 @@ const Register = () => {
               Create an account
             </h4>
 
-            {login === false ? (
+            {/* {login === false ? (
               <div className="text-center text-red-500 font-lg">
                 {errorMessage}
                 <Link to={"/login"} className="mr-2 underline">
@@ -143,7 +145,7 @@ const Register = () => {
               </div>
             ) : (
               ""
-            )}
+            )} */}
 
             <div className="flex justify-between gap-1">
               <TextField
