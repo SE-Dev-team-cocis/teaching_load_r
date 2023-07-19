@@ -100,11 +100,11 @@ const Login = () => {
         }
         if (response.data.login === true) {
           setUser(response.data.user); // setting the user using zustand
-
+          localStorage.setItem(
+            "access_token",
+            JSON.stringify(response.data.access_token)
+          );
           setLogin(true);
-          // errorNotification("User has successfully logged in");
-          console.log("Zustand user: ", user);
-
           navigate("/teaching-load");
         }
       } catch (err) {
