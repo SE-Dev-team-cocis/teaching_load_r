@@ -3,7 +3,7 @@ import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useMutation, QueryClient } from "@tanstack/react-query";
 import { assignLoad } from "../zustand/api/apis";
 import { toast } from "react-toastify";
-import CourseSubgroup from "./CourseSubgroup";
+import CourseSubgroup from "./load/CourseSubgroup";
 
 type AssignLoad = {
   courses: string;
@@ -21,6 +21,9 @@ type Course = {
 
 const BelowButtons = () => {
   const queryClient = new QueryClient();
+
+  const data = queryClient.getQueryData(["lecturers"]);
+  console.log("Lecturer cached data: ", data);
 
   const checkedLecturers = useNewLoadStore21((state) => state.checkedLecturers);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);

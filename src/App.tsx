@@ -6,7 +6,7 @@ import Settings from "./components/Settings";
 import HomeAssign from "./components/HomeAssign";
 import Layout from "./components/Layout";
 import CentralDashboard from "./components/CentralDashboard";
-import DynamicInput from "./components/DynamicInput";
+import SemesterCourses from "./components/load/SemesterCourses";
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
         <Route path="/teaching-load/new" element={<HomeAssign />} />
         <Route path="/teaching-load/central" element={<CentralDashboard />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/dynamic" element={<DynamicInput />} />
+        <Route path="/semestercourses" element={<SemesterCourses />} />
       </Route>
     </Routes>
   );

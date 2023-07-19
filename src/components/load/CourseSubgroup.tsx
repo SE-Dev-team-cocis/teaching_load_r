@@ -1,4 +1,4 @@
-import DynamicInput from "./DynamicInput";
+import DynamicInput from "../DynamicInput";
 
 type Course = {
   id: number;
@@ -19,14 +19,6 @@ const CourseSubgroup = ({ checkedCourse }) => {
       <span className="close">x</span>
 
       <DynamicInput />
-      {/* <div className="flex justify-center items-center">
-        <button
-          className="text-white px-5 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-50 disabled:hover:scale-100"
-          type="button"
-        >
-          Create
-        </button>
-      </div> */}
     </div>
   );
 };

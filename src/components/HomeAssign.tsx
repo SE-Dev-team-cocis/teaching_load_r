@@ -12,7 +12,7 @@ import Lecturers from "./load/Lecturers";
 import Courses from "./load/Courses";
 
 import BelowButtons from "./BelowButtons";
-import CourseSubgroup from "./CourseSubgroup";
+import CourseSubgroup from "./load/CourseSubgroup";
 
 type Lecturer = {
   id: number;
