@@ -1,14 +1,14 @@
 import { create } from "zustand";
 
 import { persist } from "zustand/middleware";
-import axios, { all } from "axios";
+import axios from "axios";
 
-type LoadData = {
-  id: number;
-  staff_id: number;
-  courses: string[];
-  CUs: number[];
-};
+// type LoadData = {
+//   id: number;
+//   staff_id: number;
+//   courses: string[];
+//   CUs: number[];
+// };
 
 type Load = {
   id: number;
