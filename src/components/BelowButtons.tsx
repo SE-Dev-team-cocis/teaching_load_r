@@ -84,13 +84,31 @@ const BelowButtons = () => {
     });
   };
 
+  const errorNotification = async (message: string) => {
+    await toast.error(message, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   // console.log("Mutated response: ", data);
 
   if (isSuccess) {
-    notify(data.message);
-    setTimeout(() => {
-      window.location.reload();
-    }, 2005);
+    if (data.status === false) {
+      errorNotification(data.message);
+      return;
+    } else {
+      notify(data.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2005);
+    }
   }
 
   return (
