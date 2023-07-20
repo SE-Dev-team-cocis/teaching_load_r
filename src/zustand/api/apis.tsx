@@ -50,6 +50,17 @@ type LoginData = {
   password: string;
 };
 
+type DeleteAllLoad = {
+  issignee_id: number;
+  semester: number;
+  // staff_id: number
+};
+type DeleteLoad = {
+  load_id: number;
+  semester: number;
+  assignee_id: number;
+};
+
 export const fetchLecturers = async () => {
   const url = "http://127.0.0.1:8000/api/getStaff";
 
@@ -118,4 +129,30 @@ export const UserLogin = async (data: LoginData) => {
   const user: LoginResponse[] = response.data;
 
   return user;
+};
+
+export const deleteAllLoad = async (data: DeleteAllLoad) => {
+  const url = "http://127.0.0.1:8000/api/delete";
+
+  const response = await axios.post(url, data, {
+    headers: {
+      "Content-Type": "application/json",
+      // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+    },
+  });
+
+  return response.data.message;
+};
+
+export const deleteLoad = async (data: DeleteLoad) => {
+  const url = "http://127.0.0.1:8000/api/deleteLoad";
+
+  const response = await axios.post(url, data, {
+    headers: {
+      "Content-Type": "application/json",
+      // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+    },
+  });
+
+  return response.data.message;
 };

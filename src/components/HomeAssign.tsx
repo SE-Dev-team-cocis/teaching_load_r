@@ -13,6 +13,9 @@ import Courses from "./load/Courses";
 
 import BelowButtons from "./BelowButtons";
 import CourseSubgroup from "./load/CourseSubgroup";
+import useUserstore from "../zustand/userStore";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 type Lecturer = {
   id: number;
@@ -64,14 +67,19 @@ type Course = {
   isChecked: boolean;
 };
 
+type DeleteAllLoad = {
+  assignee_id: number;
+  semester: number;
+};
+
 export default function HomeAssign() {
   const { data: lecturers, isLoading } = useQuery({
     queryKey: ["lecturers"],
     queryFn: fetchLecturers,
   });
 
-  // const newLecturers: RealLecturer[] = lecturers?.map((lecturer) => {
-  const newLecturers = lecturers?.map((lecturer) => {
+  const newLecturers: RealLecturer[] = lecturers?.map((lecturer) => {
+    // const newLecturers = lecturers?.map((lecturer) => {
     return { ...lecturer, isChecked: false };
   });
 
@@ -120,17 +128,58 @@ export default function HomeAssign() {
   // console.log("New load: ", newLoad);
   // console.log("Total load: ", totalLoad);
 
+  const { id } = useUserstore((state) => state.user);
+
+  const notify = (message: string) => {
+    toast.success(message, {
+      toastId: 23,
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
+  const deleteAllLoad = async () => {
+    const assignee_id: number = id;
+    const semester: number = 1;
+
+    const data = {
+      assignee_id,
+      semester,
+    };
+
+    try {
+      const url = "http://127.0.0.1:8000/api/delete";
+      const response = await axios.delete(url, { data });
+      if (response.status === 200) {
+        notify(response.data.message);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2007);
+      }
+      // console.log("Response: ", response);
+    } catch (error) {}
+  };
+
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className="col-span-3">
       <div className="buttons border-b-2 border-b-green-700 pt-4">
         <div className="flex items-center justify-end">
-          <Link to={"/teaching-load/old"} className="mr-5 mb-3">
-            <button className="btn hover:bg-red-600 outline-none hover:text-white px-5 py-2 border-2 border-red-400 rounded">
-              Cancel
-            </button>
-          </Link>
+          {/* <Link to={"/teaching-load/old"} className="mr-5 mb-3"> */}
+          <button
+            onClick={deleteAllLoad}
+            className="btn mb-3 mr-4 hover:bg-red-600 outline-none hover:text-white px-5 py-2 border-2 border-red-400 rounded"
+          >
+            Cancel
+          </button>
+          {/* </Link> */}
         </div>
       </div>
 
