@@ -19,12 +19,14 @@ type Course = {
   course_name: string;
   course_code: string;
   course_cus: number;
+  assignee_id: number;
 };
 
 type AssignLoad = {
   courses: string;
   staff_id: number;
   CUs: string;
+  assignee_id: number;
 };
 
 type User = {

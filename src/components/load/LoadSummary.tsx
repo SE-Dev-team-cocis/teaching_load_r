@@ -8,6 +8,7 @@ type TotalLoadDetails = {
   id: number;
   staffId: number;
   staffName: object;
+  assignee_id: number;
 };
 
 type LoadPops = {
@@ -30,14 +31,17 @@ const notify = (message: string) => {
 
 const LoadSummary = ({ totalLoad }: LoadPops) => {
   const { id } = useUserstore((state) => state.user);
+  console.log("Total load data: ", totalLoad);
+
+  const myFiltered = totalLoad?.filter((load) => {
+    return load.assignee_id === id;
+  });
 
   const deleteLoad = async (_assigneeID: number, _loadID: number) => {
     const data = {
       assignee_id: _assigneeID,
       id: _loadID,
     };
-
-    console.log("Data: ", data);
 
     try {
       const url = "http://127.0.0.1:8000/api/deleteload";
@@ -70,7 +74,7 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
         <div className="list">
           <div className="flex justify-between">
             <div className="flex justify-center items-left flex-col pr-3">
-              {totalLoad?.map((lecturer: TotalLoadDetails) => (
+              {myFiltered?.map((lecturer: TotalLoadDetails) => (
                 <div
                   key={lecturer.id}
                   className="flex justify-between items-center px-2"
@@ -83,7 +87,7 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
             </div>
 
             <div className="flex justify-center items-center flex-col pr-4">
-              {totalLoad?.map((load) => (
+              {myFiltered?.map((load) => (
                 <p key={load.id}>
                   {load.total === 0 ? (
                     <div className="flex justify-between items-center">

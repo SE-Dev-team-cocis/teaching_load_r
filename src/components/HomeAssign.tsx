@@ -39,12 +39,14 @@ type Load = {
   staff_id: number;
   courses: string;
   CUs: string;
+  assignee_id: number;
 };
 type NewLoad = {
   id: number;
   staff_id: number;
   courses: string[];
   CUs: number[];
+  assignee_id: number;
 };
 
 type LecturerDetails = {
@@ -57,6 +59,7 @@ type TotalLoadDetails = {
   id: number;
   staffId: number;
   staffName: object;
+  assignee_id: number;
 };
 
 type Course = {
@@ -101,14 +104,18 @@ export default function HomeAssign() {
     queryFn: fetchLoad,
   });
 
+  // console.log("Load from use query: ", load);
+
   const newLoad: NewLoad[] = load?.map((load) => {
     // const newLoad = load?.map((load) => {
     return {
       ...load,
       courses: JSON.parse(load.courses),
       CUs: JSON.parse(load.CUs),
+      // assignee_id: load.assignee_id,
     };
   });
+  // console.log("New assinee load: ", newLoad);
 
   // console.log("New load: ", newLoad);
   // const totalLoad: TotalLoadDetails[] = newLoad?.map((load) => {
@@ -123,10 +130,11 @@ export default function HomeAssign() {
           return `${lecturer.firstName} ${lecturer.lastName}`;
         }
       }),
+      assignee_id: load.assignee_id,
     };
   });
   // console.log("New load: ", newLoad);
-  // console.log("Total load: ", totalLoad);
+  // console.log("Total load with assignee id: ", totalLoad);
 
   const { id } = useUserstore((state) => state.user);
 
