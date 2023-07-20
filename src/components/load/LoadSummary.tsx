@@ -1,4 +1,7 @@
 import { BsTrash } from "react-icons/bs";
+import axios from "axios";
+import { toast } from "react-toastify";
+import useUserstore from "../../zustand/userStore";
 
 type TotalLoadDetails = {
   total: number;
@@ -11,7 +14,44 @@ type LoadPops = {
   totalLoad: TotalLoadDetails[];
 };
 
+const notify = (message: string) => {
+  toast.success(message, {
+    toastId: 26,
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "light",
+  });
+};
+
 const LoadSummary = ({ totalLoad }: LoadPops) => {
+  const { id } = useUserstore((state) => state.user);
+
+  const deleteLoad = async (_assigneeID: number, _loadID: number) => {
+    const data = {
+      assignee_id: _assigneeID,
+      id: _loadID,
+    };
+
+    console.log("Data: ", data);
+
+    try {
+      const url = "http://127.0.0.1:8000/api/deleteload";
+      const response = await axios.delete(url, { data });
+      if (response.status === 200) {
+        notify(response.data.message);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2007);
+      }
+      // console.log("Response: ", response);
+    } catch (error) {}
+  };
+
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg mr-2 ">
       <div className="px-2 ">
@@ -48,19 +88,28 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
                   {load.total === 0 ? (
                     <div className="flex justify-between items-center">
                       <span className="text-red-700 mr-2 ">{load.total}</span>
-                      <BsTrash className="text-red-400 cursor-pointer" />
+                      <BsTrash
+                        className="text-red-400 cursor-pointer"
+                        onClick={() => deleteLoad(id, load.id)}
+                      />
                     </div>
                   ) : load.total < 10 ? (
                     <div className="flex justify-between items-center">
                       <span className="text-yellow-500 mr-4 pl-4">
                         {load.total}
                       </span>
-                      <BsTrash className="text-red-400 cursor-pointer" />
+                      <BsTrash
+                        className="text-red-400 cursor-pointer"
+                        onClick={() => deleteLoad(id, load.id)}
+                      />
                     </div>
                   ) : (
                     <div className="flex justify-between items-center">
                       <span className="text-green-700">{load.total}</span>
-                      <BsTrash className="text-red-400 cursor-pointer ml-5" />
+                      <BsTrash
+                        className="text-red-400 cursor-pointer ml-5"
+                        onClick={() => deleteLoad(id, load.id)}
+                      />
                     </div>
                   )}
                 </p>
