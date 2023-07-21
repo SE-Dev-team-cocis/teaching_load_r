@@ -1,33 +1,75 @@
+import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { BsPlusCircle } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 type Subgroup = {
   [key: string]: number | string;
-  subgroupName: string;
-  numberOfStudents: number;
+  subgroup_name: string;
+  course_id: number;
+  no_of_students: number;
+  // course_id: number;
 };
 
-const DynamicInput = () => {
-  const [subgroup, setSubgroup] = useState<Subgroup[]>([
-    { subgroupName: "", numberOfStudents: 0 },
+type DynamicInputProps = {
+  id: number;
+};
+
+const DynamicInput = ({ id }: DynamicInputProps) => {
+  const notify = (message: string) => {
+    toast.success(message, {
+      toastId: 903,
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
+  const [subgroups, setSubgroups] = useState<Subgroup[]>([
+    { course_id: id, subgroup_name: "", no_of_students: 0 },
+    { course_id: id, subgroup_name: "", no_of_students: 0 },
   ]);
 
   function addSubgroup() {
-    setSubgroup([...subgroup, { subgroupName: "", numberOfStudents: 0 }]);
+    setSubgroups([
+      ...subgroups,
+      { course_id: id, subgroup_name: "", no_of_students: 0 },
+    ]);
   }
 
   function setSubgroupName(e: ChangeEvent<HTMLInputElement>, _index: number) {
     const { name, value } = e.target;
-    const newList: Subgroup[] = [...subgroup];
+    const newList: Subgroup[] = [...subgroups];
 
     newList[_index][name] = value;
 
-    setSubgroup(newList);
+    setSubgroups(newList);
   }
 
-  function handleGroup() {
-    // console.log("Object: ", subgroup);
-  }
+  const handleGroup = async () => {
+    const url = "http://127.0.0.1:8000/api/subgroup/create";
+    // console.log(subgroups);
+    try {
+      const response = await axios.post(
+        url,
+        { subgroups: JSON.stringify(subgroups) },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Response: ", response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div style={{ width: "400px" }} className="mt-3">
       <div className="flex gap-2 flex-col px-4" style={{ width: "450px" }}>
@@ -39,11 +81,11 @@ const DynamicInput = () => {
       {/* <div className="services flex gap-4 items-center p-5"> */}
       <div style={{ width: "450px" }}>
         <div className="flex gap-2 flex-col">
-          {subgroup.map((item, index) => (
+          {subgroups.map((item, index) => (
             <div className="flex justify-between gap-5 px-4" key={index}>
               <input
                 type="text"
-                name="subgroupName"
+                name="subgroup_name"
                 placeholder="eg. Group A"
                 className="
                   focus:outline-none
@@ -66,7 +108,7 @@ const DynamicInput = () => {
 
               <input
                 type="number"
-                name="numberOfStudents"
+                name="no_of_students"
                 placeholder="Enter number of students"
                 className="
                   focus:outline-none

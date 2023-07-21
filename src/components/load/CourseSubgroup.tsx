@@ -22,7 +22,7 @@ const CourseSubgroup = ({ checkedCourse }: SubgroupProps) => {
 
       <span className="close">x</span>
 
-      <DynamicInput />
+      <DynamicInput id={checkedCourse?.id} />
     </div>
   );
 };
