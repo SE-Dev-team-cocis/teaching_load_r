@@ -31,7 +31,7 @@ const notify = (message: string) => {
 
 const LoadSummary = ({ totalLoad }: LoadPops) => {
   const { id } = useUserstore((state) => state.user);
-  console.log("Total load data: ", totalLoad);
+  // console.log("Total load data: ", totalLoad);
 
   const myFiltered = totalLoad?.filter((load) => {
     return load.assignee_id === id;
@@ -61,66 +61,74 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
       <div className="px-2 ">
         <p className="mb-4 text-xl font-semibold">Teaching Load Summary</p>
 
-        <div className="flex justify-between items-center px-2">
-          <p className="text-lg font-medium">Lecturer</p>
-          <p
-            className="text-lg font-medium"
-            style={{ paddingRight: "2.25rem" }}
-          >
-            Load
-          </p>
-        </div>
-
-        <div className="list">
-          <div className="flex justify-between">
-            <div className="flex justify-center items-left flex-col pr-3">
-              {myFiltered?.map((lecturer: TotalLoadDetails) => (
-                <div
-                  key={lecturer.id}
-                  className="flex justify-between items-center px-2"
-                >
-                  <p key={lecturer.id}>
-                    {lecturer.staffName.firstName} {lecturer.staffName.lastName}
-                  </p>
+        {myFiltered?.length === 0 ? (
+          <p className="text-center">No teaching load assigned yet</p>
+        ) : (
+          <>
+            <div className="flex justify-between items-center px-2">
+              <p className="text-lg font-medium">Lecturer</p>
+              <p
+                className="text-lg font-medium"
+                style={{ paddingRight: "2.25rem" }}
+              >
+                Load
+              </p>
+            </div>
+            <div className="list">
+              <div className="flex justify-between">
+                <div className="flex justify-center items-left flex-col pr-3">
+                  {myFiltered?.map((lecturer: TotalLoadDetails) => (
+                    <div
+                      key={lecturer.id}
+                      className="flex justify-between items-center px-2"
+                    >
+                      <p key={lecturer.id}>
+                        {lecturer.staffName.firstName}{" "}
+                        {lecturer.staffName.lastName}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            <div className="flex justify-center items-center flex-col pr-4">
-              {myFiltered?.map((load) => (
-                <p key={load.id}>
-                  {load.total === 0 ? (
-                    <div className="flex justify-between items-center">
-                      <span className="text-red-700 mr-2 ">{load.total}</span>
-                      <BsTrash
-                        className="text-red-400 cursor-pointer"
-                        onClick={() => deleteLoad(id, load.id)}
-                      />
-                    </div>
-                  ) : load.total < 10 ? (
-                    <div className="flex justify-between items-center">
-                      <span className="text-yellow-500 mr-4 pl-4">
-                        {load.total}
-                      </span>
-                      <BsTrash
-                        className="text-red-400 cursor-pointer"
-                        onClick={() => deleteLoad(id, load.id)}
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex justify-between items-center">
-                      <span className="text-green-700">{load.total}</span>
-                      <BsTrash
-                        className="text-red-400 cursor-pointer ml-5"
-                        onClick={() => deleteLoad(id, load.id)}
-                      />
-                    </div>
-                  )}
-                </p>
-              ))}
+                <div className="flex justify-center items-center flex-col pr-4">
+                  {myFiltered?.map((load) => (
+                    <p key={load.id}>
+                      {load.total === 0 ? (
+                        <div className="flex justify-between items-center">
+                          <span className="text-red-700 mr-2 ">
+                            {load.total}
+                          </span>
+                          <BsTrash
+                            className="text-red-400 cursor-pointer"
+                            onClick={() => deleteLoad(id, load.id)}
+                          />
+                        </div>
+                      ) : load.total < 10 ? (
+                        <div className="flex justify-between items-center">
+                          <span className="text-yellow-500 mr-4 pl-4">
+                            {load.total}
+                          </span>
+                          <BsTrash
+                            className="text-red-400 cursor-pointer"
+                            onClick={() => deleteLoad(id, load.id)}
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex justify-between items-center">
+                          <span className="text-green-700">{load.total}</span>
+                          <BsTrash
+                            className="text-red-400 cursor-pointer ml-5"
+                            onClick={() => deleteLoad(id, load.id)}
+                          />
+                        </div>
+                      )}
+                    </p>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

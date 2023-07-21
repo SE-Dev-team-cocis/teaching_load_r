@@ -159,6 +159,9 @@ export default function HomeAssign() {
 
   if (isLoading) return <p>Loading...</p>;
 
+  const broadcast: boolean = totalLoad?.length === 0 ? false : true;
+  console.log("Can broadcast: ", broadcast);
+
   return (
     <div className="col-span-3">
       <div className="buttons border-b-2 border-b-green-700 pt-4">
@@ -178,7 +181,7 @@ export default function HomeAssign() {
         <LoadSummary totalLoad={totalLoad} />
       </div>
 
-      <BelowButtons />
+      <BelowButtons broadcast={broadcast} />
     </div>
   );
 }
