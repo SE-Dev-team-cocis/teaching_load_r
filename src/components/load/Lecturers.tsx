@@ -1,6 +1,5 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useMemo } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { useMemo } from "react";
 
 type Lecturer = {
   id: number;

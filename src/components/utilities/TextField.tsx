@@ -1,10 +1,4 @@
-import {
-  FormikErrors,
-  FieldConfig,
-  FieldInputProps,
-  FormikTouched,
-  Field,
-} from "formik";
+import { FormikErrors, FormikTouched } from "formik";
 
 type InitialValues = {
   [key: string]: any;

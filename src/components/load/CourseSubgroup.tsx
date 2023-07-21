@@ -8,7 +8,11 @@ type Course = {
   isChecked: boolean;
 };
 
-const CourseSubgroup = ({ checkedCourse }) => {
+type SubgroupProps = {
+  checkedCourse: Course[];
+};
+
+const CourseSubgroup = ({ checkedCourse }: SubgroupProps) => {
   // console.log("Checked course", checkedCourse);
   return (
     <div className="my-modal">

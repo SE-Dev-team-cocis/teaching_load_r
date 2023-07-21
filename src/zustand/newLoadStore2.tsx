@@ -47,7 +47,7 @@ type StoreType = {
 };
 const useNewLoadStore21 = create<StoreType>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       allCourses: [],
       lecturers: [],
       checkedCourses: [],

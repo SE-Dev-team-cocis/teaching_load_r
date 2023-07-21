@@ -1,5 +1,4 @@
-import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import NavBar from "./Navbar";
 import Sidebar from "./utilities/Sidebar";

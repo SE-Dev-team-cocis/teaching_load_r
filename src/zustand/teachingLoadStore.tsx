@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-import { persist, devtools } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 
 type Load = {
   id: number;
@@ -48,13 +48,6 @@ const useLoadStore = create<LoadData>()(
               id: load.id,
             };
           });
-
-          console.log("New load records: ", load);
-          //   set({
-          //     data: wholedata,
-          //     loadRecord: wholedata.forEach(load => {...load})
-
-          //   })
         } catch (err) {
           console.log("Error");
         }

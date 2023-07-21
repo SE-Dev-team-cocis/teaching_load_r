@@ -1,23 +1,5 @@
 import { Link } from "react-router-dom";
 
-// import LoadSummary from "../zustand/LoadSummary";
-// import { useQuery } from "@tanstack/react-query";
-// import { fetchLoad } from "../zustand/api/apis";
-
-type TotalLoadDetails = {
-  total: number;
-  id: number;
-  staffId: number;
-  staffName: object;
-};
-
-type NewLoad = {
-  id: number;
-  staff_id: number;
-  courses: string[];
-  CUs: number[];
-};
-
 export default function Home() {
   return (
     <>

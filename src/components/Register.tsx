@@ -1,5 +1,4 @@
 import { useFormik } from "formik";
-import * as yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
@@ -97,12 +96,6 @@ const Register = () => {
             );
 
             setUser(response.data.user);
-            // localStorage.setItem("user", JSON.stringify(response.data.user));
-            // localStorage.setItem(
-            //   "user_id",
-            //   JSON.stringify(response.data.user_id)
-            // );
-
             navigate("/teaching-load");
           }
           // console.log(response.data)
@@ -140,18 +133,6 @@ const Register = () => {
             <h4 className="text-green-700 text-center text-xl font-semibold mb-5">
               Create an account
             </h4>
-
-            {/* {login === false ? (
-              <div className="text-center text-red-500 font-lg">
-                {errorMessage}
-                <Link to={"/login"} className="mr-2 underline">
-                  Login, instead
-                </Link>
-              </div>
-            ) : (
-              ""
-            )} */}
-
             <div className="flex justify-between gap-1">
               <TextField
                 name="firstName"

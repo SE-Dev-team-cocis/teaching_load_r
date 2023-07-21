@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 
 type User = {
   id: number;
@@ -18,7 +18,7 @@ type UserStore = {
 
 const useUserstore = create<UserStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: {} as User,
       setUser: (user: User) => set({ user }),
     }),

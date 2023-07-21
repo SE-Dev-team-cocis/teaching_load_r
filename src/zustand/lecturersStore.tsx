@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-import { persist, devtools } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 
 type Lecturer = {
   id: number;

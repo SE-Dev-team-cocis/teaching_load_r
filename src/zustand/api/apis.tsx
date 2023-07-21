@@ -133,28 +133,28 @@ export const UserLogin = async (data: LoginData) => {
   return user;
 };
 
-export const deleteAllLoad = async (data: DeleteAllLoad) => {
-  const url = "http://127.0.0.1:8000/api/delete";
+// export const deleteAllLoad = async (data: DeleteAllLoad) => {
+//   const url = "http://127.0.0.1:8000/api/delete";
 
-  const response = await axios.post(url, data, {
-    headers: {
-      "Content-Type": "application/json",
-      // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
-    },
-  });
+//   const response = await axios.post(url, data, {
+//     headers: {
+//       "Content-Type": "application/json",
+//       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+//     },
+//   });
 
-  return response.data.message;
-};
+//   return response.data.message;
+// };
 
-export const deleteLoad = async (data: DeleteLoad) => {
-  const url = "http://127.0.0.1:8000/api/deleteLoad";
+// export const deleteLoad = async (data: DeleteLoad) => {
+//   const url = "http://127.0.0.1:8000/api/deleteLoad";
 
-  const response = await axios.post(url, data, {
-    headers: {
-      "Content-Type": "application/json",
-      // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
-    },
-  });
+//   const response = await axios.post(url, data, {
+//     headers: {
+//       "Content-Type": "application/json",
+//       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+//     },
+//   });
 
-  return response.data.message;
-};
+//   return response.data.message;
+// };

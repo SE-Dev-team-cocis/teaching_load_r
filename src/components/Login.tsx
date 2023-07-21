@@ -7,10 +7,6 @@ import Logo from "../assets/react.svg";
 import LoginInput from "./utilities/form/LoginInput";
 import { useState } from "react";
 import useUserstore from "../zustand/userStore";
-import { useQuery } from "@tanstack/react-query";
-import { UserLogin } from "../zustand/api/apis";
-
-// import { useUse } from "../zustand/userStore";
 
 type InitialValues = {
   username: string;
@@ -21,10 +17,10 @@ const initialLoginValues: InitialValues = {
   password: "",
 };
 
-type LoginDetails = {
-  email: string;
-  password: string;
-};
+// type LoginDetails = {
+//   email: string;
+//   password: string;
+// };
 
 const customId: string = "login";
 //For the toast notification
