@@ -30,10 +30,13 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     });
   };
 
+  console.log("Course id: ", id);
   const [subgroups, setSubgroups] = useState<Subgroup[]>([
     { course_id: id, subgroup_name: "", no_of_students: 0 },
     { course_id: id, subgroup_name: "", no_of_students: 0 },
   ]);
+
+  console.log("Initial subgroups: ", subgroups);
 
   function addSubgroup() {
     setSubgroups([
@@ -42,7 +45,11 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     ]);
   }
 
-  function setSubgroupName(e: ChangeEvent<HTMLInputElement>, _index: number) {
+  function setSubgroupName(
+    e: ChangeEvent<HTMLInputElement>,
+    _index: number,
+    id: number
+  ) {
     const { name, value } = e.target;
     const newList: Subgroup[] = [...subgroups];
 
@@ -54,6 +61,7 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
   const handleGroup = async () => {
     const url = "http://127.0.0.1:8000/api/subgroup/create";
     // console.log(subgroups);
+    console.log("SUbgroups: ", subgroups);
     try {
       const response = await axios.post(
         url,
@@ -66,7 +74,10 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
       );
 
       // console.log("Response: ", response);
-
+      setSubgroups([
+        { course_id: id, subgroup_name: "", no_of_students: 0 },
+        { course_id: id, subgroup_name: "", no_of_students: 0 },
+      ]);
       notify(response.data.message);
     } catch (error) {
       console.log(error);
@@ -127,7 +138,7 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
                   "
                 value={item.numberOfStudents}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setSubgroupName(e, index);
+                  setSubgroupName(e, index, id);
                 }}
               />
             </div>

@@ -7,6 +7,7 @@ type Subgroup = {
   subgroup_name: string;
   course_id: number;
   no_of_students: number;
+  isChecked?: boolean;
 };
 type Course = {
   id: number;
@@ -106,9 +107,9 @@ const Courses = ({ courses }: CourseProps) => {
                         <input
                           type="checkbox"
                           className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-                          name="courseUnits[]"
-                          checked={courseUnit.isChecked}
-                          value={courseUnit.id}
+                          name="subgroups[]"
+                          checked={group.isChecked}
+                          value={group.id}
                           // onChange={() => handleCheckedCourses(courseUnit.id)}
                         />
                         {group.subgroup_name}

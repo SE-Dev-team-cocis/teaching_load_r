@@ -80,9 +80,10 @@ const Lecturers = ({ lecturers }: LecturersProps) => {
           .map((lecturer: Lecturer) => (
             <p key={lecturer.id} className="flex items-center">
               <input
-                type="checkbox"
+                type="radio"
                 className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-                name="lecturers[]"
+                // name="lecturers[]"
+                name={`${lecturer.firstName} ${lecturer.lastName}`}
                 checked={lecturer.isChecked}
                 value={lecturer.id}
                 onChange={() => handleCheckedLecturer(lecturer.id)}

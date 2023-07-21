@@ -90,7 +90,7 @@ export default function HomeAssign() {
     // const newCourses = courses?.map((course) => {
     return { ...course, isChecked: false };
   });
-  console.log("Courses with course subgroups", newCourses);
+  // console.log("Courses with course subgroups", newCourses);
 
   const { data: load } = useQuery({
     queryKey: ["load"],
@@ -161,7 +161,7 @@ export default function HomeAssign() {
   if (isLoading) return <p>Loading...</p>;
 
   const broadcast: boolean = totalLoad?.length === 0 ? false : true;
-  console.log("Can broadcast: ", broadcast);
+  // console.log("Can broadcast: ", broadcast);
 
   return (
     <div className="col-span-3">
