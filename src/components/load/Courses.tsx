@@ -2,12 +2,19 @@ import { useMemo, useRef, useState } from "react";
 import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 
+type Subgroup = {
+  [key: string]: number | string;
+  subgroup_name: string;
+  course_id: number;
+  no_of_students: number;
+};
 type Course = {
   id: number;
   course_name: string;
   course_code: string;
   course_cus: number;
   isChecked: boolean;
+  subgroups?: Subgroup[];
 };
 
 type CourseProps = {
@@ -77,17 +84,41 @@ const Courses = ({ courses }: CourseProps) => {
               : courseUnit.course_name.toLowerCase().includes(filterText);
           })
           .map((courseUnit: Course) => (
-            <p key={courseUnit.id} className="flex items-center">
-              <input
-                type="checkbox"
-                className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-                name="courseUnits[]"
-                checked={courseUnit.isChecked}
-                value={courseUnit.id}
-                onChange={() => handleCheckedCourses(courseUnit.id)}
-              />
-              {courseUnit.course_name}
-            </p>
+            <div key={courseUnit.id} className="flex flex-col">
+              <div>
+                <input
+                  type="checkbox"
+                  className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
+                  name="courseUnits[]"
+                  checked={courseUnit.isChecked}
+                  value={courseUnit.id}
+                  onChange={() => handleCheckedCourses(courseUnit.id)}
+                />
+                {courseUnit.course_name}
+              </div>
+              {courseUnit.subgroups?.length === 0 ? (
+                ""
+              ) : (
+                <>
+                  <div className="ml-5 flex flex-col">
+                    {courseUnit.subgroups?.map((group) => (
+                      <div key={group.id} className="font-sm">
+                        <input
+                          type="checkbox"
+                          className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
+                          name="courseUnits[]"
+                          checked={courseUnit.isChecked}
+                          value={courseUnit.id}
+                          // onChange={() => handleCheckedCourses(courseUnit.id)}
+                        />
+                        {group.subgroup_name}
+                      </div>
+                      // <p key={group.course_id}>{group.subgroup_name}</p>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           ))}
       </div>
     </div>

@@ -65,7 +65,9 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
         }
       );
 
-      console.log("Response: ", response);
+      // console.log("Response: ", response);
+
+      notify(response.data.message);
     } catch (error) {
       console.log(error);
     }

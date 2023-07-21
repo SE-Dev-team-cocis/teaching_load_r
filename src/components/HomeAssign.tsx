@@ -90,6 +90,7 @@ export default function HomeAssign() {
     // const newCourses = courses?.map((course) => {
     return { ...course, isChecked: false };
   });
+  console.log("Courses with course subgroups", newCourses);
 
   const { data: load } = useQuery({
     queryKey: ["load"],
