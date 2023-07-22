@@ -5,16 +5,12 @@
 
 .login_form{
     width: 440px;
-    /* border: 3px solid green; */
-    margin: 30px auto;
-    /* padding: 2rem; */
+    margin: 70px auto;  
 }
 
 .register_form{
-     width: 500px;
-    /* border: 3px solid green; */
-    margin: 30px auto;
-    /* padding: 2rem; */
+     width: 550px;
+    margin: 10px auto;
     background-color: white;
 }
 
@@ -25,7 +21,7 @@ input.input-error, select.input-error{
 
 
 .card{
-  height: 400px;
+  min-height: 400px;
   /* overflow-y: scroll; */
 }
 
@@ -41,8 +37,8 @@ input.input-error, select.input-error{
 
 
 .sidebar_links a.active .link_item{
-  /* background-color: #287e68; */
-  border-right: 4px solid #287e68;
+  background-color: #b5eee071;
+  border-right: 6px solid #287e68;
   /* background-color: rgb(214, 214, 214); */
 }
 
@@ -93,4 +89,10 @@ dialog::backdrop{
   top: 0;
   left: 100;
   float: right;
+}
+
+.confirm {
+   min-width: 50px;
+  min-height: 200px;
+  overflow: hidden;
 }

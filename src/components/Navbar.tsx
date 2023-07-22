@@ -1,4 +1,6 @@
 import Logo from "../assets/react.svg";
+import MukLogo from "../assets/images/muk_logo.png";
+
 import { Link } from "react-router-dom";
 import useUserstore from "../zustand/userStore";
 
@@ -10,12 +12,13 @@ const NavBar = () => {
   return (
     <nav className="nav shadow flex w-full justify-between items-center bg-white px-3 py-3 border-b-3 border-black  text-green-700 text-xl">
       <div className="logo flex items-center flex-row">
-        <Link to={"/"}>
+        <Link to={"/teaching-load"}>
           <img
-            src={Logo}
+            src={MukLogo}
             width={60}
             height={60}
             // alt="makerere_logo"
+            loading="lazy"
             className="mr-3"
           />
         </Link>

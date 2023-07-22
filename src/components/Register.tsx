@@ -2,7 +2,9 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../assets/react.svg";
+// import Logo from "../assets/react.svg";
+import MukLogo from "../assets/images/muk_logo.png";
+
 import TextField from "./utilities/TextField";
 
 import { useState } from "react";
@@ -117,10 +119,11 @@ const Register = () => {
     <div className="register_form border-2 border-green-700 rounded-lg p-5">
       <header className="flex justify-center items-center flex-col">
         <img
-          src={Logo}
+          src={MukLogo}
           alt="logo"
           style={{ width: "200px", height: "200px" }}
           className="me-5 muk_logo"
+          loading="lazy"
         />
         <p className="text-green-700 font-semibold text-xl">
           MAKERERE UNIVERSITY
