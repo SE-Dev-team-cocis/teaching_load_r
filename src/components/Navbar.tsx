@@ -1,13 +1,16 @@
-import Logo from "../assets/react.svg";
 import MukLogo from "../assets/images/muk_logo.png";
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useUserstore from "../zustand/userStore";
+import { BsEscape } from "react-icons/bs";
 
 const NavBar = () => {
-  // const user:User =localStorage.getItem("user")? JSON.parse(localStorage.getItem("user")):null
+  const navigate = useNavigate();
   const user = useUserstore((state) => state.user);
-  // const user = JSON.parse(localStorage.getItem("user"));
+
+  function handleDelete() {
+    localStorage.clear();
+    navigate("/");
+  }
 
   return (
     <nav className="nav shadow flex w-full justify-between items-center bg-white px-3 py-3 border-b-3 border-black  text-green-700 text-xl">
@@ -17,7 +20,7 @@ const NavBar = () => {
             src={MukLogo}
             width={60}
             height={60}
-            // alt="makerere_logo"
+            alt="makerere_logo"
             loading="lazy"
             className="mr-3"
           />
@@ -29,33 +32,19 @@ const NavBar = () => {
         </Link>
       </div>
 
-      {/* <div>
-        <p className="uppercase text-2xl">Teaching load</p>
-      </div> */}
+      <div className="links flex items-center justufy-center gap-5">
+        <p className="mr-3 ">Hi, {user.firstName}</p>
 
-      <div className="links flex gap-5">
-        {/* <div className="flex items-center justify-center flex-col">
-          <BsHouse width={30} />
-          <Link href={"/"}>Home</Link>
-        </div>
-        <div className="flex items-center justify-center flex-col">
-          <BsGear width={30} />
-          <Link href={"/mysettings"}>Settings</Link>
-        </div> */}
-        {/* <div className="flex items-center justify-center flex-col"> */}
-        {/* <span className="mr-3 block mt-3">Hi, {user.firstName}</span> */}
-
-        <span className="mr-3 block mt-3">Hi, {user.firstName}</span>
-
-        <div className="border-red-600">
-          <Link to={"/logout"} className="">
-            <button className="flex items-center justify-center flex-row py-1 px-2 border-2 rounded">
-              {/* <span>
-                <BsEscape className="mr-2" />
-              </span> */}
-              <span>Logout</span>
-            </button>
-          </Link>
+        <div className="border-2 border-red-600 rounded text-red-600">
+          <button
+            className="flex items-center justify-center flex-row py-1 px-4 border-2 rounded"
+            onClick={handleDelete}
+          >
+            <span>
+              <BsEscape className="mr-2" />
+            </span>
+            <span>Logout</span>
+          </button>
         </div>
       </div>
     </nav>

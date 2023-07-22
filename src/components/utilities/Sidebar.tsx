@@ -21,7 +21,6 @@ type User = {
 
 const Sidebar = () => {
   const user = useUserstore((state) => state.user);
-  // const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="bg-white h-screen rounded-sm pt-5 mb-2 sidebar">
       <div className="profile flex flex-col items-center justify-center border-b-2 border-b-green-700">
@@ -31,8 +30,6 @@ const Sidebar = () => {
             {user.lastName} {user.firstName}
           </h4>
           <p className="text-center">{user.department}</p>
-          {/* // <h4>{user.firstName} {user.lastName}</h4>         
-          // <p className="text-center">{user.department}</p> */}
         </div>
       </div>
 
@@ -61,11 +58,7 @@ const Sidebar = () => {
             </p>
           </div>
         </NavLink>
-        <NavLink
-          end
-          to={"/teaching-load/new"}
-          // className={({ isActive }) => (isActive ? "active" : "")}
-        >
+        <NavLink end to={"/teaching-load/new"}>
           <div className="link_item flex justify-between items-center mt-1 py-1 px-5 ">
             <p className="flex justify-around items-center">
               <span>
