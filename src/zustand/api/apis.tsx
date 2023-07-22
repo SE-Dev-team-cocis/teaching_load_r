@@ -1,25 +1,31 @@
 import axios from "axios";
-type Lecturer = {
+export type Lecturer = {
   id: number;
   firstName: string;
   lastName: string;
   department: string;
   role: string;
+  email: string;
+  isChecked: boolean;
 };
 
-type Load = {
+export type Load = {
   id: number;
-  staff_id: number;
   courses: string;
+  staff_id: number;
+  myCUs: string;
   CUs: string;
+  assignee_id: number;
+  staffName?: Lecturer;
 };
 
-type Course = {
+export type Course = {
   id: number;
   course_name: string;
   course_code: string;
   course_cus: number;
   assignee_id: number;
+  isChecked: boolean;
 };
 
 type AssignLoad = {
@@ -29,7 +35,7 @@ type AssignLoad = {
   assignee_id: number;
 };
 
-type User = {
+export type User = {
   id: number;
   firstName: string;
   lastName: string;
@@ -72,7 +78,18 @@ export const fetchLecturers = async () => {
       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
     },
   });
-  const data: Lecturer[] = response.data.staff;
+  const mydata = response.data.staff;
+  const data: Lecturer[] = mydata.map((lecturer: Lecturer) => {
+    return {
+      id: lecturer.id,
+      firstName: lecturer.firstName,
+      lastName: lecturer.lastName,
+      department: lecturer.department,
+      role: lecturer.role,
+      email: lecturer.email,
+      isChecked: false,
+    };
+  });
 
   return data;
 };
@@ -86,7 +103,39 @@ export const fetchLoad = async () => {
       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
     },
   });
-  const load: Load[] = response.data.assignments;
+  // const load: Load[] = response.data.assignments;
+  const myload = response.data.assignments;
+
+  const load: Load[] = myload.map((load: Load) => {
+    // const newCourses: string[] = JSON.parse(load.courses);
+    const newCUs = JSON.parse(load.CUs);
+    // const newC
+    return {
+      id: load.id,
+      staff_id: load.staff_id,
+      courses: JSON.parse(load.courses),
+      CUs: JSON.parse(load.CUs),
+      assignee_id: load.assignee_id,
+      staffName: {},
+    };
+  });
+
+  // const totalLoad = myload?.map((load: Load) => {
+  //   // const newCourses: string[] = JSON.parse(load.courses);
+  //   const newCUs = JSON.parse(load.CUs);
+  //   return {
+  //     total: newCUs.reduce((a: number, b: number) => a + b, 0),
+  //     id: load.id,
+  //     staffId: load.staff_id,
+  //     // staffName: newLecturers?.find((lecturer) => {
+  //     staffName: lecturers?.find((lecturer) => {
+  //       if (lecturer.id === load.staff_id) {
+  //         return `${lecturer.firstName} ${lecturer.lastName}`;
+  //       }
+  //     }),
+  //     assignee_id: load.assignee_id,
+  //   };
+  // });
 
   return load;
 };
@@ -100,8 +149,17 @@ export const fetchCourses = async () => {
       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
     },
   });
-  const courses: Course[] = response.data.course_units;
+  const mycourses = response.data.course_units;
 
+  const courses: Course[] = mycourses.map((course: Course) => {
+    return {
+      id: course.id,
+      course_cus: course.course_cus,
+      course_code: course.course_code,
+      course_name: course.course_name,
+      isChecked: false,
+    };
+  });
   return courses;
 };
 

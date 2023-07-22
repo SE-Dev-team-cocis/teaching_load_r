@@ -12,50 +12,23 @@ import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-// type Lecturer = {
-//   id: number;
-//   firstName: string;
-//   lastName: string;
-//   department: string;
-//   role: string;
-// };
+type Load = {
+  id: number;
+  staff_id: number;
+  courses: string;
+  CUs: string;
+  staffName?: Lecturer;
+};
 
-type RealLecturer = {
+type Lecturer = {
   id: number;
   firstName: string;
   lastName: string;
-  department: string;
   role: string;
-  isChecked?: boolean;
+  department: string;
+  email: string;
+  isChecked: boolean;
 };
-
-// type Load = {
-//   id: number;
-//   staff_id: number;
-//   courses: string;
-//   CUs: string;
-//   assignee_id: number;
-// };
-type NewLoad = {
-  id: number;
-  staff_id: number;
-  courses: string[];
-  CUs: number[];
-  assignee_id: number;
-};
-
-// type LecturerDetails = {
-//   name: string;
-//   id: number;
-// };
-
-// type TotalLoadDetails = {
-//   total: number;
-//   id: number;
-//   staffId: number;
-//   staffName: object;
-//   assignee_id: number;
-// };
 
 type Course = {
   id: number;
@@ -65,63 +38,83 @@ type Course = {
   isChecked: boolean;
 };
 
-type DeleteAllLoad = {
+export type TotalLoad = {
+  total: number;
+  id: number;
+  staffId: number;
+  staffName: Lecturer;
   assignee_id: number;
-  semester: number;
 };
 
 export default function HomeAssign() {
   const modal = document.querySelector(".mydialog") as HTMLDialogElement;
 
-  const { data: lecturers, isLoading } = useQuery({
+  const {
+    data: lecturers,
+    isLoading,
+    isSuccess: loadedLecturers,
+  } = useQuery({
     queryKey: ["lecturers"],
     queryFn: fetchLecturers,
   });
 
-  const newLecturers: RealLecturer[] = lecturers?.map((lecturer) => {
-    // const newLecturers = lecturers?.map((lecturer) => {
-    return { ...lecturer, isChecked: false };
-  });
+  let myLecturers: Lecturer[] = [];
+  if (loadedLecturers) {
+    myLecturers = lecturers;
+  }
 
-  const { data: courses } = useQuery({
+  // console.log("Lecturers from use query,", lecturers);
+
+  const { data: courses, isSuccess: loadedCourses } = useQuery({
     queryKey: ["courses"],
     queryFn: fetchCourses,
   });
 
-  const newCourses: Course[] = courses?.map((course) => {
-    // const newCourses = courses?.map((course) => {
-    return { ...course, isChecked: false };
-  });
-  // console.log("Courses with course subgroups", newCourses);
+  let myCourses: Course[] = [];
+  if (loadedCourses) {
+    myCourses = courses;
+  }
 
-  const { data: load } = useQuery({
+  // console.log("My courses : ", myCourses);
+
+  const { data: loads, isSuccess: loadedLoads } = useQuery({
     queryKey: ["load"],
     queryFn: fetchLoad,
   });
 
-  const newLoad: NewLoad[] = load?.map((load) => {
-    // const newLoad = load?.map((load) => {
-    return {
-      ...load,
-      courses: JSON.parse(load.courses),
-      CUs: JSON.parse(load.CUs),
-    };
-  });
+  console.log("myInitial load: ", loads);
+
+  let myTotalLoad: Load[] = [];
+
+  if (loadedLoads) {
+    myTotalLoad = loads;
+  }
 
   // const totalLoad: TotalLoadDetails[] = newLoad?.map((load) => {
-  const totalLoad = newLoad?.map((load) => {
+  const totalLoad = myTotalLoad?.map((load: Load) => {
+    // console.log("Load: ", load);
+    // const totalCus = JSON.parse(load.CUs);
+    // const myArray: number[] = load.CUs.length
+    //   return cu;
+    // });
+
+    // console.log("My items length: ", load.CUs[0]);
     return {
+      ...load,
       total: load.CUs.reduce((a: number, b: number) => a + b, 0),
       id: load.id,
       staffId: load.staff_id,
-      staffName: newLecturers?.find((lecturer) => {
+      // staffName: newLecturers?.find((lecturer) => {
+      staffName: lecturers?.find((lecturer) => {
         if (lecturer.id === load.staff_id) {
           return `${lecturer.firstName} ${lecturer.lastName}`;
         }
       }),
-      assignee_id: load.assignee_id,
+      assignee_id: load.staff_id,
     };
   });
+
+  console.log("Total load", totalLoad);
 
   const { id } = useUserstore((state) => state.user);
 
@@ -188,8 +181,12 @@ export default function HomeAssign() {
         </div>
 
         <div className="grid grid-cols-3 gap-2 mt-3">
-          <Courses courses={newCourses} />
-          <Lecturers lecturers={newLecturers} />
+          {/* <Courses courses={courses} /> */}
+          <Courses courses={myCourses} />
+
+          {/* <Lecturers lecturers={newLecturers} /> */}
+          <Lecturers lecturers={myLecturers} />
+
           <LoadSummary totalLoad={totalLoad} />
         </div>
 

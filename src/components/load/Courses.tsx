@@ -1,13 +1,15 @@
 import { useMemo, useRef, useState } from "react";
 import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
+// import { Course } from "../../zustand/api/apis";
 
 type Subgroup = {
-  [key: string]: number | string;
+  // [key: string | boolean]: number | string | boolean;
+  id: number;
   subgroup_name: string;
   course_id: number;
   no_of_students: number;
-  isChecked?: boolean;
+  isChecked: boolean;
 };
 type Course = {
   id: number;
@@ -23,8 +25,7 @@ type CourseProps = {
 };
 
 const Courses = ({ courses }: CourseProps) => {
-  // const Courses = ({ courses }: CourseProps) => {
-
+  // const Courses = ( courses: CourseProps) => {
   // console.log("Courses: ", courses);
   const setCourses = useNewLoadStore21((state) => state.setCourses);
   const allCourses = useNewLoadStore21((state) => state.allCourses);

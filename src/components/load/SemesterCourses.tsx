@@ -1,4 +1,3 @@
-// import { useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useState } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 
@@ -11,10 +10,6 @@ type Course = {
 };
 
 const SemesterCourses = () => {
-  //   const queryClient = useQueryClient();
-
-  //   const data = queryClient.getQueryData(["lecturers"]);
-
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
@@ -25,7 +20,6 @@ const SemesterCourses = () => {
     const updatedCourses: Course[] = allcourses.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
-    // setMyCourses(updatedCourses);
 
     setCheckedCourses(updatedCourses);
 
@@ -35,9 +29,6 @@ const SemesterCourses = () => {
 
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
-
-  //   console.log("Cached data: ", allcourses);
-  console.log("Filtered text: ", filterText);
 
   return (
     <div style={{ width: "600px" }}>
@@ -76,8 +67,6 @@ const SemesterCourses = () => {
       {allcourses.map((course) => (
         <div key={course.id}>
           <div className="flex justify-between items-center flex-row">
-            {/* <div key={course.id}> */}
-
             <div key={course.course_code}>
               <input
                 type="checkbox"
@@ -95,8 +84,6 @@ const SemesterCourses = () => {
             <p key={course.course_code} className="text-center mr-5 pr-5">
               {+course.course_cus}
             </p>
-
-            {/* </div> */}
           </div>
         </div>
       ))}

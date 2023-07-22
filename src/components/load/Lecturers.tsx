@@ -1,11 +1,14 @@
 import { ChangeEvent, useState, useMemo } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
+// import { all } from "axios";
+// import { Lecturer } from "../../zustand/api/apis";
 
 type Lecturer = {
   id: number;
   firstName: string;
   lastName: string;
   department: string;
+  email: string;
   role: string;
   isChecked: boolean;
 };
@@ -24,6 +27,8 @@ const Lecturers = ({ lecturers }: LecturersProps) => {
 
   // Getting all the lecturers from the store
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
+
+  console.log("All lecturers: ", allLecturers);
 
   useMemo(() => {
     setLecturers(lecturers);

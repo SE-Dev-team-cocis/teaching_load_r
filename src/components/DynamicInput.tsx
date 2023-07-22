@@ -30,13 +30,10 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     });
   };
 
-  console.log("Course id: ", id);
   const [subgroups, setSubgroups] = useState<Subgroup[]>([
     { course_id: id, subgroup_name: "", no_of_students: 0 },
     { course_id: id, subgroup_name: "", no_of_students: 0 },
   ]);
-
-  console.log("Initial subgroups: ", subgroups);
 
   function addSubgroup() {
     setSubgroups([
@@ -45,11 +42,7 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     ]);
   }
 
-  function setSubgroupName(
-    e: ChangeEvent<HTMLInputElement>,
-    _index: number,
-    id: number
-  ) {
+  function setSubgroupName(e: ChangeEvent<HTMLInputElement>, _index: number) {
     const { name, value } = e.target;
     const newList: Subgroup[] = [...subgroups];
 
@@ -73,7 +66,6 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
         }
       );
 
-      // console.log("Response: ", response);
       setSubgroups([
         { course_id: id, subgroup_name: "", no_of_students: 0 },
         { course_id: id, subgroup_name: "", no_of_students: 0 },
@@ -138,7 +130,7 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
                   "
                 value={item.numberOfStudents}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setSubgroupName(e, index, id);
+                  setSubgroupName(e, index);
                 }}
               />
             </div>

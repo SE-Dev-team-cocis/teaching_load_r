@@ -3,11 +3,21 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import useUserstore from "../../zustand/userStore";
 
+type Lecturer = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  role: string;
+  department: string;
+  email: string;
+  isChecked: boolean;
+};
+
 type TotalLoadDetails = {
   total: number;
   id: number;
   staffId: number;
-  staffName: object;
+  staffName: Lecturer;
   assignee_id: number;
 };
 
