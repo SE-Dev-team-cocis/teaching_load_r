@@ -13,9 +13,9 @@ export type Load = {
   id: number;
   courses: string;
   staff_id: number;
-  myCUs: string;
+  myCUs?: string;
   CUs: string;
-  assignee_id: number;
+  assignee_id?: number;
   staffName?: Lecturer;
 };
 

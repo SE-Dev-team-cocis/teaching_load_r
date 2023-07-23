@@ -1,9 +1,8 @@
-import React, { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useMutation, QueryClient } from "@tanstack/react-query";
 import { assignLoad } from "../zustand/api/apis";
 import { toast } from "react-toastify";
-import CourseSubgroup from "./load/CourseSubgroup";
+import CourseSubgroup, { Course } from "./load/CourseSubgroup";
 import useUserstore from "../zustand/userStore";
 import Lecturers from "./load/Lecturers";
 
@@ -38,6 +37,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
+
+  const myCheckedCourse: Course = checkedCourses[0];
 
   const courseNames: string[] = [];
   const courseCreditUnits: number[] = [];
@@ -132,7 +133,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     }
   }
 
-  // console.log("New checked", checkedLecturers);
+  console.log("Checked courses from below buttons", checkedLecturers);
 
   return (
     <>
@@ -171,7 +172,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         </button>
       </div>
       <dialog data-modal className="rounded-lg px-4 py-5">
-        <CourseSubgroup checkedCourse={checkedCourses[0]} />
+        <CourseSubgroup checkedCourse={myCheckedCourse} />
       </dialog>
     </>
   );

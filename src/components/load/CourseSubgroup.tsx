@@ -1,6 +1,6 @@
 import DynamicInput from "../DynamicInput";
 
-type Course = {
+export type Course = {
   id: number;
   course_name: string;
   course_code: string;
@@ -13,7 +13,7 @@ type SubgroupProps = {
 };
 
 const CourseSubgroup = ({ checkedCourse }: SubgroupProps) => {
-  // console.log("Checked course", checkedCourse);
+  console.log("Checked course", checkedCourse);
   return (
     <div className="my-modal">
       <p className="text-center text-lg mb-3">

@@ -2,6 +2,7 @@ import { BsTrash } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useUserstore from "../../zustand/userStore";
+import { Load } from "../../zustand/api/apis";
 
 type Lecturer = {
   id: number;
@@ -13,16 +14,9 @@ type Lecturer = {
   isChecked: boolean;
 };
 
-type TotalLoadDetails = {
-  total: number;
-  id: number;
-  staffId: number;
-  staffName: Lecturer;
-  assignee_id: number;
-};
-
 type LoadPops = {
-  totalLoad: TotalLoadDetails[];
+  totalLoad: Load[];
+  lecturers: Lecturer[];
 };
 
 const notify = (message: string) => {
@@ -39,11 +33,31 @@ const notify = (message: string) => {
   });
 };
 
-const LoadSummary = ({ totalLoad }: LoadPops) => {
+const LoadSummary = ({ totalLoad, lecturers }: LoadPops) => {
+  // Getting the logged in staff id
   const { id } = useUserstore((state) => state.user);
-  // console.log("Total load data: ", totalLoad);
 
-  const myFiltered = totalLoad?.filter((load) => {
+  // const totalLoad: TotalLoadDetails[] = newLoad?.map((load) => {
+  const newtotalLoad = totalLoad?.map((load: Load) => {
+    // return load.CUs.map((obj) =>{
+
+    //   [...Array(load.CUs[obj])].reduce((a: number, b: number) => a + b, 0))
+    // }
+    const myCus = load.CUs;
+    return {
+      total: myCus.reduce((a: number, b: number) => a + b, 0),
+      id: load.id,
+      staffId: load.staff_id,
+      staffName: lecturers?.find((lecturer) => {
+        if (lecturer.id === load.staff_id) {
+          return `${lecturer.firstName} ${lecturer.lastName}`;
+        }
+      }),
+      assignee_id: load.assignee_id,
+    };
+  });
+
+  const myFiltered = newtotalLoad?.filter((load) => {
     return load.assignee_id === id;
   });
 
@@ -87,14 +101,15 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
             <div className="list">
               <div className="flex justify-between">
                 <div className="flex justify-center items-left flex-col pr-3">
-                  {myFiltered?.map((lecturer: TotalLoadDetails) => (
+                  {/* {myFiltered?.map((lecturer: TotalLoadDetails) => ( */}
+                  {myFiltered?.map((lecturer) => (
                     <div
                       key={lecturer.id}
                       className="flex justify-between items-center px-2"
                     >
                       <p key={lecturer.id}>
-                        {lecturer.staffName.firstName}{" "}
-                        {lecturer.staffName.lastName}
+                        {lecturer.staffName?.firstName}{" "}
+                        {lecturer.staffName?.lastName}
                       </p>
                     </div>
                   ))}
