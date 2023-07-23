@@ -31,6 +31,11 @@ input.input-error, select.input-error{
    height: 280px;
 } 
 
+.course_list{
+  overflow: auto;
+  height: 300px;
+}
+
 .load {
   margin-left: 20px;
 }

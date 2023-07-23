@@ -86,12 +86,14 @@ const Sidebar = () => {
               <span>New teaching load</span>
             </p>
           </div>
-          <div className="link_item">
-            <p className="flex items-center gap-2 mt-1 py-1 px-5">
-              <BsCardChecklist />
-              <span>Create semester list</span>
-            </p>
-          </div>
+          <NavLink end to={"/semestercourses"}>
+            <div className="link_item">
+              <p className="flex items-center gap-2 mt-1 py-1 px-5">
+                <BsCardChecklist />
+                <span>Create semester list</span>
+              </p>
+            </div>
+          </NavLink>
         </div>
 
         <NavLink end to={"/settings"}>
