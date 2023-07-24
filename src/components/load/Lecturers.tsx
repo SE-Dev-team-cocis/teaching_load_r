@@ -1,41 +1,26 @@
 import { ChangeEvent, useState, useMemo } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-// import { all } from "axios";
-// import { Lecturer } from "../../zustand/api/apis";
-
-type Lecturer = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  department: string;
-  email: string;
-  role: string;
-  isChecked: boolean;
-};
+import { Lecturer } from "../../zustand/api/apis";
 
 type LecturersProps = {
   lecturers: Lecturer[];
 };
 
 const Lecturers = ({ lecturers }: LecturersProps) => {
-  // console.log("Lecturers: ", lecturers);
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
-
+  const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const setCheckedLecturers = useNewLoadStore21(
     (state) => state.setCheckedLecturers
   );
 
-  // Getting all the lecturers from the store
-  const allLecturers = useNewLoadStore21((state) => state.lecturers);
-
-  console.log("All lecturers: ", allLecturers);
+  let myLecturers: Lecturer[] = lecturers;
 
   useMemo(() => {
-    setLecturers(lecturers);
-  }, [lecturers]);
+    setLecturers(myLecturers);
+  }, [myLecturers]);
 
   function handleCheckedLecturer(id: number) {
-    const newUpdatedLecturers: Lecturer[] = allLecturers.map(
+    const newUpdatedLecturers: Lecturer[] = myLecturers.map(
       (lecturer: Lecturer) =>
         lecturer.id === id
           ? { ...lecturer, isChecked: !lecturer.isChecked }
@@ -74,21 +59,19 @@ const Lecturers = ({ lecturers }: LecturersProps) => {
       />
 
       <div className="list">
-        {/* {updatedLecturers */}
-        {allLecturers
-          ?.filter((lecturer: Lecturer) => {
+        {myLecturers
+          ?.filter((lecturer) => {
             return filterText.toLowerCase() === ""
               ? lecturer
               : lecturer.firstName.toLowerCase().includes(filterText) ||
                   lecturer.lastName.toLowerCase().includes(filterText);
           })
-          .map((lecturer: Lecturer) => (
+          .map((lecturer) => (
             <p key={lecturer.id} className="flex items-center">
               <input
                 type="radio"
                 className="mr-3 ml-2 h-4.5 w-4.5 text-green-700 cursor-pointer border-2 focus:bg-green-700 focus:ring-green-700 rounded-full"
                 name="lecturers"
-                // name={`${lecturer.firstName} ${lecturer.lastName}`}
                 checked={lecturer.isChecked}
                 value={lecturer.id}
                 onChange={() => handleCheckedLecturer(lecturer.id)}

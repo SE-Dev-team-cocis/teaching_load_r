@@ -30,7 +30,6 @@ type MyStore = {
 
 const url = "http://127.0.0.1:8000/api/getStaff";
 
-// const useLecturerTrialStore = create<MyStore>(persist(
 const useLecturersStore = create<MyStore>()(
   persist(
     (set, get) => ({

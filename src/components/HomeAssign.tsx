@@ -9,7 +9,7 @@ import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-type Load = {
+export type Load = {
   id: number;
   staff_id: number;
   courses: string;
@@ -62,10 +62,16 @@ export default function HomeAssign() {
 
   // console.log("Lecturers from use query,", lecturers);
 
-  const { data: courses, isSuccess: loadedCourses } = useQuery({
+  const {
+    data: courses,
+    isSuccess: loadedCourses,
+    // isLoading,
+  } = useQuery({
     queryKey: ["courses"],
     queryFn: fetchCourses,
   });
+
+  // console.log("My courses from fetch: ", courses);
 
   let myCourses: Course[] = [];
   if (loadedCourses) {
@@ -152,14 +158,17 @@ export default function HomeAssign() {
         <div className="grid grid-cols-3 gap-2 mt-3">
           <Courses courses={myCourses} />
           <Lecturers lecturers={myLecturers} />
-          <LoadSummary totalLoad={myTotalLoad} lecturers={myLecturers} />
+          {/* <Lecturers /> */}
+
+          {/* <LoadSummary totalLoad={myTotalLoad} lecturers={myLecturers} /> */}
+          <LoadSummary totalLoad={myTotalLoad} />
         </div>
 
         <BelowButtons broadcast={broadcast} />
 
         <dialog data-modal className="rounded-lg p-5 outline-none mydialog">
           <div className="confirm">
-            <p className=" text-lg mb-3">
+            <div className=" text-lg mb-3">
               Are you sure you want to delete all the load <br /> you assigned
               this semester? <br />
               <span className="block mt-2">
@@ -168,7 +177,7 @@ export default function HomeAssign() {
                 once you <br />
                 agree to delete
               </span>
-            </p>
+            </div>
 
             <div className="flex justify-around items-center gap-5">
               <button

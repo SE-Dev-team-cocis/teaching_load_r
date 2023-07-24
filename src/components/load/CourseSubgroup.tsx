@@ -9,11 +9,10 @@ export type Course = {
 };
 
 type SubgroupProps = {
-  checkedCourse: Course[];
+  checkedCourse: Course;
 };
 
 const CourseSubgroup = ({ checkedCourse }: SubgroupProps) => {
-  console.log("Checked course", checkedCourse);
   return (
     <div className="my-modal">
       <p className="text-center text-lg mb-3">

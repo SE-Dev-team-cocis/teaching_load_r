@@ -24,14 +24,10 @@ const SemesterCourses = () => {
   }, [allcourses]);
 
   function handleCheckedCourses(id: number) {
-    // const updatedCourses: Course[] = allcourses.map((course: Course) =>
     const updatedCourses: Course[] = myCourses.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
 
-    console.log("Updated courses: ", updatedCourses);
-
-    // setCheckedCourses(updatedCourses);
     setMyCourses(updatedCourses);
 
     const checkedOnes = updatedCourses.filter((course) => {
@@ -41,8 +37,6 @@ const SemesterCourses = () => {
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
 
-  console.log("Checked courses: ", checkedCourses);
-
   const filteredCourses = myCourses.filter((course) => {
     return (
       course.course_name.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -51,7 +45,6 @@ const SemesterCourses = () => {
   });
 
   function handleSemesterCourses() {
-    // console.log("Semester courses: ", checkedCourses);
     const data = checkedCourses;
 
     // Handle post request here
@@ -88,7 +81,6 @@ const SemesterCourses = () => {
         />
       </div>
 
-      {/* <div className="flex justify-between items-center gap-5"> */}
       <div className="grid grid-cols-4 gap-5 mb-3">
         <p className="pl-9 font-semibold col-span-2">Course name</p>
         <p className="font-semibold col-span-1">Course code</p>
@@ -101,7 +93,6 @@ const SemesterCourses = () => {
             key={course.id}
             className="hover:bg-green-300 py-1 cursor-pointer transition"
           >
-            {/* <div className="flex justify-between items-center flex-row mx-9"> */}
             <div className="grid grid-cols-4 gap-4">
               <p key={course.course_code} className="text-left col-span-2">
                 <input

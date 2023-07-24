@@ -10,15 +10,6 @@ import {
 import Image from "../../assets/images/person_holder.png";
 import useUserstore from "../../zustand/userStore";
 
-type User = {
-  firstName: string;
-  lastName: string;
-  role: string;
-  department: string;
-  // password: string
-  email: string;
-};
-
 const Sidebar = () => {
   const user = useUserstore((state) => state.user);
   return (

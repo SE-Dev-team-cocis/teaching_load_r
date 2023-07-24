@@ -3,10 +3,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
 
-// type LoadData = {
+// type LoadResponse = {
 //   id: number;
-//   staff_id: number;
 //   courses: string[];
+//   staff_id: number[];
 //   CUs: number[];
 // };
 
@@ -15,6 +15,13 @@ type Load = {
   courses: string[];
   staff_id: number[];
   CUs: number[];
+};
+
+type Load2 = {
+  id: number;
+  courses: string[];
+  staff_id: number[];
+  CUs: string;
 };
 
 type Lecturer = {
@@ -27,12 +34,10 @@ type Lecturer = {
 
 type LoadResponse = {
   responseLoad: Load[];
-  // CUsArray: number[];
+
   fetchLoad: () => void;
   totalLoad: number[];
-  // setTotalLoad: () => void;
-  // staffIDs: number[][];
-  // setStaffIDs: () => void;
+
   mystaff: number[]; // array of staff ids
   setMyStaff: (staffArray: number[]) => void; // setting the staff ids
   lecturers: Lecturer[];
@@ -58,6 +63,7 @@ const useLoadStore = create<LoadResponse>()(
           );
           const allLoad = response.data.assignments;
           const myLoad: Load[] = allLoad.map((load: Load) => {
+            // const newCUs = JSON.parse(load.CUs);
             return {
               staff_id: load.staff_id,
               courses: JSON.parse(load.courses),

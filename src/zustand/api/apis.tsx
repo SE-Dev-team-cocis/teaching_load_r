@@ -19,6 +19,13 @@ export type Load = {
   staffName?: Lecturer;
 };
 
+type Subgroup = {
+  id: number;
+  subgroup_name: string;
+  course_id: number;
+  no_of_students: number;
+};
+
 export type Course = {
   id: number;
   course_name: string;
@@ -26,6 +33,7 @@ export type Course = {
   course_cus: number;
   assignee_id: number;
   isChecked: boolean;
+  subgroups?: Subgroup[];
 };
 
 type AssignLoad = {
@@ -120,23 +128,6 @@ export const fetchLoad = async () => {
     };
   });
 
-  // const totalLoad = myload?.map((load: Load) => {
-  //   // const newCourses: string[] = JSON.parse(load.courses);
-  //   const newCUs = JSON.parse(load.CUs);
-  //   return {
-  //     total: newCUs.reduce((a: number, b: number) => a + b, 0),
-  //     id: load.id,
-  //     staffId: load.staff_id,
-  //     // staffName: newLecturers?.find((lecturer) => {
-  //     staffName: lecturers?.find((lecturer) => {
-  //       if (lecturer.id === load.staff_id) {
-  //         return `${lecturer.firstName} ${lecturer.lastName}`;
-  //       }
-  //     }),
-  //     assignee_id: load.assignee_id,
-  //   };
-  // });
-
   return load;
 };
 
@@ -158,6 +149,7 @@ export const fetchCourses = async () => {
       course_code: course.course_code,
       course_name: course.course_name,
       isChecked: false,
+      subgroups: course.subgroups,
     };
   });
   return courses;

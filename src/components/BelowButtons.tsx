@@ -4,7 +4,6 @@ import { assignLoad } from "../zustand/api/apis";
 import { toast } from "react-toastify";
 import CourseSubgroup, { Course } from "./load/CourseSubgroup";
 import useUserstore from "../zustand/userStore";
-import Lecturers from "./load/Lecturers";
 
 type AssignLoad = {
   courses: string;
@@ -12,14 +11,6 @@ type AssignLoad = {
   CUs: string;
   assignee_id: number;
 };
-
-// type Course = {
-//   id: number;
-//   course_name: string;
-//   course_code: string;
-//   course_cus: number;
-//   isChecked: boolean;
-// };
 
 type ButtonProps = {
   broadcast: boolean;
@@ -42,7 +33,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const courseNames: string[] = [];
   const courseCreditUnits: number[] = [];
-  // const lecturerIDs: number[] = [];
+
   let lecturerID: number;
 
   const assignCourses = () => {
@@ -50,7 +41,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       (lecturer) => lecturer.id
     );
     lecturerID = lecturersIDs[0];
-    // console.log("Lecturer ID: ", lecturerID);
 
     checkedCourses.forEach((course) => {
       courseNames.push(course.course_name);
@@ -65,7 +55,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       assignee_id: id,
     };
 
-    // console.log("Data: ", data);
     mutate(data); // call the mutation function which will update the assigned load table
   };
 
@@ -112,8 +101,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     });
   };
 
-  // console.log("Mutated response: ", data);
-
   if (isSuccess) {
     if (data.status === false) {
       errorNotification(data.message);
@@ -132,8 +119,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       }, 2005);
     }
   }
-
-  console.log("Checked courses from below buttons", checkedLecturers);
 
   return (
     <>
@@ -155,7 +140,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-50 disabled:hover:scale-100"
           type="button"
           onClick={assignCourses}
-          // disabled={isLoading}
           disabled={
             checkedCourses?.length === 0 || checkedLecturers?.length === 0
           }

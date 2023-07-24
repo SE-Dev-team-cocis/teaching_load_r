@@ -25,10 +25,6 @@ const SelectField = ({ name, label, options }: SelectFieldProps) => {
             {option}
           </option>
         ))}
-
-        {/* <option value="Computer Science">Computer Science</option>
-        <option value="Information Systems">Information Systems</option>
-        <option value="Information Technology">Information Technology</option> */}
       </Field>
     </div>
   );

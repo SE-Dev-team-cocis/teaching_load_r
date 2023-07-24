@@ -25,15 +25,11 @@ type CourseProps = {
 };
 
 const Courses = ({ courses }: CourseProps) => {
-  // const Courses = ( courses: CourseProps) => {
-  // console.log("Courses: ", courses);
   const setCourses = useNewLoadStore21((state) => state.setCourses);
   const allCourses = useNewLoadStore21((state) => state.allCourses);
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
-
-  // console.log("All courses from the courses component: ", allCourses);
 
   useMemo(() => {
     setCourses(courses);
@@ -43,7 +39,6 @@ const Courses = ({ courses }: CourseProps) => {
     const updatedCourses: Course[] = allCourses.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
-    // setMyCourses(updatedCourses);
 
     setCourses(updatedCourses);
 
@@ -54,7 +49,7 @@ const Courses = ({ courses }: CourseProps) => {
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
 
-  const [myCourses, setMyCourses] = useState<Course[]>(courses);
+  // const [myCourses, setMyCourses] = useState<Course[]>(courses);
   const [filterText, setFilterText] = useState("");
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">

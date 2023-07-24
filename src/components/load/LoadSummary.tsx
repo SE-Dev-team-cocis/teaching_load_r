@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import useUserstore from "../../zustand/userStore";
 import { Load } from "../../zustand/api/apis";
+import useNewLoadStore21 from "../../zustand/newLoadStore2";
 
 type Lecturer = {
   id: number;
@@ -16,7 +17,6 @@ type Lecturer = {
 
 type LoadPops = {
   totalLoad: Load[];
-  lecturers: Lecturer[];
 };
 
 const notify = (message: string) => {
@@ -33,22 +33,18 @@ const notify = (message: string) => {
   });
 };
 
-const LoadSummary = ({ totalLoad, lecturers }: LoadPops) => {
-  // Getting the logged in staff id
+const LoadSummary = ({ totalLoad }: LoadPops) => {
+  const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
 
-  // const totalLoad: TotalLoadDetails[] = newLoad?.map((load) => {
   const newtotalLoad = totalLoad?.map((load: Load) => {
-    // return load.CUs.map((obj) =>{
-
-    //   [...Array(load.CUs[obj])].reduce((a: number, b: number) => a + b, 0))
-    // }
     const myCus = load.CUs;
     return {
       total: myCus.reduce((a: number, b: number) => a + b, 0),
       id: load.id,
       staffId: load.staff_id,
-      staffName: lecturers?.find((lecturer) => {
+      // staffName: lecturers?.find((lecturer) => {
+      staffName: allLecturers?.find((lecturer) => {
         if (lecturer.id === load.staff_id) {
           return `${lecturer.firstName} ${lecturer.lastName}`;
         }
@@ -101,7 +97,6 @@ const LoadSummary = ({ totalLoad, lecturers }: LoadPops) => {
             <div className="list">
               <div className="flex justify-between">
                 <div className="flex justify-center items-left flex-col pr-3">
-                  {/* {myFiltered?.map((lecturer: TotalLoadDetails) => ( */}
                   {myFiltered?.map((lecturer) => (
                     <div
                       key={lecturer.id}
@@ -117,7 +112,7 @@ const LoadSummary = ({ totalLoad, lecturers }: LoadPops) => {
 
                 <div className="flex justify-center items-center flex-col pr-4">
                   {myFiltered?.map((load) => (
-                    <p key={load.id}>
+                    <div key={load.id}>
                       {load.total === 0 ? (
                         <div className="flex justify-between items-center">
                           <span className="text-red-700 mr-2 ">
@@ -147,7 +142,7 @@ const LoadSummary = ({ totalLoad, lecturers }: LoadPops) => {
                           />
                         </div>
                       )}
-                    </p>
+                    </div>
                   ))}
                 </div>
               </div>
