@@ -105,7 +105,7 @@ export const fetchLecturers = async () => {
 
 export const fetchLoad = async () => {
   // const url = "http://127.0.0.1:8000/api/allAssign";
-  const url = "https://teaching-load-api.onrender.com/allAssign";
+  const url = "https://teaching-load-api.onrender.com/api/allAssign";
 
   const response = await axios.get(url, {
     headers: {
@@ -116,31 +116,31 @@ export const fetchLoad = async () => {
   // const load: Load[] = response.data.assignments;
   const myload = response.data.assignments;
 
-  const load: any = myload.map((load: Load) => {
-    // const newCourses: string[] = JSON.parse(load.courses);
-    // const cus = load.CUs;
-    const parsedArray: any[] = JSON.parse(load?.Cus);
+  // const load: any = myload.map((load: Load) => {
+  //   // const newCourses: string[] = JSON.parse(load.courses);
+  //   // const cus = load.CUs;
+  //   const parsedArray: any[] = JSON.parse(load?.Cus);
 
-    // Step 2: Use the map() function to convert each element to a number
-    const arrayOfNumbers: number[] = parsedArray.map((element: any) =>
-      Number(element)
-    );
+  //   // Step 2: Use the map() function to convert each element to a number
+  //   const arrayOfNumbers: number[] = parsedArray.map((element: any) =>
+  //     Number(element)
+  //   );
 
-    // const hello = "Looringo"
+  //   // const hello = "Looringo"
 
-    return {
-      id: load.id,
+  //   return {
+  //     id: load.id,
 
-      staff_id: load.staff_id,
-      courses: JSON.parse(load.courses),
-      Cus: parsedArray,
-      CUs: arrayOfNumbers,
-      assignee_id: load.assignee_id,
-      staffName: {},
-    };
-  });
+  //     staff_id: load.staff_id,
+  //     courses: JSON.parse(load.courses),
+  //     Cus: parsedArray,
+  //     CUs: arrayOfNumbers,
+  //     assignee_id: load.assignee_id,
+  //     staffName: {},
+  //   };
+  // });
 
-  return load;
+  return myload;
 };
 
 export const fetchCourses = async () => {

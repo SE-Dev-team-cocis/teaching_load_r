@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useMemo } from "react";
+import { ChangeEvent, useState, useMemo,memo } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Lecturer } from "../../zustand/api/apis";
 
@@ -7,6 +7,7 @@ type LecturersProps = {
 };
 
 const Lecturers = ({ lecturers }: LecturersProps) => {
+
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const setCheckedLecturers = useNewLoadStore21(
@@ -34,6 +35,8 @@ const Lecturers = ({ lecturers }: LecturersProps) => {
     setCheckedLecturers(checkedOnes); // Setting only the checked lecturers
   }
   const [filterText, setFilterText] = useState("");
+
+  console.log("my lecture: ", myLecturers)
 
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
@@ -84,4 +87,4 @@ const Lecturers = ({ lecturers }: LecturersProps) => {
   );
 };
 
-export default Lecturers;
+export default memo(Lecturers);

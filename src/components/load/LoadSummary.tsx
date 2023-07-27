@@ -66,7 +66,7 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
     };
 
     try {
-      const url = "http://127.0.0.1:8000/api/deleteload";
+      const url = "https://teaching-load-api.onrender.com/api/deleteload";
       const response = await axios.delete(url, { data });
       if (response.status === 200) {
         notify(response.data.message);

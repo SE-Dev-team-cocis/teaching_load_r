@@ -125,7 +125,7 @@ export default function HomeAssign() {
     };
 
     try {
-      const url = "http://127.0.0.1:8000/api/delete";
+      const url = "https://teaching-load-api.onrender.com/api/delete";
       const response = await axios.delete(url, { data });
       if (response.status === 200) {
         notify(response.data.message);
