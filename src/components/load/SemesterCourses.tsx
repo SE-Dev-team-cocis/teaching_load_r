@@ -19,7 +19,6 @@ const SemesterCourses = () => {
   const [myCourses, setMyCourses] = useState<Course[]>([]);
 
   useMemo(() => {
-    // setCheckedCourses(allcourses);
     setMyCourses(allcourses);
   }, [allcourses]);
 

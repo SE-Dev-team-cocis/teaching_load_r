@@ -26,7 +26,6 @@ const LoginInput = ({
   touched,
   errors,
 }: LoginInputPops) => {
-  // const myname = name;
   return (
     <div>
       <label

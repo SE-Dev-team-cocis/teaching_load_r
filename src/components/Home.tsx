@@ -1,6 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Home() {
+  // const navigate = useNavigate();
+  const notify = (message: string) => {
+    toast.success(message, {
+      toastId: 543,
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
+  const user = localStorage.getItem("loggedd_in");
+  if (user === "true") {
+    notify("You have logged in successfully");
+    localStorage.setItem("loggedd_in", JSON.stringify(false));
+
+  }
   return (
     <>
       <div className="buttons border-b-2 border-b-green-700 pt-4">

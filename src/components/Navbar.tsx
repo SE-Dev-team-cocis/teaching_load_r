@@ -9,6 +9,10 @@ const NavBar = () => {
 
   function handleDelete() {
     localStorage.clear();
+    localStorage.setItem(
+      "logged_out", // setting the logged_in using zustand
+      JSON.stringify(true)
+    );
     navigate("/");
   }
 

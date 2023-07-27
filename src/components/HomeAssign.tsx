@@ -67,18 +67,13 @@ export default function HomeAssign() {
     myLecturers = lecturers;
   }
 
-  // console.log("Lecturers from use query,", lecturers);
-
   const {
     data: courses,
     isSuccess: loadedCourses,
-    // isLoading,
   } = useQuery({
     queryKey: ["courses"],
     queryFn: fetchCourses,
   });
-
-  // console.log("My courses from fetch: ", courses);
 
   let myCourses: Course[] = [];
   if (loadedCourses) {
@@ -95,7 +90,7 @@ export default function HomeAssign() {
   if (loadedLoads) {
     myTotalLoad = loads;
   }
-  console.log("myInitial load: ", myTotalLoad);
+ 
 
   const { id } = useUserstore((state) => state.user);
 

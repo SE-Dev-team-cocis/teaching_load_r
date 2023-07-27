@@ -70,12 +70,10 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       });
     },
   });
-  const successId = 231;
-  const errorId = 232;
 
   const notify = (message: string) => {
     toast.success(message, {
-      toastId: successId,
+      toastId: 231,
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -89,7 +87,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const errorNotification = async (message: string) => {
     await toast.error(message, {
-      toastId: errorId,
+      toastId: 232,
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -109,7 +107,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         setCheckedCourses([]);
         window.location.reload();
       }, 2005);
-      // return;
     } else {
       notify(data.message);
       setTimeout(() => {

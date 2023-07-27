@@ -13,8 +13,8 @@ export type Load = {
   id: number;
   courses: string;
   staff_id: number;
-  myCUs?: string;
-  Cus: string;
+  // myCUs?: string;
+  // Cus: string;
   CUs: number[];
   assignee_id?: number;
   staffName?: Lecturer;
@@ -116,29 +116,16 @@ export const fetchLoad = async () => {
   // const load: Load[] = response.data.assignments;
   const myload = response.data.assignments;
 
-  // const load: any = myload.map((load: Load) => {
-  //   // const newCourses: string[] = JSON.parse(load.courses);
-  //   // const cus = load.CUs;
-  //   const parsedArray: any[] = JSON.parse(load?.Cus);
-
-  //   // Step 2: Use the map() function to convert each element to a number
-  //   const arrayOfNumbers: number[] = parsedArray.map((element: any) =>
-  //     Number(element)
-  //   );
-
-  //   // const hello = "Looringo"
-
-  //   return {
-  //     id: load.id,
-
-  //     staff_id: load.staff_id,
-  //     courses: JSON.parse(load.courses),
-  //     Cus: parsedArray,
-  //     CUs: arrayOfNumbers,
-  //     assignee_id: load.assignee_id,
-  //     staffName: {},
-  //   };
-  // });
+  const load: Load[] = myload?.map((load: Load) => {
+    return {
+      id: load.id,
+      staff_id: load.staff_id,
+      courses: JSON.parse(load.courses),
+      CUs: load.CUs,
+      assignee_id: load.assignee_id,
+      staffName: {},
+    };
+  });
 
   return myload;
 };

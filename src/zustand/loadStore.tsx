@@ -3,13 +3,6 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
 
-// type LoadResponse = {
-//   id: number;
-//   courses: string[];
-//   staff_id: number[];
-//   CUs: number[];
-// };
-
 type Load = {
   id: number;
   courses: string[];

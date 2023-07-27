@@ -6,8 +6,8 @@ import { useNavigate, Link } from "react-router-dom";
 import MukLogo from "../assets/images/muk_logo.png";
 
 import LoginInput from "./utilities/form/LoginInput";
-import { useState } from "react";
 import useUserstore from "../zustand/userStore";
+import { memo } from "react";
 
 type InitialValues = {
   username: string;
@@ -18,30 +18,10 @@ const initialLoginValues: InitialValues = {
   password: "",
 };
 
-// type LoginDetails = {
-//   email: string;
-//   password: string;
-// };
-
-const customId: string = "login";
-//For the toast notification
-const notify = (message: string) => {
-  toast.success(message, {
-    toastId: customId,
-    position: "top-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: false,
-    draggable: false,
-    progress: undefined,
-    theme: "light",
-  });
-};
-
 const errorNotification = async (message: string) => {
   await toast.error(message, {
     position: "top-center",
+    toastId: 5483,
     autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: false,
@@ -54,17 +34,19 @@ const errorNotification = async (message: string) => {
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const user = useUserstore((state) => state.user);
   const setUser = useUserstore((state) => state.setUser);
+
+  const loggedOut = localStorage.getItem("logged_out");
+
+  if (loggedOut === "true") {
+    errorNotification("Your session expired, please login again");
+    localStorage.setItem("logged_out", JSON.stringify(false));
+  }
 
   const LoginSchema = yup.object().shape({
     username: yup.string().required().label("Username"),
     password: yup.string().required().label("Password"),
   });
-
-  const [errorMessage, setErrorMessage] = useState("");
-  const [login, setLogin] = useState(false);
 
   const {
     handleBlur,
@@ -89,9 +71,6 @@ const Login = () => {
           }
         );
         if (response.data.login === false) {
-          // console.log(response.data);
-          setLogin(false);
-          setErrorMessage(response.data.message);
           await errorNotification(response.data.message);
           return;
         }
@@ -101,7 +80,10 @@ const Login = () => {
             "access_token",
             JSON.stringify(response.data.access_token)
           );
-          setLogin(true);
+          localStorage.setItem(
+            "loggedd_in", // setting the logged_in using zustand
+            JSON.stringify(response.data.login)
+          );
           navigate("/teaching-load");
         }
       } catch (err) {
@@ -191,4 +173,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default memo(Login);

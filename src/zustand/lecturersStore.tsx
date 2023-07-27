@@ -28,7 +28,7 @@ type MyStore = {
   setMyFilterText: (text: string) => void;
 };
 
-const url = "http://127.0.0.1:8000/api/getStaff";
+const url = "https://teaching-load-api.onrender.com/api/getStaff";
 
 const useLecturersStore = create<MyStore>()(
   persist(

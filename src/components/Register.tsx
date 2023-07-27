@@ -72,9 +72,6 @@ const Register = () => {
 
   const setUser = useUserstore((state) => state.setUser);
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [login, setLogin] = useState(false);
-
   const { handleBlur, handleChange, handleSubmit, values, errors, touched } =
     useFormik({
       initialValues: initialValues,
@@ -90,7 +87,6 @@ const Register = () => {
           });
 
           if (response.data.register === true) {
-            setLogin(true);
             localStorage.clear();
 
             localStorage.setItem(
@@ -103,7 +99,6 @@ const Register = () => {
           }
           // console.log(response.data)
           if (response.data.register !== true) {
-            setLogin(false);
             // setErrorMessage(response.data.message);
             errorNotification(
               response.data.message + ". If you are this user, Login instead"

@@ -1,10 +1,8 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo,useState } from "react";
 import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-// import { Course } from "../../zustand/api/apis";
 
 type Subgroup = {
-  // [key: string | boolean]: number | string | boolean;
   id: number;
   subgroup_name: string;
   course_id: number;
@@ -48,8 +46,6 @@ const Courses = ({ courses }: CourseProps) => {
 
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
-
-  // const [myCourses, setMyCourses] = useState<Course[]>(courses);
   const [filterText, setFilterText] = useState("");
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
@@ -110,7 +106,6 @@ const Courses = ({ courses }: CourseProps) => {
                         />
                         {group.subgroup_name}
                       </div>
-                      // <p key={group.course_id}>{group.subgroup_name}</p>
                     ))}
                   </div>
                 </>

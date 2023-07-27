@@ -17,7 +17,6 @@ const SelectField = ({ name, label, options }: SelectFieldProps) => {
       <Field
         as="select"
         name={name}
-        //   onChange={handleChange}
         className=" block focus:outline-none focus:ring-1 focus:ring-green-700 shadow-sm py-2 px-2 bg-white border border-gray focus:border-teal-500 w-full rounded"
       >
         {options.map((option) => (

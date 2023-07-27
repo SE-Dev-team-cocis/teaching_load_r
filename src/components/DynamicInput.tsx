@@ -47,14 +47,11 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     const newList: Subgroup[] = [...subgroups];
 
     newList[_index][name] = value;
-
     setSubgroups(newList);
   }
 
   const handleGroup = async () => {
-    const url = "http://127.0.0.1:8000/api/subgroup/create";
-    // console.log(subgroups);
-    console.log("SUbgroups: ", subgroups);
+    const url = "https://teaching-load-api.onrender.com/api/subgroup/create";
     try {
       const response = await axios.post(
         url,
@@ -83,7 +80,6 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
           <p className="pr-3 text-m mb-0 font-m">Number of students</p>
         </div>
       </div>
-      {/* <div className="services flex gap-4 items-center p-5"> */}
       <div style={{ width: "450px" }}>
         <div className="flex gap-2 flex-col">
           {subgroups.map((item, index) => (
