@@ -76,7 +76,7 @@ const Login = () => {
   } = useFormik({
     initialValues: initialLoginValues,
     onSubmit: async (values) => {
-      const url = "http://127.0.0.1:8000/api/login";
+      const url = "https://teaching-load-api.onrender.com/api/login";
 
       try {
         const response = await axios.post(

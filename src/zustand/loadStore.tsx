@@ -19,7 +19,7 @@ type Load = {
 
 type Load2 = {
   id: number;
-  courses: string[];
+  courses: string;
   staff_id: number[];
   CUs: string;
 };
@@ -62,7 +62,7 @@ const useLoadStore = create<LoadResponse>()(
             }
           );
           const allLoad = response.data.assignments;
-          const myLoad: Load[] = allLoad.map((load: Load) => {
+          const myLoad: Load2[] = allLoad.map((load: Load2) => {
             // const newCUs = JSON.parse(load.CUs);
             return {
               staff_id: load.staff_id,

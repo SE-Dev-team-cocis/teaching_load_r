@@ -14,7 +14,8 @@ export type Load = {
   courses: string;
   staff_id: number;
   myCUs?: string;
-  CUs: string;
+  Cus: string;
+  CUs: number[];
   assignee_id?: number;
   staffName?: Lecturer;
 };
@@ -78,7 +79,7 @@ type DeleteLoad = {
 };
 
 export const fetchLecturers = async () => {
-  const url = "http://127.0.0.1:8000/api/getStaff";
+  const url = "https://teaching-load-api.onrender.com/api/getStaff";
 
   const response = await axios.get(url, {
     headers: {
@@ -103,7 +104,8 @@ export const fetchLecturers = async () => {
 };
 
 export const fetchLoad = async () => {
-  const url = "http://127.0.0.1:8000/api/allAssign";
+  // const url = "http://127.0.0.1:8000/api/allAssign";
+  const url = "https://teaching-load-api.onrender.com/allAssign";
 
   const response = await axios.get(url, {
     headers: {
@@ -114,15 +116,25 @@ export const fetchLoad = async () => {
   // const load: Load[] = response.data.assignments;
   const myload = response.data.assignments;
 
-  const load: Load[] = myload.map((load: Load) => {
+  const load: any = myload.map((load: Load) => {
     // const newCourses: string[] = JSON.parse(load.courses);
-    const newCUs = JSON.parse(load.CUs);
-    // const newC
+    // const cus = load.CUs;
+    const parsedArray: any[] = JSON.parse(load?.Cus);
+
+    // Step 2: Use the map() function to convert each element to a number
+    const arrayOfNumbers: number[] = parsedArray.map((element: any) =>
+      Number(element)
+    );
+
+    // const hello = "Looringo"
+
     return {
       id: load.id,
+
       staff_id: load.staff_id,
       courses: JSON.parse(load.courses),
-      CUs: JSON.parse(load.CUs),
+      Cus: parsedArray,
+      CUs: arrayOfNumbers,
       assignee_id: load.assignee_id,
       staffName: {},
     };
@@ -132,7 +144,7 @@ export const fetchLoad = async () => {
 };
 
 export const fetchCourses = async () => {
-  const url = "http://127.0.0.1:8000/api/courseUnits";
+  const url = "https://teaching-load-api.onrender.com/api/courseUnits";
 
   const response = await axios.get(url, {
     headers: {
@@ -156,7 +168,7 @@ export const fetchCourses = async () => {
 };
 
 export const assignLoad = async (data: AssignLoad) => {
-  const url = "http://127.0.0.1:8000/api/assign";
+  const url = "https://teaching-load-api.onrender.com/api/assign";
 
   const response = await axios.post(url, data, {
     headers: {
@@ -170,7 +182,7 @@ export const assignLoad = async (data: AssignLoad) => {
 };
 
 export const UserLogin = async (data: LoginData) => {
-  const url = "http://127.0.0.1:8000/api/login";
+  const url = "https://teaching-load-api.onrender.com/api/login";
 
   const response = await axios.post(url, data, {
     headers: {

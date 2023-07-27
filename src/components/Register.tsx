@@ -80,8 +80,9 @@ const Register = () => {
       initialValues: initialValues,
       onSubmit: async (values) => {
         //Submit login details data into the database
-        const url = "http://127.0.0.1:8000/api/register";
-        try {
+        // const url = "http://127.0.0.1:8000/api/register";
+        const url = "https://teaching-load-api.onrender.com/register";
+        https: try {
           const response = await axios.post(url, values, {
             headers: {
               "Content-Type": "application/json",

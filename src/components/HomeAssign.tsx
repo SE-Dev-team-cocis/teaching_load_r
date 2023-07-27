@@ -1,4 +1,9 @@
-import { fetchCourses, fetchLecturers, fetchLoad } from "../zustand/api/apis";
+import {
+  Load,
+  fetchCourses,
+  fetchLecturers,
+  fetchLoad,
+} from "../zustand/api/apis";
 
 import LoadSummary from "./load/LoadSummary";
 import { useQuery } from "@tanstack/react-query";
@@ -9,13 +14,15 @@ import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export type Load = {
-  id: number;
-  staff_id: number;
-  courses: string;
-  CUs: string;
-  staffName?: Lecturer;
-};
+// export type Load = {
+//   id: number;
+//   staff_id: number;
+//   courses: string;
+//   CUs: number[];
+//   // Cus: string;
+
+//   staffName?: Lecturer;
+// };
 
 type Lecturer = {
   id: number;
@@ -83,13 +90,12 @@ export default function HomeAssign() {
     queryFn: fetchLoad,
   });
 
-  // console.log("myInitial load: ", loads);
-
   let myTotalLoad: Load[] = [];
 
   if (loadedLoads) {
     myTotalLoad = loads;
   }
+  console.log("myInitial load: ", myTotalLoad);
 
   const { id } = useUserstore((state) => state.user);
 

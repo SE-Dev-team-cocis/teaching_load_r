@@ -40,10 +40,12 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
   const newtotalLoad = totalLoad?.map((load: Load) => {
     const myCus = load.CUs;
     return {
-      total: myCus.reduce((a: number, b: number) => a + b, 0),
+      total: load.CUs.reduce((a: number, b: number) => a + b, 0),
+      // total: typeof load.CUs,
+
       id: load.id,
       staffId: load.staff_id,
-      // staffName: lecturers?.find((lecturer) => {
+      // staffName: lecturers?.find((lecturer) => {a+
       staffName: allLecturers?.find((lecturer) => {
         if (lecturer.id === load.staff_id) {
           return `${lecturer.firstName} ${lecturer.lastName}`;

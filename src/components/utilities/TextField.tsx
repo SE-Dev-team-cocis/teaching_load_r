@@ -80,9 +80,9 @@ const TextField = ({
           />
         </>
       )}
-      {errors[`${name}`] && touched[`${name}`] && (
-        <span className="block text-red-500">{errors[`${name}`]} </span>
-      )}
+      <span className="block text-red-500">
+        {errors[`${name}`] && touched[`${name}`] && <>{errors[`${name}`]}</>}
+      </span>
     </div>
   );
 };
