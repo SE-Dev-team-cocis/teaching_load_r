@@ -9,7 +9,7 @@ type LecturersProps = {
 const Lecturers = ({ lecturers }: LecturersProps) => {
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
-
+  const setCheckedLecturers = useNewLoadStore21((state) => state.setCheckedLecturers)
   let myLecturers: Lecturer[] = lecturers;
 
   useMemo(() => {
@@ -24,6 +24,9 @@ const Lecturers = ({ lecturers }: LecturersProps) => {
           : lecturer
     );
     setLecturers(newUpdatedLecturers);
+
+    const newCheckedLecturers: Lecturer[] = newUpdatedLecturers.filter((lecturer: Lecturer) => lecturer.isChecked === true)
+    setCheckedLecturers(newCheckedLecturers)
   }
   const [filterText, setFilterText] = useState("");
 

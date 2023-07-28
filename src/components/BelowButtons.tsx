@@ -22,6 +22,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const checkedLecturers = useNewLoadStore21((state) => state.checkedLecturers);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
+  
   const setCheckedLecturers = useNewLoadStore21(
     (state) => state.setCheckedLecturers
   );
