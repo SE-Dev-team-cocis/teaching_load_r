@@ -5,16 +5,6 @@ import useUserstore from "../../zustand/userStore";
 import { Load } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 
-type Lecturer = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  role: string;
-  department: string;
-  email: string;
-  isChecked: boolean;
-};
-
 type LoadPops = {
   totalLoad: Load[];
 };

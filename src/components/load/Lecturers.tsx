@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useMemo,memo } from "react";
+import { ChangeEvent, useState, useMemo, memo } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Lecturer } from "../../zustand/api/apis";
 
@@ -7,12 +7,8 @@ type LecturersProps = {
 };
 
 const Lecturers = ({ lecturers }: LecturersProps) => {
-
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
-  // const allLecturers = useNewLoadStore21((state) => state.lecturers);
-  const setCheckedLecturers = useNewLoadStore21(
-    (state) => state.setCheckedLecturers
-  );
+  const allLecturers = useNewLoadStore21((state) => state.lecturers);
 
   let myLecturers: Lecturer[] = lecturers;
 
@@ -28,15 +24,8 @@ const Lecturers = ({ lecturers }: LecturersProps) => {
           : lecturer
     );
     setLecturers(newUpdatedLecturers);
-    const checkedOnes = newUpdatedLecturers.filter((lecturer) => {
-      return lecturer.isChecked === true;
-    });
-
-    setCheckedLecturers(checkedOnes); // Setting only the checked lecturers
   }
   const [filterText, setFilterText] = useState("");
-
-  console.log("my lecture: ", myLecturers)
 
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
@@ -62,7 +51,7 @@ const Lecturers = ({ lecturers }: LecturersProps) => {
       />
 
       <div className="list">
-        {myLecturers
+        {allLecturers
           ?.filter((lecturer) => {
             return filterText.toLowerCase() === ""
               ? lecturer

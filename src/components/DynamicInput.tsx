@@ -8,7 +8,6 @@ type Subgroup = {
   subgroup_name: string;
   course_id: number;
   no_of_students: number;
-  // course_id: number;
 };
 
 type DynamicInputProps = {
@@ -16,6 +15,7 @@ type DynamicInputProps = {
 };
 
 const DynamicInput = ({ id }: DynamicInputProps) => {
+
   const notify = (message: string) => {
     toast.success(message, {
       toastId: 903,
@@ -35,6 +35,7 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     { course_id: id, subgroup_name: "", no_of_students: 0 },
   ]);
 
+
   function addSubgroup() {
     setSubgroups([
       ...subgroups,
@@ -47,6 +48,14 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     const newList: Subgroup[] = [...subgroups];
 
     newList[_index][name] = value;
+    setSubgroups(newList);
+  }
+
+  function setNumberOfStudents(e: ChangeEvent<HTMLInputElement>, _index: number) {
+    const { name, value } = e.target;
+    const newList: Subgroup[] = [...subgroups];
+
+    newList[_index][name] = Number(value);
     setSubgroups(newList);
   }
 
@@ -126,7 +135,7 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
                   "
                 value={item.numberOfStudents}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setSubgroupName(e, index);
+                  setNumberOfStudents(e, index);
                 }}
               />
             </div>
