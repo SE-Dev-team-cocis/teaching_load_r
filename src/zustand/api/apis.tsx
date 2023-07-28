@@ -13,8 +13,6 @@ export type Load = {
   id: number;
   courses: string;
   staff_id: number;
-  // myCUs?: string;
-  // Cus: string;
   CUs: number[];
   assignee_id?: number;
   staffName?: Lecturer;
@@ -67,17 +65,6 @@ type LoginData = {
   password: string;
 };
 
-type DeleteAllLoad = {
-  issignee_id: number;
-  semester: number;
-  // staff_id: number
-};
-type DeleteLoad = {
-  load_id: number;
-  semester: number;
-  assignee_id: number;
-};
-
 export const fetchLecturers = async () => {
   const url = "https://teaching-load-api.onrender.com/api/getStaff";
 
@@ -104,7 +91,6 @@ export const fetchLecturers = async () => {
 };
 
 export const fetchLoad = async () => {
-  // const url = "http://127.0.0.1:8000/api/allAssign";
   const url = "https://teaching-load-api.onrender.com/api/allAssign";
 
   const response = await axios.get(url, {
@@ -113,7 +99,6 @@ export const fetchLoad = async () => {
       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
     },
   });
-  // const load: Load[] = response.data.assignments;
   const myload = response.data.assignments;
 
   const load: Load[] = myload?.map((load: Load) => {
@@ -163,7 +148,6 @@ export const assignLoad = async (data: AssignLoad) => {
       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
     },
   });
-  // const courses: Course[] = response.data;
 
   return response.data;
 };
