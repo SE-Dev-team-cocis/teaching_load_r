@@ -81,23 +81,15 @@ dialog::backdrop{
 }
 
 .my-modal{
-  position: relative;
   min-width: 450px;
   min-height: 450px;
   overflow: hidden;
+  /* padding: 0; */
 
-}
-
-.my-modal .close{
-  position: absolute;
-  /* display: inline-block; */
-  top: 0;
-  left: 100;
-  float: right;
 }
 
 .confirm {
-   min-width: 50px;
+  min-width: 50px;
   min-height: 200px;
   overflow: hidden;
 }

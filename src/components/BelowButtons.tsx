@@ -153,7 +153,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           Broadcast
         </button>
       </div>
-      <dialog data-modal className="rounded-lg px-4 py-5">
+      <dialog data-modal className="rounded-lg px-4 py-5 my-subgroup">
         <CourseSubgroup checkedCourse={myCheckedCourse} />
       </dialog>
     </>

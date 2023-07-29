@@ -39,9 +39,9 @@ const NavBar = () => {
       <div className="links flex items-center justufy-center gap-5">
         <p className="mr-3 ">Hi, {user.firstName}</p>
 
-        <div className="border-2 border-red-600 rounded text-red-600">
+        <div className="border-2 border-red-600 rounded text-red-600 hover:bg-red-600 hover:text-white">
           <button
-            className="flex items-center justify-center flex-row py-1 px-4 border-2 rounded"
+            className="flex items-center justify-center flex-row py-1 px-4  rounded"
             onClick={handleDelete}
           >
             <span>

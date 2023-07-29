@@ -1,5 +1,4 @@
 import DynamicInput from "../DynamicInput";
-
 export type Course = {
   id: number;
   course_name: string;
@@ -15,13 +14,7 @@ type SubgroupProps = {
 const CourseSubgroup = ({ checkedCourse }: SubgroupProps) => {
   return (
     <div className="my-modal">
-      <p className="text-center text-lg mb-3">
-        Course subgroup details for {checkedCourse?.course_name}
-      </p>
-
-      <span className="close">x</span>
-
-      <DynamicInput id={checkedCourse?.id} />
+        <DynamicInput id={checkedCourse?.id} name={checkedCourse?.course_name}/>
     </div>
   );
 };

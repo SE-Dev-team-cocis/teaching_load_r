@@ -1,9 +1,9 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
-import { BsPlusCircle } from "react-icons/bs";
+import { BsPlusCircle, BsTrash, BsXCircleFill } from "react-icons/bs";
 import { toast } from "react-toastify";
 
-type Subgroup = {
+export type Subgroup = {
   [key: string]: number | string;
   subgroup_name: string;
   course_id: number;
@@ -12,13 +12,28 @@ type Subgroup = {
 
 type DynamicInputProps = {
   id: number;
+  name: string;
 };
 
-const DynamicInput = ({ id }: DynamicInputProps) => {
+const DynamicInput = ({ id, name }: DynamicInputProps) => {
+  const modal = document.querySelector(".my-subgroup") as HTMLDialogElement;
 
   const notify = (message: string) => {
     toast.success(message, {
       toastId: 903,
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+  const errorNotification = (message: string) => {
+    toast.error(message, {
+      toastId: 403,
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
@@ -35,12 +50,17 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     { course_id: id, subgroup_name: "", no_of_students: 0 },
   ]);
 
-
   function addSubgroup() {
     setSubgroups([
       ...subgroups,
       { course_id: id, subgroup_name: "", no_of_students: 0 },
     ]);
+  }
+
+  function removeSubgroup(index: number) {
+    const newList: Subgroup[] = [...subgroups];
+    newList.splice(index, 1);
+    setSubgroups(newList);
   }
 
   function setSubgroupName(e: ChangeEvent<HTMLInputElement>, _index: number) {
@@ -51,7 +71,10 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
     setSubgroups(newList);
   }
 
-  function setNumberOfStudents(e: ChangeEvent<HTMLInputElement>, _index: number) {
+  function setNumberOfStudents(
+    e: ChangeEvent<HTMLInputElement>,
+    _index: number
+  ) {
     const { name, value } = e.target;
     const newList: Subgroup[] = [...subgroups];
 
@@ -79,20 +102,42 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
       notify(response.data.message);
     } catch (error) {
       console.log(error);
+      // if(error)
+      // errorNotification(error.response?.data.message);
     }
   };
+
+  function reset() {
+    setSubgroups([
+      { course_id: id, subgroup_name: "", no_of_students: 0 },
+      { course_id: id, subgroup_name: "", no_of_students: 0 },
+    ]);
+    modal?.close();
+  }
   return (
-    <div style={{ width: "400px" }} className="mt-3">
+    <div style={{ width: "400px" }} className="relative">
+      <p className="text-center text-lg font-semibold mb-3">
+        Sububgroup details for {name}
+      </p>
+
+      <p
+        className="absolute -right-10 -top-0 text-2xl cursor-pointer"
+        onClick={() => {
+          reset();
+        }}
+      >
+        <BsXCircleFill className="text-red-700" />
+      </p>
       <div className="flex gap-2 flex-col px-4" style={{ width: "450px" }}>
-        <div className="flex gap-5 flex-row justify-between">
-          <p className="text-m mb-0 font-m">Subgroup name</p>
-          <p className="pr-3 text-m mb-0 font-m">Number of students</p>
+        <div className="grid grid-cols-7 gap-2">
+          <p className="text-m mb-0 font-m col-span-4" >Subgroup name</p>
+          <p className="pr-3 text-m mb-0 font-m col-span-3">No. of students</p>
         </div>
       </div>
       <div style={{ width: "450px" }}>
-        <div className="flex gap-2 flex-col">
+        <div className="flex gap-2 flex-col items-center mx-4">
           {subgroups.map((item, index) => (
-            <div className="flex justify-between gap-5 px-4" key={index}>
+            <div className="grid grid-cols-7 gap-2" key={index}>
               <input
                 type="text"
                 name="subgroup_name"
@@ -107,8 +152,9 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
                   border-gray
                   focus:border-teal-500
                   mt-0
-                  rounded my-3
-                  w-3/5
+                  rounded my-2
+               
+                  col-span-4
                   "
                 value={item.subgroupName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +165,7 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
               <input
                 type="number"
                 name="no_of_students"
-                placeholder="Enter number of students"
+                placeholder="eg. 100"
                 className="
                   focus:outline-none
                   focus:ring-1
@@ -130,14 +176,26 @@ const DynamicInput = ({ id }: DynamicInputProps) => {
                   border-gray
                   focus:border-teal-500
                   mt-0
-                  rounded my-3
-                  w-2/5
+                  rounded my-2
+                 col-span-2
                   "
                 value={item.numberOfStudents}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   setNumberOfStudents(e, index);
                 }}
               />
+
+              {
+                // if index is greater than 1, show the remove button
+                subgroups.length >= 3 && index >= 2 ? (
+                  <BsTrash
+                    className="text-3xl text-red-600 col-span-1 cursor-pointer"
+                    onClick={() => removeSubgroup(index)}
+                  />
+                ) : (
+                  ""
+                )
+              }
             </div>
           ))}
         </div>
