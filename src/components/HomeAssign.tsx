@@ -3,6 +3,7 @@ import {
   fetchCourses,
   fetchLecturers,
   fetchLoad,
+  fetchSemesterList,
 } from "../zustand/api/apis";
 
 import LoadSummary from "./load/LoadSummary";
@@ -67,10 +68,7 @@ export default function HomeAssign() {
     myLecturers = lecturers;
   }
 
-  const {
-    data: courses,
-    isSuccess: loadedCourses,
-  } = useQuery({
+  const { data: courses, isSuccess: loadedCourses } = useQuery({
     queryKey: ["courses"],
     queryFn: fetchCourses,
   });
@@ -90,7 +88,18 @@ export default function HomeAssign() {
   if (loadedLoads) {
     myTotalLoad = loads;
   }
- 
+
+  const { data: semesterlist, isSuccess: semesterList } = useQuery({
+    queryKey: ["semesterlist"],
+    queryFn: fetchSemesterList,
+  });
+
+  let fetchedSemesterList: Course[] = [];
+  if (semesterList) {
+    fetchedSemesterList = semesterlist;
+  }
+
+  // console.log("semester list: ", fetchedSemesterList);
 
   const { id } = useUserstore((state) => state.user);
 
@@ -157,7 +166,9 @@ export default function HomeAssign() {
         </div>
 
         <div className="grid grid-cols-3 gap-2 mt-3">
-          <Courses courses={myCourses} />
+          {/* <Courses courses={myCourses} /> */}
+          <Courses courses={fetchedSemesterList} />
+
           <Lecturers lecturers={myLecturers} />
           {/* <Lecturers /> */}
 

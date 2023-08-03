@@ -1,4 +1,4 @@
-import { useMemo,useState } from "react";
+import { useMemo, useState } from "react";
 import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 
@@ -23,28 +23,51 @@ type CourseProps = {
 };
 
 const Courses = ({ courses }: CourseProps) => {
-  const setCourses = useNewLoadStore21((state) => state.setCourses);
-  const allCourses = useNewLoadStore21((state) => state.allCourses);
-  const setCheckedCourses = useNewLoadStore21(
-    (state) => state.setCheckedCourses
+  // const setCourses = useNewLoadStore21((state) => state.setCourses);
+  // const allCourses = useNewLoadStore21((state) => state.allCourses);
+  // const setCheckedCourses = useNewLoadStore21(
+  //   (state) => state.setCheckedCourses
+  // );
+
+  const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
+  const semesterList = useNewLoadStore21((state) => state.semesterList);
+  const setCheckedSemesterList = useNewLoadStore21(
+    (state) => state.setCheckedSemesterList
   );
 
   useMemo(() => {
-    setCourses(courses);
+    // setCourses(courses);
+    setSemesterList(courses);
   }, [courses]);
 
+  // function handleCheckedCourses(id: number) {
+  //   const updatedCourses: Course[] = allCourses.map((course: Course) =>
+  //     course.id === id ? { ...course, isChecked: !course.isChecked } : course
+  //   );
+
+  //   setCourses(updatedCourses);
+
+  //   const checkedOnes = updatedCourses.filter((course) => {
+  //     return course.isChecked === true;
+  //   });
+
+  //   setCheckedCourses(checkedOnes); // Setting only the checked courses
+  // }
+
   function handleCheckedCourses(id: number) {
-    const updatedCourses: Course[] = allCourses.map((course: Course) =>
+    const updatedCourses: Course[] = semesterList.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
+    // console.log("Updated ones: ", updatedCourses);
 
-    setCourses(updatedCourses);
+    setSemesterList(updatedCourses);
 
-    const checkedOnes = updatedCourses.filter((course) => {
+    const checkedOnes = updatedCourses.filter((course: Course) => {
       return course.isChecked === true;
     });
 
-    setCheckedCourses(checkedOnes); // Setting only the checked courses
+    setCheckedSemesterList(checkedOnes); // Setting only the checked courses
+    // console.log("Checked ones: ", checkedOnes);
   }
   const [filterText, setFilterText] = useState("");
   return (
@@ -70,7 +93,8 @@ const Courses = ({ courses }: CourseProps) => {
         }
       />
       <div className="list">
-        {allCourses
+        {/* {allCourses */}
+          {semesterList
           ?.filter((courseUnit: Course) => {
             return filterText.toLowerCase() === ""
               ? courseUnit

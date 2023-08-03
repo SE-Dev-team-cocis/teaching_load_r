@@ -39,11 +39,15 @@ type StoreType = {
   setCheckedLecturers: (lecturers: CheckedLecturer[]) => void;
   allCourses: Courses[];
   lecturers: Lecturer[];
+  semesterList: Courses[];
   checkedCourses: CheckedCourses[];
+  checkedSemesterList: Courses[];
+
   setCheckedCourses: (courses: CheckedCourses[]) => void;
   setCourses: (courses: Courses[]) => void;
   setLecturers: (courses: Lecturer[]) => void;
-  // fetchLecturers: () => void;
+  setSemesterList: (courses: Courses[]) => void;
+  setCheckedSemesterList: (courses: CheckedCourses[]) => void;
 };
 const useNewLoadStore21 = create<StoreType>()(
   persist(
@@ -52,6 +56,8 @@ const useNewLoadStore21 = create<StoreType>()(
       lecturers: [],
       checkedCourses: [],
       checkedLecturers: [],
+      semesterList: [],
+      checkedSemesterList: [],
       setCourses: (courses: Courses[]) => {
         set({ allCourses: courses });
       },
@@ -64,11 +70,20 @@ const useNewLoadStore21 = create<StoreType>()(
         );
         set({ checkedLecturers: checkedOnes });
       },
-      setCheckedCourses: (lecturers: CheckedCourses[]) => {
-        const checkedOnes: CheckedCourses[] = lecturers.filter(
-          (lecturer) => lecturer.isChecked
+      setCheckedCourses: (courses: CheckedCourses[]) => {
+        const checkedOnes: CheckedCourses[] = courses.filter(
+          (course) => course.isChecked
         );
         set({ checkedCourses: checkedOnes });
+      },
+      setSemesterList: (courses: Courses[]) => {
+        set({ semesterList: courses });
+      },
+      setCheckedSemesterList: (courses: CheckedCourses[]) => {
+        const checkedOnes: CheckedCourses[] = courses.filter(
+          (course) => course.isChecked
+        );
+        set({ checkedSemesterList: checkedOnes });
       },
     }),
     {

@@ -22,6 +22,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const checkedLecturers = useNewLoadStore21((state) => state.checkedLecturers);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
+  const checkedSemesterList = useNewLoadStore21((state) => state.checkedSemesterList);
+
   
   const setCheckedLecturers = useNewLoadStore21(
     (state) => state.setCheckedLecturers
@@ -29,6 +31,9 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
+    const setCheckedSemesterList = useNewLoadStore21(
+      (state) => state.setCheckedSemesterList
+    );
 
   const myCheckedCourse: Course = checkedCourses[0];
 
@@ -43,7 +48,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     );
     lecturerID = lecturersIDs[0];
 
-    checkedCourses.forEach((course) => {
+    // checkedCourses.forEach((course) => {
+    checkedSemesterList.forEach((course) => {
       courseNames.push(course.course_name);
       courseCreditUnits.push(+course.course_cus); // convert to number by adding a + sign
     });
@@ -106,6 +112,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       setTimeout(() => {
         setCheckedLecturers([]);
         setCheckedCourses([]);
+        setCheckedSemesterList([]);
         window.location.reload();
       }, 2005);
     } else {
@@ -113,6 +120,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       setTimeout(() => {
         setCheckedLecturers([]);
         setCheckedCourses([]);
+        setCheckedSemesterList([]);
         window.location.reload();
       }, 2005);
     }
@@ -124,7 +132,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         <button
           className="text-green-700 px-4 rounded py-2 border-2 border-green-700 hover:bg-green-700 hover:text-white mt-2 hover:scale-95 disabled:opacity-50"
           type="button"
-          disabled={checkedCourses?.length === 0}
+          // disabled={checkedCourses?.length === 0}
+          disabled={checkedSemesterList?.length === 0}
           onClick={() => {
             const modal = document.querySelector(
               "[data-modal]"
@@ -139,7 +148,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           type="button"
           onClick={assignCourses}
           disabled={
-            checkedCourses?.length === 0 || checkedLecturers?.length === 0
+            // checkedCourses?.length === 0 || checkedLecturers?.length === 0
+            checkedSemesterList?.length === 0 || checkedLecturers?.length === 0
           }
         >
           {isLoading ? "Assigning load..." : "Assign"}

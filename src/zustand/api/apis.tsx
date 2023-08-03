@@ -30,9 +30,19 @@ export type Course = {
   course_name: string;
   course_code: string;
   course_cus: number;
-  assignee_id: number;
+  assignee_id?: number;
   isChecked: boolean;
   subgroups?: Subgroup[];
+};
+
+export type SemesterList = {
+  id: number;
+  course_name: string;
+  course_code: string;
+  course_cus: number;
+  // assignee_id: number;
+  isChecked: boolean;
+  course: Course;
 };
 
 type AssignLoad = {
@@ -136,6 +146,31 @@ export const fetchCourses = async () => {
       subgroups: course.subgroups,
     };
   });
+  return courses;
+};
+
+export const fetchSemesterList = async () => {
+  const url = "https://teaching-load-api.onrender.com/api/semesterlist";
+
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+      // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+    },
+  });
+  const mycourses = response.data?.semester_list;
+
+  const courses: Course[] = mycourses?.map((_course: any) => {
+    return {
+      id: _course.course?.id,
+      course_cus: _course.course?.course_cus,
+      course_code: _course.course?.course_code,
+      course_name: _course.course?.course_name,
+      isChecked: false,
+      subgroups: _course.course?.subgroups,
+    };
+  });
+
   return courses;
 };
 
