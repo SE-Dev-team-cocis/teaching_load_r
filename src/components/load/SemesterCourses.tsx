@@ -1,5 +1,9 @@
 import { ChangeEvent, useMemo, useState } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
+import useUserstore from "../../zustand/userStore";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 type Course = {
   id: number;
@@ -9,7 +13,18 @@ type Course = {
   isChecked: boolean;
 };
 
+type SemesterList = {
+  course_code: number;
+  staff_id: number;
+  semester: number;
+};
+
 const SemesterCourses = () => {
+
+  const navigate = useNavigate()
+  const user = useUserstore((state) => state.user);
+  const staff_id = user.id;
+
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
   const setCheckedCourses = useNewLoadStore21(
@@ -43,10 +58,44 @@ const SemesterCourses = () => {
     );
   });
 
-  function handleSemesterCourses() {
-    const data = checkedCourses;
+  const notify = async (message: string) => {
+    await toast.success(message, {
+      position: "top-center",
+      toastId: 5483,
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+    });
+  };
 
-    // Handle post request here
+  async function handleSemesterCourses() {
+    const data = checkedCourses.map((checked) => {
+      return {
+        staff_id: staff_id,
+        course_id: checked.id,
+        semester: 1,
+      };
+    });
+
+    const url =
+      "https://teaching-load-api.onrender.com/api/semesterlist/create";
+
+    try {
+      const response = await axios.post(url, {semester_list: data}, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      notify(response.data.message);
+      navigate("/teaching-load/new")
+      
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -93,7 +142,7 @@ const SemesterCourses = () => {
             className="hover:bg-green-300 py-1 cursor-pointer transition"
           >
             <div className="grid grid-cols-4 gap-4">
-              <p key={course.course_code} className="text-left col-span-2">
+              <p key={course.id} className="text-left col-span-2">
                 <input
                   type="checkbox"
                   className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
@@ -105,10 +154,10 @@ const SemesterCourses = () => {
                 {course.course_name}
               </p>
 
-              <div key={course.course_code} className="col-span-1">
+              <div key={course.id} className="col-span-1">
                 {course.course_code}
               </div>
-              <p key={course.course_code} className="ml-9 col-span-1">
+              <p key={course.id} className="ml-9 col-span-1">
                 {+course.course_cus}
               </p>
             </div>
