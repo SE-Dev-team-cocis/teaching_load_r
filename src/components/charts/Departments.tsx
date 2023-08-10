@@ -51,7 +51,7 @@ const Departments = () => {
           <p>View details</p>
         </div>
         <div className="chart mt-2 text-center">
-          <p>No. of lecturers Vs Total load</p>
+          <p className="pt-2">No. of lecturers Vs Total load</p>
         </div>
       </div>
     </div>
