@@ -85,11 +85,29 @@ dialog::backdrop{
   min-height: 450px;
   overflow: hidden;
   /* padding: 0; */
-
 }
 
 .confirm {
   min-width: 50px;
   min-height: 200px;
   overflow: hidden;
+}
+
+.dashboard{
+  padding: 20px
+}
+.dashboard .dashboard_card{
+  padding: 10px;
+  background-color: white;
+  min-height: 200px;
+}
+.department{
+  background-color: white;
+  min-height: 490px;
+}
+
+.department .summary .list{
+  height: 180px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
