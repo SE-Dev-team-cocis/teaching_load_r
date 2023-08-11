@@ -23,11 +23,11 @@ type CourseProps = {
 };
 
 const Courses = ({ courses }: CourseProps) => {
-  // const setCourses = useNewLoadStore21((state) => state.setCourses);
-  // const allCourses = useNewLoadStore21((state) => state.allCourses);
-  // const setCheckedCourses = useNewLoadStore21(
-  //   (state) => state.setCheckedCourses
-  // );
+  const setCourses = useNewLoadStore21((state) => state.setCourses);
+  const allCourses = useNewLoadStore21((state) => state.allCourses);
+  const setCheckedCourses = useNewLoadStore21(
+    (state) => state.setCheckedCourses
+  );
 
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const semesterList = useNewLoadStore21((state) => state.semesterList);
@@ -36,7 +36,7 @@ const Courses = ({ courses }: CourseProps) => {
   );
 
   useMemo(() => {
-    // setCourses(courses);
+    setCourses(courses);
     setSemesterList(courses);
   }, [courses]);
 

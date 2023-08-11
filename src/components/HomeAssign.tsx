@@ -73,10 +73,12 @@ export default function HomeAssign() {
     queryFn: fetchCourses,
   });
 
+  
   let myCourses: Course[] = [];
   if (loadedCourses) {
     myCourses = courses;
   }
+  // console.log(myCourses);
 
   const { data: loads, isSuccess: loadedLoads } = useQuery({
     queryKey: ["load"],
@@ -93,6 +95,8 @@ export default function HomeAssign() {
     queryKey: ["semesterlist"],
     queryFn: fetchSemesterList,
   });
+
+  // console.log(semesterlist)
 
   let fetchedSemesterList: Course[] = [];
   if (semesterList) {
@@ -164,10 +168,11 @@ export default function HomeAssign() {
             </button>
           </div>
         </div>
+        {/* {console.log(myCourses)} */}
 
         <div className="grid grid-cols-3 gap-2 mt-3">
-          {/* <Courses courses={myCourses} /> */}
-          <Courses courses={fetchedSemesterList} />
+          <Courses courses={myCourses} />
+          {/* <Courses courses={fetchedSemesterList} /> */}
 
           <Lecturers lecturers={myLecturers} />
           {/* <Lecturers /> */}
