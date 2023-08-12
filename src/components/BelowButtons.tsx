@@ -4,6 +4,8 @@ import { assignLoad } from "../zustand/api/apis";
 import { toast } from "react-toastify";
 import CourseSubgroup, { Course } from "./load/CourseSubgroup";
 import useUserstore from "../zustand/userStore";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 type AssignLoad = {
   courses: string;
@@ -22,18 +24,19 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const checkedLecturers = useNewLoadStore21((state) => state.checkedLecturers);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
-  const checkedSemesterList = useNewLoadStore21((state) => state.checkedSemesterList);
+  const checkedSemesterList = useNewLoadStore21(
+    (state) => state.checkedSemesterList
+  );
 
-  
   const setCheckedLecturers = useNewLoadStore21(
     (state) => state.setCheckedLecturers
   );
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
-    const setCheckedSemesterList = useNewLoadStore21(
-      (state) => state.setCheckedSemesterList
-    );
+  const setCheckedSemesterList = useNewLoadStore21(
+    (state) => state.setCheckedSemesterList
+  );
 
   const myCheckedCourse: Course = checkedCourses[0];
 
@@ -126,6 +129,20 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     }
   }
 
+  const user = useUserstore((state) => state.user);
+  const navigate = useNavigate();
+  const broadcastLoad = async (id: number) => {
+    console.log(id);
+    try {
+      const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
+      const response = await axios.put(url);
+      //Add toastify asynchronously
+      navigate("/teaching-load/central");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <div className="flex gap-4 justify-center items-center control_buttons ml-4 mt-3">
@@ -159,6 +176,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           type="button"
           // disabled={broadcast === false ? true : true}
           disabled={!broadcast}
+          onClick={() => broadcastLoad(user.id)}
         >
           Broadcast
         </button>

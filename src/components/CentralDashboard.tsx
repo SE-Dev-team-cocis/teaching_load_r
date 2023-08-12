@@ -5,6 +5,8 @@ import axios from "axios";
 
 const CentralDashboard = () => {
   const [staff, setStaff] = useState([]);
+  const [totalStaff, setTotalStaff] = useState([]);
+
   const [collegeLoad, setCollegeLoad] = useState([]);
   const [departmentLoad, setDepartmentLoad] = useState([]);
 
@@ -13,10 +15,12 @@ const CentralDashboard = () => {
     try {
       const response = await axios.get(url);
       setStaff(response.data?.staff);
+      setTotalStaff(response.data.total_staff);
+
       setCollegeLoad(response.data?.overall_total_load);
       setDepartmentLoad(response.data.department_load);
 
-      // console.log(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -25,10 +29,10 @@ const CentralDashboard = () => {
   useEffect(() => {
     fetchSummary();
   }, []);
-  console.log(departmentLoad);
+  // console.log(departmentLoad);
   return (
     <div>
-      <TopCharts collegeLoad={collegeLoad} />
+      <TopCharts collegeLoad={collegeLoad} totalStaff={totalStaff} />
 
       <div className="grid grid-cols-12 gap-2 px-5">
         {departmentLoad?.map((department: any) => (

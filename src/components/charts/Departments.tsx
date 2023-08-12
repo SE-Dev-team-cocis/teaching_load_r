@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const Departments = ({ department, staff }: any) => {
-  console.log("Department: ", department);
+  // console.log("Department: ", department);
   return (
     <div className="rounded-lg p-2 col-span-3 department">
       <div className="">
@@ -18,7 +18,7 @@ const Departments = ({ department, staff }: any) => {
             {staff.map((staffMember: any) => {
               if (staffMember.deparment === department.department_name) {
                 return (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between" key={staffMember.staff}>
                     <p>{staffMember.staff}</p>
                     <p className="mr-4">{staffMember.sum}</p>
                   </div>
