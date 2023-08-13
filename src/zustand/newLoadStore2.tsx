@@ -34,6 +34,14 @@ type Courses = {
   isChecked: boolean;
 };
 
+export type LecturerLoad = {
+  total: number;
+  id: number;
+  staffId: number;
+  staffName: Lecturer;
+  assignee_id: number;
+};
+
 type StoreType = {
   checkedLecturers: CheckedLecturer[];
   setCheckedLecturers: (lecturers: CheckedLecturer[]) => void;
@@ -42,12 +50,14 @@ type StoreType = {
   semesterList: Courses[];
   checkedCourses: CheckedCourses[];
   checkedSemesterList: Courses[];
+  lecturerLoad: any[]; // For the specific lecturer load
 
   setCheckedCourses: (courses: CheckedCourses[]) => void;
   setCourses: (courses: Courses[]) => void;
   setLecturers: (courses: Lecturer[]) => void;
   setSemesterList: (courses: Courses[]) => void;
   setCheckedSemesterList: (courses: CheckedCourses[]) => void;
+  setLecturerLoad: (_load: any[]) => void;
 };
 const useNewLoadStore21 = create<StoreType>()(
   persist(
@@ -58,6 +68,7 @@ const useNewLoadStore21 = create<StoreType>()(
       checkedLecturers: [],
       semesterList: [],
       checkedSemesterList: [],
+      lecturerLoad: [],
       setCourses: (courses: Courses[]) => {
         set({ allCourses: courses });
       },
@@ -84,6 +95,11 @@ const useNewLoadStore21 = create<StoreType>()(
           (course) => course.isChecked
         );
         set({ checkedSemesterList: checkedOnes });
+      },
+      setLecturerLoad: (_load: any[]) => {
+        set({
+          lecturerLoad: _load,
+        });
       },
     }),
     {

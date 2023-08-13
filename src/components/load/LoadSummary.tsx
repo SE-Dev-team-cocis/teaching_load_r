@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import useUserstore from "../../zustand/userStore";
 import { Load } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
+import { LecturerLoad } from "../../zustand/loadStore";
+import { useEffect, useMemo } from "react";
 
 type LoadPops = {
   totalLoad: Load[];
@@ -23,13 +25,19 @@ const notify = (message: string) => {
   });
 };
 
-const LoadSummary = ({ totalLoad }: LoadPops) => {
+const LoadSummary = () => {
+  
+  const lecturerLoad = useNewLoadStore21(state=>state.lecturerLoad)
+
+
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
 
-  const newtotalLoad = totalLoad?.map((load: Load) => {
+  const newtotalLoad = lecturerLoad?.map((load: Load) => {
     return {
       total: load.CUs.reduce((a: number, b: number) => a + b, 0),
+      // total: load.total,
+
       id: load.id,
       staffId: load.staff_id,
       staffName: allLecturers?.find((lecturer) => {
@@ -41,9 +49,11 @@ const LoadSummary = ({ totalLoad }: LoadPops) => {
     };
   });
 
+    
   const myFiltered = newtotalLoad?.filter((load) => {
     return load.assignee_id === id;
   });
+
 
   const deleteLoad = async (_assigneeID: number, _loadID: number) => {
     const data = {

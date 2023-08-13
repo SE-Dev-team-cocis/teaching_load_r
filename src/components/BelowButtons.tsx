@@ -1,11 +1,12 @@
-import useNewLoadStore21 from "../zustand/newLoadStore2";
+import useNewLoadStore21, { LecturerLoad } from "../zustand/newLoadStore2";
 import { useMutation, QueryClient } from "@tanstack/react-query";
-import { assignLoad } from "../zustand/api/apis";
+import { Load, assignLoad } from "../zustand/api/apis";
 import { toast } from "react-toastify";
 import CourseSubgroup, { Course } from "./load/CourseSubgroup";
 import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { memo, useEffect, useMemo, useState } from "react";
 
 type AssignLoad = {
   courses: string;
@@ -19,8 +20,12 @@ type ButtonProps = {
 };
 
 const BelowButtons = ({ broadcast }: ButtonProps) => {
+  const navigate = useNavigate();
   const queryClient = new QueryClient();
   const { id } = useUserstore((state) => state.user);
+  const lecturers = useNewLoadStore21((state) => state.lecturers);
+  const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
+  const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
 
   const checkedLecturers = useNewLoadStore21((state) => state.checkedLecturers);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
@@ -38,6 +43,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     (state) => state.setCheckedSemesterList
   );
 
+  const [theLoad, setTheLoad] = useState(lecturerLoad);
+
   const myCheckedCourse: Course = checkedCourses[0];
 
   const courseNames: string[] = [];
@@ -45,13 +52,12 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   let lecturerID: number;
 
-  const assignCourses = () => {
+  const assignCourses = async () => {
     const lecturersIDs: number[] = checkedLecturers.map(
       (lecturer) => lecturer.id
     );
     lecturerID = lecturersIDs[0];
 
-    // checkedCourses.forEach((course) => {
     checkedSemesterList.forEach((course) => {
       courseNames.push(course.course_name);
       courseCreditUnits.push(+course.course_cus); // convert to number by adding a + sign
@@ -78,11 +84,12 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         queryKey: ["load"],
         type: "active",
       });
+      // afterLoading()
     },
   });
 
-  const notify = (message: string) => {
-    toast.success(message, {
+  const notify = async (message: string) => {
+    await toast.success(message, {
       toastId: 231,
       position: "top-center",
       autoClose: 2000,
@@ -109,28 +116,25 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     });
   };
 
-  if (isSuccess) {
-    if (data.status === false) {
-      errorNotification(data.message);
-      setTimeout(() => {
-        setCheckedLecturers([]);
-        setCheckedCourses([]);
-        setCheckedSemesterList([]);
-        window.location.reload();
-      }, 2005);
-    } else {
+  let myLoad: any = [];
+
+  function afterLoading() {
+    if (data) {
+      const newLoad = data?.teachingLoad;
+      setLecturerLoad(data?.assignments.assignments)
+      setCheckedLecturers([]);
+      setCheckedCourses([]);
+      setCheckedSemesterList([]);
+
       notify(data.message);
-      setTimeout(() => {
-        setCheckedLecturers([]);
-        setCheckedCourses([]);
-        setCheckedSemesterList([]);
-        window.location.reload();
-      }, 2005);
     }
   }
 
+  useEffect(() => {
+    afterLoading();
+  }, [data]);
+
   const user = useUserstore((state) => state.user);
-  const navigate = useNavigate();
   const broadcastLoad = async (id: number) => {
     console.log(id);
     try {
@@ -163,7 +167,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         <button
           className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-50 disabled:hover:scale-100"
           type="button"
-          onClick={assignCourses}
+          onClick={() => assignCourses()}
           disabled={
             // checkedCourses?.length === 0 || checkedLecturers?.length === 0
             checkedSemesterList?.length === 0 || checkedLecturers?.length === 0

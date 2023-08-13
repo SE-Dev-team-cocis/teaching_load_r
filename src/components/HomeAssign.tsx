@@ -14,6 +14,8 @@ import BelowButtons from "./BelowButtons";
 import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { toast } from "react-toastify";
+import useNewLoadStore21 from "../zustand/newLoadStore2";
+import { useEffect, useMemo } from "react";
 
 // export type Load = {
 //   id: number;
@@ -53,6 +55,8 @@ export type TotalLoad = {
 
 export default function HomeAssign() {
   const modal = document.querySelector(".mydialog") as HTMLDialogElement;
+  const { id } = useUserstore((state) => state.user);
+  const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
 
   const {
     data: lecturers,
@@ -73,7 +77,6 @@ export default function HomeAssign() {
     queryFn: fetchCourses,
   });
 
-  
   let myCourses: Course[] = [];
   if (loadedCourses) {
     myCourses = courses;
@@ -85,27 +88,21 @@ export default function HomeAssign() {
     queryFn: fetchLoad,
   });
 
-  let myTotalLoad: Load[] = [];
-
-  if (loadedLoads) {
-    myTotalLoad = loads;
-  }
+  useEffect(() => {
+    setLecturerLoad(loads);
+  }, []);
 
   const { data: semesterlist, isSuccess: semesterList } = useQuery({
     queryKey: ["semesterlist"],
     queryFn: fetchSemesterList,
   });
 
-  // console.log(semesterlist)
 
   let fetchedSemesterList: Course[] = [];
   if (semesterList) {
     fetchedSemesterList = semesterlist;
   }
 
-  // console.log("semester list: ", fetchedSemesterList);
-
-  const { id } = useUserstore((state) => state.user);
 
   const notify = (message: string) => {
     toast.success(message, {
@@ -138,7 +135,7 @@ export default function HomeAssign() {
       if (response.status === 200) {
         notify(response.data.message);
         setTimeout(() => {
-          window.location.reload();
+          // window.location.reload();
         }, 2007);
       }
     } catch (error) {}
@@ -147,7 +144,8 @@ export default function HomeAssign() {
   if (isLoading)
     return <p className="text-center mt-4 font-medium text-lg">Loading...</p>;
 
-  const broadcast: boolean = loads?.length === 0 ? false : true;
+
+  var broadcast: boolean = loads?.length === 0 ? false : true;
 
   return (
     <>
@@ -168,17 +166,11 @@ export default function HomeAssign() {
             </button>
           </div>
         </div>
-        {/* {console.log(myCourses)} */}
 
         <div className="grid grid-cols-3 gap-2 mt-3">
           <Courses courses={myCourses} />
-          {/* <Courses courses={fetchedSemesterList} /> */}
-
           <Lecturers lecturers={myLecturers} />
-          {/* <Lecturers /> */}
-
-          {/* <LoadSummary totalLoad={myTotalLoad} lecturers={myLecturers} /> */}
-          <LoadSummary totalLoad={myTotalLoad} />
+          <LoadSummary />
         </div>
 
         <BelowButtons broadcast={broadcast} />

@@ -25,8 +25,17 @@ type Lecturer = {
   role: string;
 };
 
+export type LecturerLoad = {
+  total: number;
+  id: number;
+  staffId: number;
+  staffName: Lecturer 
+  assignee_id: number 
+}
+
 type LoadResponse = {
   responseLoad: Load[];
+  lecturerLoad: LecturerLoad[]; // For the specific lecturer load
 
   fetchLoad: () => void;
   totalLoad: number[];
@@ -35,12 +44,14 @@ type LoadResponse = {
   setMyStaff: (staffArray: number[]) => void; // setting the staff ids
   lecturers: Lecturer[];
   setLecturers: (lecturers: Lecturer[]) => void;
+  setLecturerLoad: (_load: LecturerLoad[]) => void;
 };
 
 const useLoadStore = create<LoadResponse>()(
   persist(
     (set, get) => ({
       responseLoad: [],
+      lecturerLoad: [],
       totalLoad: [],
       mystaff: [],
       lecturers: [],
@@ -75,6 +86,11 @@ const useLoadStore = create<LoadResponse>()(
         set({
           lecturers: lecturers,
         });
+      },
+      setLecturerLoad: (_load: LecturerLoad[]) => {
+          set({
+            lecturerLoad: _load,
+          });
       },
       // setTotalLoad: () => {
       //   set({
