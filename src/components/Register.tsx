@@ -2,16 +2,12 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-// import Logo from "../assets/react.svg";
 import MukLogo from "../assets/images/muk_logo.png";
-// import { successNotification,errorNotification } from "./utilities/toastify/Toastify";
-
 import TextField from "./utilities/TextField";
-
-import { useState } from "react";
 
 import { RegisterationSchema } from "./YupSchemas/schema";
 import useUserstore from "../zustand/userStore";
+import { successNotification } from "./utilities/toastify/Toastify";
 
 type InitialValues = {
   firstName: string;
@@ -32,22 +28,8 @@ const Register = () => {
     "Information Systems",
     "Computer Science",
   ];
-  const roleOptions: string[] = ["Head of department", "Lecturer", "Dean"];
+  const roleOptions: string[] = ["Head of department", "Lecturer", "Dean"]
 
-  //For the toast notification
-  const notify = (message: string) => {
-    toast.success(message, {
-      toastId: customId,
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
   const errorNotification = (message: string) => {
     toast.error(message, {
       position: "top-center",
@@ -77,10 +59,9 @@ const Register = () => {
     useFormik({
       initialValues: initialValues,
       onSubmit: async (values) => {
-        //Submit login details data into the database
-        // const url = "http://127.0.0.1:8000/api/register";
+
         const url = "https://teaching-load-api.onrender.com/api/register";
-        https: try {
+        try {
           const response = await axios.post(url, values, {
             headers: {
               "Content-Type": "application/json",
@@ -98,9 +79,7 @@ const Register = () => {
             setUser(response.data.user);
             navigate("/teaching-load");
           }
-          // console.log(response.data)
           if (response.data.register !== true) {
-            // setErrorMessage(response.data.message);
             errorNotification(
               response.data.message + ". If you are this user, Login instead"
             );
