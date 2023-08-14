@@ -88,7 +88,7 @@ export default function HomeAssign() {
     queryFn: fetchLoad,
   });
 
-  useEffect(() => {
+  useMemo(() => {
     setLecturerLoad(loads);
   }, []);
 
@@ -97,12 +97,10 @@ export default function HomeAssign() {
     queryFn: fetchSemesterList,
   });
 
-
   let fetchedSemesterList: Course[] = [];
   if (semesterList) {
     fetchedSemesterList = semesterlist;
   }
-
 
   const notify = (message: string) => {
     toast.success(message, {
@@ -143,7 +141,6 @@ export default function HomeAssign() {
 
   if (isLoading)
     return <p className="text-center mt-4 font-medium text-lg">Loading...</p>;
-
 
   var broadcast: boolean = loads?.length === 0 ? false : true;
 

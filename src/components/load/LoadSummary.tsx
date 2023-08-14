@@ -2,10 +2,11 @@ import { BsTrash } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useUserstore from "../../zustand/userStore";
-import { Load } from "../../zustand/api/apis";
+import { Load, fetchLoad } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { LecturerLoad } from "../../zustand/loadStore";
 import { useEffect, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 type LoadPops = {
   totalLoad: Load[];
@@ -26,9 +27,20 @@ const notify = (message: string) => {
 };
 
 const LoadSummary = () => {
-  
   const lecturerLoad = useNewLoadStore21(state=>state.lecturerLoad)
+  const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
 
+   const { data: loads, isSuccess: loadedLoads } = useQuery({
+     queryKey: ["load"],
+     queryFn: fetchLoad,
+   });
+
+   useMemo(() => {
+     setLecturerLoad(loads);
+   }, []);
+  
+  // useMemo()
+  
 
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);

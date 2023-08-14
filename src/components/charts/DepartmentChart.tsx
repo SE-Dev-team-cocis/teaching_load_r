@@ -14,9 +14,9 @@ const DepartmentChart = ({ data }: any) => {
             data: [...data],
             fill: true,
             backgroundColor: [
-              "rgb(62, 110, 62)",
-              "rgb(233, 82, 82)",
-              "rgb(248, 248, 25)",
+              "rgba(62, 110, 62, 0.9)",
+              "rgba(233, 82, 82, 0.7)",
+              "rgba(248, 248, 25, 0.97)",
             ],
           },
         ],

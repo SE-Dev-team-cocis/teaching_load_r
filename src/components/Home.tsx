@@ -1,8 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { fetchLoad } from "../zustand/api/apis";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import useNewLoadStore21 from "../zustand/newLoadStore2";
+
 
 export default function Home() {
-  // const navigate = useNavigate();
+    const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
+
   const notify = (message: string) => {
     toast.success(message, {
       toastId: 543,
@@ -23,6 +29,17 @@ export default function Home() {
     localStorage.setItem("loggedd_in", JSON.stringify(false));
 
   }
+
+
+  const { data: loads, isSuccess: loadedLoads } = useQuery({
+    queryKey: ["load"],
+    queryFn: fetchLoad,
+  });
+
+  useMemo(() => {
+    setLecturerLoad(loads);
+  }, []);
+
   return (
     <>
       <div className="buttons border-b-2 border-b-green-700 pt-4">
@@ -41,3 +58,7 @@ export default function Home() {
     </>
   );
 }
+function setLecturerLoad(loads: any) {
+  throw new Error("Function not implemented.");
+}
+
