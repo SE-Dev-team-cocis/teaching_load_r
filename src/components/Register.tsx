@@ -7,7 +7,7 @@ import TextField from "./utilities/TextField";
 
 import { RegisterationSchema } from "./YupSchemas/schema";
 import useUserstore from "../zustand/userStore";
-import { successNotification } from "./utilities/toastify/Toastify";
+import { successNotification, errorNotification } from "./utilities/toastify/Toastify";
 
 type InitialValues = {
   firstName: string;
@@ -29,20 +29,6 @@ const Register = () => {
     "Computer Science",
   ];
   const roleOptions: string[] = ["Head of department", "Lecturer", "Dean"]
-
-  const errorNotification = (message: string) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-
   const initialValues: InitialValues = {
     firstName: "",
     lastName: "",
