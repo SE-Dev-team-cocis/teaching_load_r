@@ -38,10 +38,7 @@ const LoadSummary = () => {
    useMemo(() => {
      setLecturerLoad(loads);
    }, []);
-  
-  // useMemo()
-  
-
+   
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
 

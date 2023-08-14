@@ -84,9 +84,10 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         queryKey: ["load"],
         type: "active",
       });
-      // afterLoading()
     },
   });
+
+  
 
   const notify = async (message: string) => {
     await toast.success(message, {

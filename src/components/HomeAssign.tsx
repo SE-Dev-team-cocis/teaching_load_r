@@ -81,7 +81,6 @@ export default function HomeAssign() {
   if (loadedCourses) {
     myCourses = courses;
   }
-  // console.log(myCourses);
 
   const { data: loads, isSuccess: loadedLoads } = useQuery({
     queryKey: ["load"],
@@ -130,12 +129,9 @@ export default function HomeAssign() {
     try {
       const url = "https://teaching-load-api.onrender.com/api/delete";
       const response = await axios.delete(url, { data });
-      if (response.status === 200) {
-        notify(response.data.message);
-        setTimeout(() => {
-          // window.location.reload();
-        }, 2007);
-      }
+
+      console.log("All load: ", response.data);
+      
     } catch (error) {}
   };
 

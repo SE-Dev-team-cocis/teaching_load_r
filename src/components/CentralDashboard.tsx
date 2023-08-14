@@ -20,7 +20,7 @@ const CentralDashboard = () => {
       setCollegeLoad(response?.data?.overall_total_load);
       setDepartmentLoad(response?.data?.department_load);
 
-      console.log(totalStaff);
+      // console.log(totalStaff);
     } catch (error) {
       console.error(error);
     }
@@ -29,7 +29,7 @@ const CentralDashboard = () => {
   useMemo(() => {
     fetchSummary();
   }, []);
-  console.log(collegeLoad);
+  // console.log(collegeLoad);
   return (
     <div>
       <TopCharts collegeLoad={collegeLoad} totalStaff={totalStaff} />
