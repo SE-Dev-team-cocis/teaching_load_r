@@ -17,16 +17,6 @@ import { toast } from "react-toastify";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useEffect, useMemo } from "react";
 
-// export type Load = {
-//   id: number;
-//   staff_id: number;
-//   courses: string;
-//   CUs: number[];
-//   // Cus: string;
-
-//   staffName?: Lecturer;
-// };
-
 type Lecturer = {
   id: number;
   firstName: string;
@@ -131,8 +121,10 @@ export default function HomeAssign() {
       const response = await axios.delete(url, { data });
 
       console.log("All load: ", response.data);
-      
-    } catch (error) {}
+      setLecturerLoad(response.data?.assignments.assignments)
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   if (isLoading)
