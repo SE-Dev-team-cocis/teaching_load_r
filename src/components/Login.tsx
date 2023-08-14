@@ -8,7 +8,7 @@ import MukLogo from "../assets/images/muk_logo.png";
 import LoginInput from "./utilities/form/LoginInput";
 import useUserstore from "../zustand/userStore";
 import { memo } from "react";
-import { successNotification } from "./utilities/toastify/Toastify";
+import { successNotification, errorNotification } from "./utilities/toastify/Toastify";
 
 type InitialValues = {
   username: string;
@@ -19,19 +19,6 @@ const initialLoginValues: InitialValues = {
   password: "",
 };
 
-const errorNotification = async (message: string) => {
-  await toast.error(message, {
-    position: "top-center",
-    toastId: 5483,
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: false,
-    draggable: false,
-    progress: undefined,
-    theme: "light",
-  });
-};
 
 const Login = () => {
   const navigate = useNavigate();
