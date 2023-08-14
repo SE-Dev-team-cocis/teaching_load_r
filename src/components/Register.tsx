@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 // import Logo from "../assets/react.svg";
 import MukLogo from "../assets/images/muk_logo.png";
+// import { successNotification,errorNotification } from "./utilities/toastify/Toastify";
 
 import TextField from "./utilities/TextField";
 
@@ -88,12 +89,12 @@ const Register = () => {
 
           if (response.data.register === true) {
             localStorage.clear();
-
+            
             localStorage.setItem(
               "token",
               JSON.stringify(response.data.access_token)
             );
-
+            successNotification("You have registered successfully")
             setUser(response.data.user);
             navigate("/teaching-load");
           }
