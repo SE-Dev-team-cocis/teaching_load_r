@@ -106,8 +106,6 @@ export default function HomeAssign() {
   };
 
   const deleteAllLoad = async () => {
-    modal?.close(); // closing the dialog box
-
     const assignee_id: number = id;
     const semester: number = 1;
 
@@ -120,10 +118,11 @@ export default function HomeAssign() {
       const url = "https://teaching-load-api.onrender.com/api/delete";
       const response = await axios.delete(url, { data });
 
-      console.log("All load: ", response.data);
-      setLecturerLoad(response.data?.assignments.assignments)
+
+      setLecturerLoad(response.data?.assignments.assignments);
+      modal?.close(); // closing the dialog box
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 

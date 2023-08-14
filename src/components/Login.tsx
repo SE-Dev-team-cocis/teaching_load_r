@@ -8,6 +8,7 @@ import MukLogo from "../assets/images/muk_logo.png";
 import LoginInput from "./utilities/form/LoginInput";
 import useUserstore from "../zustand/userStore";
 import { memo } from "react";
+import { successNotification } from "./utilities/toastify/Toastify";
 
 type InitialValues = {
   username: string;
@@ -75,6 +76,7 @@ const Login = () => {
           return;
         }
         if (response.data.login === true) {
+          successNotification("You have logged in successfully");
           setUser(response.data.user); // setting the user using zustand
           localStorage.setItem(
             "access_token",

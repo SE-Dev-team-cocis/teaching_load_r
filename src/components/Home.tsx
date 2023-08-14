@@ -23,12 +23,12 @@ export default function Home() {
     });
   };
 
-  const user = localStorage.getItem("loggedd_in");
-  if (user === "true") {
-    notify("You have logged in successfully");
-    localStorage.setItem("loggedd_in", JSON.stringify(false));
+  // const user = localStorage.getItem("loggedd_in");
+  // if (user === "true") {
+  //   notify("You have logged in successfully");
+  //   localStorage.setItem("loggedd_in", JSON.stringify(false));
 
-  }
+  // }
 
 
   const { data: loads, isSuccess: loadedLoads } = useQuery({
