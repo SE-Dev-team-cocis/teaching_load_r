@@ -96,7 +96,7 @@ const SemesterCourses = () => {
         }
       );
 
-    
+      setSemesterList(response.data?.semesterlist);
       console.log("semester list: ", response.data);
       notify(response.data.message);
       // navigate("/teaching-load/new");
