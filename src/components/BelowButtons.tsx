@@ -58,7 +58,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     );
     lecturerID = lecturersIDs[0];
 
-    checkedSemesterList.forEach((course) => {
+    checkedCourses.forEach((course) => {
       courseNames.push(course.course_name);
       courseCreditUnits.push(+course.course_cus); // convert to number by adding a + sign
     });

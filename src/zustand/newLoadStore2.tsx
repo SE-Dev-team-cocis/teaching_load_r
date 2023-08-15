@@ -47,7 +47,7 @@ type StoreType = {
   setCheckedLecturers: (lecturers: CheckedLecturer[]) => void;
   allCourses: Courses[];
   lecturers: Lecturer[];
-  semesterList: Courses[];
+  semesterList: any[];
   checkedCourses: CheckedCourses[];
   checkedSemesterList: Courses[];
   lecturerLoad: any[]; // For the specific lecturer load
@@ -55,7 +55,7 @@ type StoreType = {
   setCheckedCourses: (courses: CheckedCourses[]) => void;
   setCourses: (courses: Courses[]) => void;
   setLecturers: (courses: Lecturer[]) => void;
-  setSemesterList: (courses: Courses[]) => void;
+  setSemesterList: (courses: any[]) => void;
   setCheckedSemesterList: (courses: CheckedCourses[]) => void;
   setLecturerLoad: (_load: any[]) => void;
 };
@@ -87,7 +87,7 @@ const useNewLoadStore21 = create<StoreType>()(
         );
         set({ checkedCourses: checkedOnes });
       },
-      setSemesterList: (courses: Courses[]) => {
+      setSemesterList: (courses: any[]) => {
         set({ semesterList: courses });
       },
       setCheckedSemesterList: (courses: CheckedCourses[]) => {

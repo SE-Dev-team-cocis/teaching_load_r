@@ -20,8 +20,7 @@ type SemesterList = {
 };
 
 const SemesterCourses = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const user = useUserstore((state) => state.user);
   const staff_id = user.id;
 
@@ -85,14 +84,19 @@ const SemesterCourses = () => {
       "https://teaching-load-api.onrender.com/api/semesterlist/create";
 
     try {
-      const response = await axios.post(url, {semester_list: data}, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        url,
+        { semester_list: data },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("semester list: ", response.data);
       notify(response.data.message);
-      navigate("/teaching-load/new")
-      
+      // navigate("/teaching-load/new");
     } catch (error) {
       console.error(error);
     }
@@ -143,6 +147,8 @@ const SemesterCourses = () => {
           >
             <div className="grid grid-cols-4 gap-4">
               <p key={course.id} className="text-left col-span-2">
+                {/* <p className="text-left col-span-2"> */}
+
                 <input
                   type="checkbox"
                   className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"

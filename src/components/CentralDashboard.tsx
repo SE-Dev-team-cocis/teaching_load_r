@@ -4,6 +4,7 @@ import TopCharts from "./charts/TopCharts";
 import axios from "axios";
 
 const CentralDashboard = () => {
+  const [count, setCount] = useState(0);
   const [staff, setStaff] = useState([]);
   const [totalStaff, setTotalStaff] = useState([]);
 
@@ -14,6 +15,12 @@ const CentralDashboard = () => {
     try {
       const url = "https://teaching-load-api.onrender.com/api/dashboard";
       const response = await axios.get(url);
+
+      // console.log(response.data);
+      if (response.data?.count === 0) {
+        setCount(1);
+        return <p>{response.data.message}</p>;
+      }
       setStaff(response.data?.staff);
       setTotalStaff(response?.data?.total_staff);
 
@@ -29,19 +36,29 @@ const CentralDashboard = () => {
   useMemo(() => {
     fetchSummary();
   }, []);
-  // console.log(collegeLoad);
+  console.log(count);
   return (
-    <div>
-      <TopCharts collegeLoad={collegeLoad} totalStaff={totalStaff} />
-
-      <div className="grid grid-cols-12 gap-2 px-5">
-        {departmentLoad?.map((department: any) => (
-          <div key={department.department_department_name} className="col-span-3">
-            <Departments department={department} staff={staff} />
+    <>
+      {count === 1 ? (
+        <p className="text-center mt-10 text-2xl">
+          There is currently no broadcast load{" "}
+        </p>
+      ) : (
+        <div>
+          <TopCharts collegeLoad={collegeLoad} totalStaff={totalStaff} />
+          <div className="grid grid-cols-12 gap-2 px-5">
+            {departmentLoad?.map((department: any) => (
+              <div
+                key={department.department_department_name}
+                className="col-span-3"
+              >
+                <Departments department={department} staff={staff} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

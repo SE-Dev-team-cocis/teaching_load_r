@@ -47,6 +47,8 @@ export default function HomeAssign() {
   const modal = document.querySelector(".mydialog") as HTMLDialogElement;
   const { id } = useUserstore((state) => state.user);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
+  const setCourses = useNewLoadStore21((state) => state.setCourses);
+
 
   const {
     data: lecturers,
@@ -67,6 +69,8 @@ export default function HomeAssign() {
     queryFn: fetchCourses,
   });
 
+  console.log("courses: ", courses)
+
   let myCourses: Course[] = [];
   if (loadedCourses) {
     myCourses = courses;
@@ -79,6 +83,7 @@ export default function HomeAssign() {
 
   useMemo(() => {
     setLecturerLoad(loads);
+    setCourses(myCourses)
   }, []);
 
   const { data: semesterlist, isSuccess: semesterList } = useQuery({
@@ -118,6 +123,7 @@ export default function HomeAssign() {
       const url = "https://teaching-load-api.onrender.com/api/delete";
       const response = await axios.delete(url, { data });
 
+      console.log(response.data.assignments)
 
       setLecturerLoad(response.data?.assignments.assignments);
       modal?.close(); // closing the dialog box
@@ -152,7 +158,9 @@ export default function HomeAssign() {
         </div>
 
         <div className="grid grid-cols-3 gap-2 mt-3">
-          <Courses courses={myCourses} />
+          {/* <Courses courses={myCourses} /> */}
+          <Courses />
+
           <Lecturers lecturers={myLecturers} />
           <LoadSummary />
         </div>

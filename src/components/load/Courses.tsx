@@ -1,6 +1,9 @@
 import { useMemo, useState } from "react";
 import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSemesterList } from "../../zustand/api/apis";
+import useUserstore from "../../zustand/userStore";
 
 type Subgroup = {
   id: number;
@@ -22,9 +25,13 @@ type CourseProps = {
   courses: Course[];
 };
 
-const Courses = ({ courses }: CourseProps) => {
-  const setCourses = useNewLoadStore21((state) => state.setCourses);
-  const allCourses = useNewLoadStore21((state) => state.allCourses);
+// const Courses = ({ courses }: CourseProps) => {
+const Courses = () => {
+
+  const user = useUserstore(state => state.user)
+
+  // const setCourses = useNewLoadStore21((state) => state.setCourses);
+  // const allCourses = useNewLoadStore21((state) => state.allCourses);
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
@@ -35,30 +42,27 @@ const Courses = ({ courses }: CourseProps) => {
     (state) => state.setCheckedSemesterList
   );
 
+  const { data: semesterlist, isSuccess: loadedLoads } = useQuery({
+    queryKey: ["load"],
+    queryFn: fetchSemesterList,
+  });
+
+  // console.log("Semester list", semesterlist);
+  
   useMemo(() => {
-    setCourses(courses);
-    setSemesterList(courses);
-  }, [courses]);
+    // setCourses(semesterList);
+    setSemesterList(semesterlist)
+    // setSemesterList(courses);
+  }, []);
+    
+  // console.log("Semester list: ", semesterList)
 
-  // function handleCheckedCourses(id: number) {
-  //   const updatedCourses: Course[] = allCourses.map((course: Course) =>
-  //     course.id === id ? { ...course, isChecked: !course.isChecked } : course
-  //   );
-
-  //   setCourses(updatedCourses);
-
-  //   const checkedOnes = updatedCourses.filter((course) => {
-  //     return course.isChecked === true;
-  //   });
-
-  //   setCheckedCourses(checkedOnes); // Setting only the checked courses
-  // }
 
   function handleCheckedCourses(id: number) {
     const updatedCourses: Course[] = semesterList.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
-    // console.log("Updated ones: ", updatedCourses);
+    console.log("Updated ones: ", updatedCourses);
 
     setSemesterList(updatedCourses);
 
@@ -66,7 +70,9 @@ const Courses = ({ courses }: CourseProps) => {
       return course.isChecked === true;
     });
 
-    setCheckedSemesterList(checkedOnes); // Setting only the checked courses
+    // setChe
+
+    setCheckedCourses(checkedOnes); // Setting only the checked courses
     // console.log("Checked ones: ", checkedOnes);
   }
   const [filterText, setFilterText] = useState("");
@@ -94,8 +100,8 @@ const Courses = ({ courses }: CourseProps) => {
       />
       <div className="list">
         {/* {allCourses */}
-          {semesterList
-          ?.filter((courseUnit: Course) => {
+        {semesterList
+          ?.filter((courseUnit: any) => {
             return filterText.toLowerCase() === ""
               ? courseUnit
               : courseUnit.course_name.toLowerCase().includes(filterText);

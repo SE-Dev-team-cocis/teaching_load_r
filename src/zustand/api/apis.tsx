@@ -160,7 +160,7 @@ export const fetchSemesterList = async () => {
   });
   const mycourses = response.data?.semester_list;
 
-  const courses: Course[] = mycourses?.map((_course: any) => {
+  const courses = mycourses?.map((_course: any) => {
     return {
       id: _course.course?.id,
       course_cus: _course.course?.course_cus,
@@ -168,6 +168,7 @@ export const fetchSemesterList = async () => {
       course_name: _course.course?.course_name,
       isChecked: false,
       subgroups: _course.course?.subgroups,
+      course: _course.course
     };
   });
 
