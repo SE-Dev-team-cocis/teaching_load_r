@@ -13,11 +13,11 @@ type Course = {
   isChecked: boolean;
 };
 
-type SemesterList = {
-  course_code: number;
-  staff_id: number;
-  semester: number;
-};
+// type SemesterList = {
+//   course_code: number;
+//   staff_id: number;
+//   semester: number;
+// };
 
 const SemesterCourses = () => {
   const navigate = useNavigate();
@@ -26,6 +26,8 @@ const SemesterCourses = () => {
 
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
+  const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
+  
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
@@ -94,6 +96,7 @@ const SemesterCourses = () => {
         }
       );
 
+    
       console.log("semester list: ", response.data);
       notify(response.data.message);
       // navigate("/teaching-load/new");
