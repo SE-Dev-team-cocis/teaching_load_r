@@ -27,7 +27,7 @@ const SemesterCourses = () => {
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
-  
+
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
@@ -95,9 +95,14 @@ const SemesterCourses = () => {
           },
         }
       );
-
-      setSemesterList(response.data?.semesterlist);
-      console.log("semester list: ", response.data);
+      console.log(response.data?.semesterlist);
+      const mylist = response.data?.semesterlist;
+      let theArray: any[] = [];
+      const newlist: any[] = mylist?.map((item: any) => {
+        theArray.push(item.course);
+      });
+      setSemesterList(theArray);
+      console.log("semester list: ", theArray);
       notify(response.data.message);
       // navigate("/teaching-load/new");
     } catch (error) {

@@ -10,11 +10,11 @@ const TopCharts = ({ collegeLoad, totalStaff }: any) => {
       {
         label: "Lecturer's summary",
         data: [
-          collegeLoad.min_load,
-          collegeLoad.extra_load,
-          collegeLoad.under_load,
+          collegeLoad?.min_load,
+          collegeLoad?.extra_load,
+          collegeLoad?.under_load,
         ],
-        fill:true,
+        fill: true,
         backgroundColor: [
           "rgb(62, 110, 62)",
           "rgb(233, 82, 82)",
@@ -34,7 +34,6 @@ const TopCharts = ({ collegeLoad, totalStaff }: any) => {
         fill: true,
         backgroundColor: "rgba(200,192,192,1)",
       },
-      
     ],
   };
   return (

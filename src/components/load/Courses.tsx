@@ -42,16 +42,16 @@ const Courses = () => {
     (state) => state.setCheckedSemesterList
   );
 
-  const { data: semesterlist, isSuccess: loadedLoads } = useQuery({
-    queryKey: ["load"],
-    queryFn: fetchSemesterList,
-  });
+  // const { data: semesterlist, isSuccess: loadedLoads } = useQuery({
+  //   queryKey: ["load"],
+  //   queryFn: fetchSemesterList,
+  // });
 
   // console.log("Semester list", semesterlist);
   
   useMemo(() => {
     // setCourses(semesterList);
-    setSemesterList(semesterlist)
+    // setSemesterList(semesterlist)
     // setSemesterList(courses);
   }, []);
     
@@ -100,48 +100,57 @@ const Courses = () => {
       />
       <div className="list">
         {/* {allCourses */}
-        {semesterList
-          ?.filter((courseUnit: any) => {
-            return filterText.toLowerCase() === ""
-              ? courseUnit
-              : courseUnit.course_name.toLowerCase().includes(filterText);
-          })
-          .map((courseUnit: Course) => (
-            <div key={courseUnit.id} className="flex flex-col">
-              <div>
-                <input
-                  type="checkbox"
-                  className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-                  name="courseUnits[]"
-                  checked={courseUnit.isChecked}
-                  value={courseUnit.id}
-                  onChange={() => handleCheckedCourses(courseUnit.id)}
-                />
-                {courseUnit.course_name}
+        {semesterList.length > 1 ? (
+          semesterList
+            ?.filter((courseUnit: any) => {
+              return filterText.toLowerCase() === ""
+                ? courseUnit
+                : courseUnit.course_name.toLowerCase().includes(filterText);
+            })
+            .map((courseUnit: Course) => (
+              <div key={courseUnit.id} className="flex flex-col">
+                <div>
+                  <input
+                    type="checkbox"
+                    className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
+                    name="courseUnits[]"
+                    checked={courseUnit.isChecked}
+                    value={courseUnit.id}
+                    onChange={() => handleCheckedCourses(courseUnit.id)}
+                  />
+                  {courseUnit.course_name}
+                </div>
+                {courseUnit.subgroups?.length === 0 ? (
+                  ""
+                ) : (
+                  <>
+                    <div className="ml-5 flex flex-col">
+                      {courseUnit.subgroups?.map((group) => (
+                        <div key={group.id} className="font-sm">
+                          <input
+                            type="checkbox"
+                            className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
+                            name="subgroups[]"
+                            checked={group.isChecked}
+                            value={group.id}
+                            // onChange={() => handleCheckedCourses(courseUnit.id)}
+                          />
+                          {group.subgroup_name}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
-              {courseUnit.subgroups?.length === 0 ? (
-                ""
-              ) : (
-                <>
-                  <div className="ml-5 flex flex-col">
-                    {courseUnit.subgroups?.map((group) => (
-                      <div key={group.id} className="font-sm">
-                        <input
-                          type="checkbox"
-                          className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-                          name="subgroups[]"
-                          checked={group.isChecked}
-                          value={group.id}
-                          // onChange={() => handleCheckedCourses(courseUnit.id)}
-                        />
-                        {group.subgroup_name}
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
+            ))
+        ) : (
+          <>
+            <p>You currently have no semester list</p>
+            <button className="mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">
+              Create Semester list
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

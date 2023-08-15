@@ -18,10 +18,10 @@ const Departments = ({ department, staff }: any) => {
             <p className="font-semibold text-gray-600">Total load</p>
           </div>
           <div className="list">
-            {staff.map((staffMember: any) => {
+            {staff?.map((index: number, staffMember: any) => {
               if (staffMember.deparment === department.department_name) {
                 return (
-                  <div className="flex justify-between" key={staffMember.staff}>
+                  <div className="flex justify-between" key={index}>
                     <p>{staffMember.staff}</p>
                     <p className="mr-4">{staffMember.sum}</p>
                   </div>
@@ -35,16 +35,14 @@ const Departments = ({ department, staff }: any) => {
         </div>
         <div className="chart mt-2 text-center">
           <p className="pt-2">No. of lecturers Vs Total load</p>
-          <DepartmentChart
-            data={data}
-          />
+          <DepartmentChart data={data} />
           {/* <p>Min load: {department.min_load}</p>
           <p className="mr-4">Extra load: {department.extra_load}</p>
           <p className="mr-4">Under load: {department.under_load}</p> */}
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default Departments;

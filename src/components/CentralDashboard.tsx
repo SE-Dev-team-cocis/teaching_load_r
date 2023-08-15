@@ -16,7 +16,7 @@ const CentralDashboard = () => {
       const url = "https://teaching-load-api.onrender.com/api/dashboard";
       const response = await axios.get(url);
 
-      // console.log(response.data);
+      // console.log(response?.data?.overall_total_load);
       if (response.data?.count === 0) {
         setCount(1);
         return <p>{response.data.message}</p>;
@@ -28,6 +28,7 @@ const CentralDashboard = () => {
       setDepartmentLoad(response?.data?.department_load);
 
       // console.log(totalStaff);
+      console.log(departmentLoad);
     } catch (error) {
       console.error(error);
     }
@@ -47,11 +48,8 @@ const CentralDashboard = () => {
         <div>
           <TopCharts collegeLoad={collegeLoad} totalStaff={totalStaff} />
           <div className="grid grid-cols-12 gap-2 px-5">
-            {departmentLoad?.map((department: any) => (
-              <div
-                key={department.department_department_name}
-                className="col-span-3"
-              >
+            {departmentLoad?.map((index: number, department: any) => (
+              <div key={index} className="col-span-3">
                 <Departments department={department} staff={staff} />
               </div>
             ))}

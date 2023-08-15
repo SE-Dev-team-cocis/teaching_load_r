@@ -24,6 +24,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const queryClient = new QueryClient();
   const { id } = useUserstore((state) => state.user);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
+  const semesterlist = useNewLoadStore21((state) => state.semesterList);
+
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
 
@@ -86,8 +88,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       });
     },
   });
-
-  
 
   const notify = async (message: string) => {
     await toast.success(message, {
@@ -170,8 +170,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           type="button"
           onClick={() => assignCourses()}
           disabled={
-            // checkedCourses?.length === 0 || checkedLecturers?.length === 0
-            checkedSemesterList?.length === 0 || checkedLecturers?.length === 0
+            checkedCourses?.length === 0 || checkedLecturers?.length === 0
+            // checkedSemesterList?.length === 0 || checkedLecturers?.length === 0
           }
         >
           {isLoading ? "Assigning load..." : "Assign"}
