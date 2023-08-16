@@ -10,13 +10,14 @@ const CentralDashboard = () => {
 
   const [collegeLoad, setCollegeLoad] = useState({});
   const [departmentLoad, setDepartmentLoad] = useState([]);
+  const [courseSummary, setCourseSummary] = useState({})
 
   const fetchSummary = async () => {
     try {
       const url = "https://teaching-load-api.onrender.com/api/dashboard";
       const response = await axios.get(url);
 
-      // console.log(response?.data?.overall_total_load);
+      // console.log(response?.data);
       if (response.data?.count === 0) {
         setCount(1);
         return <p>{response.data.message}</p>;
@@ -26,9 +27,10 @@ const CentralDashboard = () => {
 
       setCollegeLoad(response?.data?.overall_total_load);
       setDepartmentLoad(response?.data?.department_load);
+      setCourseSummary(response.data?.course_summary)
 
       // console.log(totalStaff);
-      console.log(departmentLoad);
+      // console.log(departmentLoad);
     } catch (error) {
       console.error(error);
     }
@@ -37,7 +39,7 @@ const CentralDashboard = () => {
   useMemo(() => {
     fetchSummary();
   }, []);
-  console.log(count);
+  // console.log(courseSummary);
   return (
     <>
       {count === 1 ? (
@@ -46,9 +48,9 @@ const CentralDashboard = () => {
         </p>
       ) : (
         <div>
-          <TopCharts collegeLoad={collegeLoad} totalStaff={totalStaff} />
+          <TopCharts collegeLoad={collegeLoad} totalStaff={totalStaff} courseSummary={courseSummary} />
           <div className="grid grid-cols-12 gap-2 px-5">
-            {departmentLoad?.map((index: number, department: any) => (
+            {departmentLoad?.map((department: any, index:number) => (
               <div key={index} className="col-span-3">
                 <Departments department={department} staff={staff} />
               </div>

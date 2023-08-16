@@ -6,6 +6,8 @@ const Departments = ({ department, staff }: any) => {
     department.extra_load,
     department.under_load,
   ];
+
+  // console.log(department, staff)
   return (
     <div className="rounded-lg p-2 col-span-3 department">
       <div className="">
@@ -18,8 +20,9 @@ const Departments = ({ department, staff }: any) => {
             <p className="font-semibold text-gray-600">Total load</p>
           </div>
           <div className="list">
-            {staff?.map((index: number, staffMember: any) => {
+            {staff?.map((staffMember: any, index: number) => {
               if (staffMember.deparment === department.department_name) {
+                // {console.log("match", staffMember.staff)}
                 return (
                   <div className="flex justify-between" key={index}>
                     <p>{staffMember.staff}</p>
