@@ -29,7 +29,7 @@ const DepartmentChart = ({ data }: any) => {
         }
       };
   return (
-    <div>
+    <div className="dept-chart">
       <Bar data={chartData} options={options} />
     </div>
   );

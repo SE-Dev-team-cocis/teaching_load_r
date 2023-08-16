@@ -8,18 +8,14 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
     labels: ["Minimum Load", "Under Load", "Extra Load"],
     datasets: [
       {
-        label: ["Minimum load", "Under load" "Extra load"],
+        label: "Lecturer's progress",
         data: [
           collegeLoad?.min_load,
-          collegeLoad?.extra_load,
           collegeLoad?.under_load,
+          collegeLoad?.extra_load,
         ],
         fill: true,
-        backgroundColor: [
-          "#ffff33",
-          "#ff0000",
-          "#2d862d",
-        ],
+        backgroundColor: ["#ffff33", "#ff0000", "#2d862d"],
       },
     ],
   };
@@ -28,13 +24,13 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
     labels: ["Assigned", "Unassigned"],
     datasets: [
       {
-        label: ["Assigned courses", "Unassigned courses"],
+        label: "Course summary",
         data: [
           courseSummary.allocated_courses,
           courseSummary.all_courses - courseSummary.allocated_courses,
         ],
         fill: true,
-        backgroundColor: ["#2d862d", " #ff0000"],
+        backgroundColor: ["#2d862d", "#ff0000"],
       },
     ],
   };
@@ -50,7 +46,7 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
             <p>Extra load: {collegeLoad.extra_load}</p>
             <p>Total staff: {totalStaff}</p>
           </div>
-          <div className="col-span-8">
+          <div className="col-span-8 top-chart">
             <Doughnut data={LecturerProgress} />
           </div>
         </div>
@@ -66,7 +62,7 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
               {courseSummary.all_courses - courseSummary.allocated_courses}
             </p>
           </div>
-          <div className="col-span-8">
+          <div className="col-span-8 top-chart" >
             <Pie data={CourseSummary} />
           </div>
         </div>

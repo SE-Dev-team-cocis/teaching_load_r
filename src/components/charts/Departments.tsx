@@ -36,7 +36,7 @@ const Departments = ({ department, staff }: any) => {
         <div className="details mt-2">
           <p>View details</p>
         </div>
-        <div className="chart mt-2 text-center">
+        <div className="chart mt-2 text-center below-chart">
           <p className="pt-2">No. of lecturers Vs Total load</p>
           <DepartmentChart data={data} />
           {/* <p>Min load: {department.min_load}</p>
