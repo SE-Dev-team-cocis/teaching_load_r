@@ -8,7 +8,7 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
     labels: ["Minimum Load", "Under Load", "Extra Load"],
     datasets: [
       {
-        label: "Lecturer's summary",
+        label: ["Minimum load", "Under load" "Extra load"],
         data: [
           collegeLoad?.min_load,
           collegeLoad?.extra_load,
@@ -16,9 +16,9 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
         ],
         fill: true,
         backgroundColor: [
-          "rgb(62, 110, 62)",
-          "rgb(233, 82, 82)",
-          "rgb(248, 248, 25)",
+          "#ffff33",
+          "#ff0000",
+          "#2d862d",
         ],
       },
     ],
@@ -28,7 +28,7 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
     labels: ["Assigned", "Unassigned"],
     datasets: [
       {
-        label: "Lecturer's summary",
+        label: ["Assigned courses", "Unassigned courses"],
         data: [
           courseSummary.allocated_courses,
           courseSummary.all_courses - courseSummary.allocated_courses,
@@ -39,18 +39,6 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
     ],
   };
 
-  const data = {
-    labels: ["Minimum Load", "Under Load", "Extra Load"],
-
-    datasets: [
-      {
-        label: "Lecturer Summary",
-        data: [10, 35, 75],
-        fill: true,
-        backgroundColor: "rgba(200,192,192,1)",
-      },
-    ],
-  };
   return (
     <div className="grid grid-cols-12 gap-4 dashboard">
       <div className="col-span-6 dashboard_card rounded-lg">
