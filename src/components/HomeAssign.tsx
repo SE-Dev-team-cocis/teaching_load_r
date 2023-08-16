@@ -49,7 +49,6 @@ export default function HomeAssign() {
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const setCourses = useNewLoadStore21((state) => state.setCourses);
 
-
   const {
     data: lecturers,
     isLoading,
@@ -64,17 +63,17 @@ export default function HomeAssign() {
     myLecturers = lecturers;
   }
 
-  const { data: courses, isSuccess: loadedCourses } = useQuery({
-    queryKey: ["courses"],
-    queryFn: fetchCourses,
-  });
+  // const { data: courses, isSuccess: loadedCourses } = useQuery({
+  //   queryKey: ["courses"],
+  //   queryFn: fetchCourses,
+  // });
 
-  // console.log("courses: ", courses)
+  // // console.log("courses: ", courses)
 
-  let myCourses: Course[] = [];
-  if (loadedCourses) {
-    myCourses = courses;
-  }
+  // let myCourses: Course[] = [];
+  // if (loadedCourses) {
+  //   myCourses = courses;
+  // }
 
   const { data: loads, isSuccess: loadedLoads } = useQuery({
     queryKey: ["load"],
@@ -83,7 +82,7 @@ export default function HomeAssign() {
 
   useMemo(() => {
     setLecturerLoad(loads);
-    setCourses(myCourses)
+    // setCourses(myCourses)
   }, []);
 
   // const { data: semesterlist, isSuccess: semesterList } = useQuery({
@@ -123,7 +122,7 @@ export default function HomeAssign() {
       const url = "https://teaching-load-api.onrender.com/api/delete";
       const response = await axios.delete(url, { data });
 
-      console.log(response.data.assignments)
+      console.log(response.data.assignments);
 
       setLecturerLoad(response.data?.assignments.assignments);
       modal?.close(); // closing the dialog box

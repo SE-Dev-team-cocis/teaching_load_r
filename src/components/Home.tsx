@@ -8,21 +8,21 @@ import useNewLoadStore21 from "../zustand/newLoadStore2";
 
 export default function Home() {
     const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
-    const setCourses = useNewLoadStore21((state) => state.setCourses);
+    // const setCourses = useNewLoadStore21((state) => state.setCourses);
 
-  const notify = (message: string) => {
-    toast.success(message, {
-      toastId: 543,
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
+  // const notify = (message: string) => {
+  //   toast.success(message, {
+  //     toastId: 543,
+  //     position: "top-center",
+  //     autoClose: 2000,
+  //     hideProgressBar: false,
+  //     closeOnClick: false,
+  //     pauseOnHover: false,
+  //     draggable: false,
+  //     progress: undefined,
+  //     theme: "light",
+  //   });
+  // };
 
   // const user = localStorage.getItem("loggedd_in");
   // if (user === "true") {
@@ -32,15 +32,15 @@ export default function Home() {
   // }
 
 // Fetching courses
-const { data: courses, isSuccess: loadedCourses } = useQuery({
-queryKey: ["courses"],
-queryFn: fetchCourses,
-  });
+// const { data: courses, isSuccess: loadedCourses } = useQuery({
+// queryKey: ["courses"],
+// queryFn: fetchCourses,
+//   });
 
-  let myCourses: Course[] = [];
-  if (loadedCourses) {
-    myCourses = courses;
-  }
+//   let myCourses: Course[] = [];
+//   if (loadedCourses) {
+//     myCourses = courses;
+//   }
 
 
     // Fetching all load
@@ -53,7 +53,7 @@ queryFn: fetchCourses,
 
   useMemo(() => {
     setLecturerLoad(loads)
-      setCourses(myCourses)
+      // setCourses(myCourses)
   }, []);
 
   return (
@@ -74,7 +74,7 @@ queryFn: fetchCourses,
     </>
   );
 }
-function setLecturerLoad(loads: any) {
-  throw new Error("Function not implemented.");
-}
+// function setLecturerLoad(loads: any) {
+//   throw new Error("Function not implemented.");
+// }
 

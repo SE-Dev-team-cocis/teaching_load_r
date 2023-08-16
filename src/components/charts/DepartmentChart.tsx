@@ -13,8 +13,8 @@ const DepartmentChart = ({ data }: any) => {
             data: [...data],
             fill: true,
             backgroundColor: [
-              "#ffff33",
               "#ff0000",
+              "#ffff33",
               "#2d862d",
             ],
           },
@@ -23,12 +23,13 @@ const DepartmentChart = ({ data }: any) => {
       const options = {
         scales: {
           y: {
-            beginAtZero: true
-          }
-        }
+            beginAtZero: true,
+          },
+        },
+        // legend: false,
       };
   return (
-    <div className="dept-chart">
+    <div className="">
       <Bar data={chartData} options={options} />
     </div>
   );
