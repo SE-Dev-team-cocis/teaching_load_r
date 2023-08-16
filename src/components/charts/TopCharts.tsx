@@ -1,10 +1,9 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
+import { Doughnut, Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
-  // console.log(courseSummary)
   const LecturerProgress = {
     labels: ["Minimum Load", "Under Load", "Extra Load"],
     datasets: [
@@ -19,6 +18,24 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
         backgroundColor: [
           "rgb(62, 110, 62)",
           "rgb(233, 82, 82)",
+          "rgb(248, 248, 25)",
+        ],
+      },
+    ],
+  };
+
+  const CourseSummary = {
+    labels: ["Assigned", "Unassigned" ],
+    datasets: [
+      {
+        label: "Lecturer's summary",
+        data: [
+          courseSummary.allocated_courses,
+          courseSummary.all_courses - courseSummary.allocated_courses,
+        ],
+        fill: true,
+        backgroundColor: [
+          "rgb(62, 110, 62)",
           "rgb(248, 248, 25)",
         ],
       },
@@ -58,9 +75,12 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
         <p>Assigned: {courseSummary.allocated_courses}</p>
         <p>All courses: {courseSummary.all_courses}</p>
         <p>
-          Unassigned:{" "}
+          Unassigned: 
           {courseSummary.all_courses - courseSummary.allocated_courses}
         </p>
+         <div>
+            <Pie data={CourseSummary} />
+          </div>
       </div>
     </div>
   );
