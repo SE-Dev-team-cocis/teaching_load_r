@@ -63,17 +63,6 @@ export default function HomeAssign() {
     myLecturers = lecturers;
   }
 
-  // const { data: courses, isSuccess: loadedCourses } = useQuery({
-  //   queryKey: ["courses"],
-  //   queryFn: fetchCourses,
-  // });
-
-  // // console.log("courses: ", courses)
-
-  // let myCourses: Course[] = [];
-  // if (loadedCourses) {
-  //   myCourses = courses;
-  // }
 
   const { data: loads, isSuccess: loadedLoads } = useQuery({
     queryKey: ["load"],
@@ -84,16 +73,7 @@ export default function HomeAssign() {
     setLecturerLoad(loads);
     // setCourses(myCourses)
   }, []);
-
-  // const { data: semesterlist, isSuccess: semesterList } = useQuery({
-  //   queryKey: ["semesterlist"],
-  //   queryFn: fetchSemesterList,
-  // });
-
-  // let fetchedSemesterList: Course[] = [];
-  // if (semesterList) {
-  //   fetchedSemesterList = semesterlist;
-  // }
+ 
 
   const notify = (message: string) => {
     toast.success(message, {

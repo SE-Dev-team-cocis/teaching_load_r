@@ -7,6 +7,7 @@ import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { memo, useEffect, useMemo, useState } from "react";
+import { successNotification } from "./utilities/toastify/Toastify";
 
 type AssignLoad = {
   courses: string;
@@ -23,8 +24,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const navigate = useNavigate();
   const queryClient = new QueryClient();
   const { id } = useUserstore((state) => state.user);
-  const lecturers = useNewLoadStore21((state) => state.lecturers);
-  const semesterlist = useNewLoadStore21((state) => state.semesterList);
 
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
@@ -89,34 +88,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     },
   });
 
-  const notify = async (message: string) => {
-    await toast.success(message, {
-      toastId: 231,
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-
-  const errorNotification = async (message: string) => {
-    await toast.error(message, {
-      toastId: 232,
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-
   let myLoad: any = [];
 
   function afterLoading() {
@@ -127,7 +98,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       setCheckedCourses([]);
       setCheckedSemesterList([]);
 
-      notify(data.message);
+      successNotification(data.message);
     }
   }
 
@@ -137,11 +108,10 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const user = useUserstore((state) => state.user);
   const broadcastLoad = async (id: number) => {
-    console.log(id);
     try {
       const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
       const response = await axios.put(url);
-      //Add toastify asynchronously
+      successNotification("The assigned load has been successfully broadcast");
       navigate("/teaching-load/central");
     } catch (error) {
       console.error(error);

@@ -1,8 +1,6 @@
 import { useMemo, useState } from "react";
 import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { useQuery } from "@tanstack/react-query";
-import { fetchSemesterList } from "../../zustand/api/apis";
 import useUserstore from "../../zustand/userStore";
 
 type Subgroup = {
@@ -25,13 +23,10 @@ type CourseProps = {
   courses: Course[];
 };
 
-// const Courses = ({ courses }: CourseProps) => {
 const Courses = () => {
 
   const user = useUserstore(state => state.user)
 
-  // const setCourses = useNewLoadStore21((state) => state.setCourses);
-  // const allCourses = useNewLoadStore21((state) => state.allCourses);
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
@@ -41,13 +36,6 @@ const Courses = () => {
   const setCheckedSemesterList = useNewLoadStore21(
     (state) => state.setCheckedSemesterList
   );
-
-  // const { data: semesterlist, isSuccess: loadedLoads } = useQuery({
-  //   queryKey: ["load"],
-  //   queryFn: fetchSemesterList,
-  // });
-
-  // console.log("Semester list", semesterlist);
   
   useMemo(() => {
     // setCourses(semesterList);
@@ -55,14 +43,11 @@ const Courses = () => {
     // setSemesterList(courses);
   }, []);
     
-  // console.log("Semester list: ", semesterList)
-
 
   function handleCheckedCourses(id: number) {
     const updatedCourses: Course[] = semesterList.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
-    console.log("Updated ones: ", updatedCourses);
 
     setSemesterList(updatedCourses);
 
@@ -70,10 +55,7 @@ const Courses = () => {
       return course.isChecked === true;
     });
 
-    // setChe
-
-    setCheckedCourses(checkedOnes); // Setting only the checked courses
-    // console.log("Checked ones: ", checkedOnes);
+    setCheckedCourses(checkedOnes); 
   }
   const [filterText, setFilterText] = useState("");
   return (

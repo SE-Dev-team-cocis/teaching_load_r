@@ -7,6 +7,7 @@ import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { LecturerLoad } from "../../zustand/loadStore";
 import { useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { successNotification } from "../utilities/toastify/Toastify";
 
 type LoadPops = {
   totalLoad: Load[];
@@ -27,18 +28,19 @@ const notify = (message: string) => {
 };
 
 const LoadSummary = () => {
-  const lecturerLoad = useNewLoadStore21(state=>state.lecturerLoad)
+  const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
+  // const set
 
-   const { data: loads, isSuccess: loadedLoads } = useQuery({
-     queryKey: ["load"],
-     queryFn: fetchLoad,
-   });
+  const { data: loads, isSuccess: loadedLoads } = useQuery({
+    queryKey: ["load"],
+    queryFn: fetchLoad,
+  });
 
-   useMemo(() => {
-     setLecturerLoad(loads);
-   }, []);
-   
+  useMemo(() => {
+    setLecturerLoad(loads);
+  }, []);
+
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
 
@@ -58,11 +60,9 @@ const LoadSummary = () => {
     };
   });
 
-    
   const myFiltered = newtotalLoad?.filter((load) => {
     return load.assignee_id === id;
   });
-
 
   const deleteLoad = async (_assigneeID: number, _loadID: number) => {
     const data = {
@@ -74,13 +74,13 @@ const LoadSummary = () => {
       const url = "https://teaching-load-api.onrender.com/api/deleteload";
       const response = await axios.delete(url, { data });
       if (response.status === 200) {
-        notify(response.data.message);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2007);
+        successNotification("Load deleted successfully");
+       
+        setLecturerLoad(response.data?.assignments.assignments);
       }
-      // console.log("Response: ", response);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error: ", error);
+    }
   };
 
   return (
