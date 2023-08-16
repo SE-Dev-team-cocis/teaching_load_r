@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Departments from "./charts/Departments";
 import TopCharts from "./charts/TopCharts";
 import axios from "axios";
@@ -16,8 +16,6 @@ const CentralDashboard = () => {
     try {
       const url = "https://teaching-load-api.onrender.com/api/dashboard";
       const response = await axios.get(url);
-
-      // console.log(response?.data);
       if (response.data?.count === 0) {
         setCount(1);
         return <p>{response.data.message}</p>;
@@ -28,9 +26,6 @@ const CentralDashboard = () => {
       setCollegeLoad(response?.data?.overall_total_load);
       setDepartmentLoad(response?.data?.department_load);
       setCourseSummary(response.data?.course_summary)
-
-      // console.log(totalStaff);
-      // console.log(departmentLoad);
     } catch (error) {
       console.error(error);
     }
@@ -39,7 +34,6 @@ const CentralDashboard = () => {
   useMemo(() => {
     fetchSummary();
   }, []);
-  // console.log(courseSummary);
   return (
     <>
       {count === 1 ? (
