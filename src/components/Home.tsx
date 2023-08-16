@@ -1,47 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { fetchCourses,fetchLecturers,fetchLoad } from "../zustand/api/apis";
+import { fetchLoad } from "../zustand/api/apis";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 
 
 export default function Home() {
-    const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
-    // const setCourses = useNewLoadStore21((state) => state.setCourses);
-
-  // const notify = (message: string) => {
-  //   toast.success(message, {
-  //     toastId: 543,
-  //     position: "top-center",
-  //     autoClose: 2000,
-  //     hideProgressBar: false,
-  //     closeOnClick: false,
-  //     pauseOnHover: false,
-  //     draggable: false,
-  //     progress: undefined,
-  //     theme: "light",
-  //   });
-  // };
-
-  // const user = localStorage.getItem("loggedd_in");
-  // if (user === "true") {
-  //   notify("You have logged in successfully");
-  //   localStorage.setItem("loggedd_in", JSON.stringify(false));
-
-  // }
-
-// Fetching courses
-// const { data: courses, isSuccess: loadedCourses } = useQuery({
-// queryKey: ["courses"],
-// queryFn: fetchCourses,
-//   });
-
-//   let myCourses: Course[] = [];
-//   if (loadedCourses) {
-//     myCourses = courses;
-//   }
-
+const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
 
     // Fetching all load
   const { data: loads, isSuccess: loadedLoads } = useQuery({
@@ -53,7 +18,6 @@ export default function Home() {
 
   useMemo(() => {
     setLecturerLoad(loads)
-      // setCourses(myCourses)
   }, []);
 
   return (
@@ -74,7 +38,3 @@ export default function Home() {
     </>
   );
 }
-// function setLecturerLoad(loads: any) {
-//   throw new Error("Function not implemented.");
-// }
-
