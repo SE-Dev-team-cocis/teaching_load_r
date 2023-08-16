@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { fetchLoad } from "../zustand/api/apis";
+import { fetchCourses,fetchLecturers,fetchLoad } from "../zustand/api/apis";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
@@ -8,6 +8,7 @@ import useNewLoadStore21 from "../zustand/newLoadStore2";
 
 export default function Home() {
     const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
+    const setCourses = useNewLoadStore21((state) => state.setCourses);
 
   const notify = (message: string) => {
     toast.success(message, {
@@ -30,14 +31,29 @@ export default function Home() {
 
   // }
 
+// Fetching courses
+const { data: courses, isSuccess: loadedCourses } = useQuery({
+queryKey: ["courses"],
+queryFn: fetchCourses,
+  });
 
+  let myCourses: Course[] = [];
+  if (loadedCourses) {
+    myCourses = courses;
+  }
+
+
+    // Fetching all load
   const { data: loads, isSuccess: loadedLoads } = useQuery({
     queryKey: ["load"],
     queryFn: fetchLoad,
   });
 
+  
+
   useMemo(() => {
-    setLecturerLoad(loads);
+    setLecturerLoad(loads)
+      setCourses(myCourses)
   }, []);
 
   return (
