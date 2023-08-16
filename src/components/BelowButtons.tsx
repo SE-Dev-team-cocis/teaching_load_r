@@ -27,6 +27,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
+  const semesterList = useNewLoadStore21((state) => state.semesterList);
+  const lecturers = useNewLoadStore21((state) => state.lecturers);
 
   const checkedLecturers = useNewLoadStore21((state) => state.checkedLecturers);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
@@ -72,7 +74,24 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       assignee_id: id,
     };
 
+    //  setCheckedCourses([]);
+    //  setCheckedCourses([]);
+    setCheckedSemesterList(semesterList);
+
+    // const url = "https://teaching-load-api.onrender.com/api/assign";
+
+    // const response = await axios.post(url, data, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+    //   },
+    // });
+
     mutate(data); // call the mutation function which will update the assigned load table
+    // setCheckedCourses([]);
+    // setCheckedLecturers([]);
+    // setLecturerLoad(response.data.assignments?.assignments);
+    // successNotification(response.data?.message);
   };
 
   const { mutate, isLoading, isSuccess, data } = useMutation({
@@ -94,13 +113,17 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     if (data) {
       const newLoad = data?.teachingLoad;
       setLecturerLoad(data?.assignments?.assignments);
-      setCheckedLecturers([]);
-      setCheckedCourses([]);
-      setCheckedSemesterList([]);
+      setCheckedLecturers(lecturers);
+      // setCheckedCourses([]);
+      setCheckedSemesterList(semesterList);
 
       successNotification(data.message);
     }
   }
+
+  // useMemo(() => {
+  //   // setCheckedSemesterList(semesterList);
+  // }, [])
 
   useEffect(() => {
     afterLoading();

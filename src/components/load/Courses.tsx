@@ -30,6 +30,9 @@ const Courses = () => {
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
+  const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
+  const allCourses = useNewLoadStore21((state) => state.allCourses);
+
 
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const semesterList = useNewLoadStore21((state) => state.semesterList);
@@ -39,8 +42,10 @@ const Courses = () => {
   
   useMemo(() => {
     // setCourses(semesterList);
+    setCheckedCourses(allCourses)
     // setSemesterList(semesterlist)
     // setSemesterList(courses);
+    setCheckedSemesterList(semesterList)
   }, []);
     
 
