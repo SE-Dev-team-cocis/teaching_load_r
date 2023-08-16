@@ -97,6 +97,7 @@ dialog::backdrop{
   padding: 20px
 }
 .dashboard .dashboard_card{
+  display: flex;
   padding: 10px;
   background-color: white;
 
