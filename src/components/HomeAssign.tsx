@@ -58,7 +58,7 @@ export default function HomeAssign() {
     queryFn: fetchLecturers,
   });
 
-  let myLecturers: Lecturer[] = [];
+  let myLecturers: any[] = [];
   if (loadedLecturers) {
     myLecturers = lecturers;
   }

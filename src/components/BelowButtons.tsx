@@ -121,7 +121,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   function afterLoading() {
     if (data) {
-      const newLoad = data?.teachingLoad;
+      // const newLoad = data?.teachingLoad;
       setLecturerLoad(data?.assignments?.assignments);
       setCheckedLecturers([]);
       setCheckedCourses([]);
