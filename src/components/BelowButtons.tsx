@@ -97,6 +97,10 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     //   },
     // });
 
+    // console.log("Response data: ", response.data)
+
+
+
      mutate(data); // call the mutation function which will update the assigned load table
     // setCheckedCourses([]);
     // setCheckedLecturers([]);
