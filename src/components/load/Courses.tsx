@@ -39,14 +39,6 @@ const Courses = () => {
   const setCheckedSemesterList = useNewLoadStore21(
     (state) => state.setCheckedSemesterList
   );
-  
-  // useMemo(() => {
-  //   // setCourses(semesterList);
-  //   setCheckedCourses([])
-
-  //   setCheckedSemesterList([])
-  // }, []);
-    
 
   function handleCheckedCourses(id: number) {
     const updatedCourses: Course[] = semesterList.map((course: Course) =>

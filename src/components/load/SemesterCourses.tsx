@@ -4,6 +4,7 @@ import useUserstore from "../../zustand/userStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Lecturer } from "../../zustand/api/apis";
 
 type Course = {
   id: number;
@@ -25,19 +26,20 @@ const SemesterCourses = () => {
   const staff_id = user.id;
 
   const allcourses = useNewLoadStore21((state) => state.allCourses);
+  const lecturers = useNewLoadStore21((state) => state.allCourses);
+
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
-  const setCourses = useNewLoadStore21(state=> state.setCourses)
+  const setLecturers = useNewLoadStore21((state) => state.setLecturers);
+  const setCheckedLecturers = useNewLoadStore21((state) => state.setCheckedLecturers);
+
+  const semesterList = useNewLoadStore21((state) => state.semesterList);
+
+  const setCourses = useNewLoadStore21((state) => state.setCourses);
 
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
-  const [filterText, setFilterText] = useState("");
-  // const [myCourses, setMyCourses] = useState<Course[]>([]);
-
-  // useMemo(() => {
-  //   setMyCourses(allcourses);
-  // }, [allcourses]);
 
   function handleCheckedCourses(id: number) {
     // const updatedCourses: Course[] = myCourses.map((course: Course) =>
@@ -51,16 +53,8 @@ const SemesterCourses = () => {
       return course.isChecked === true;
     });
 
-
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
-
-  const filteredCourses = allcourses.filter((course: Course) => {
-    return (
-      course.course_name.toLowerCase().includes(filterText.toLowerCase()) ||
-      course.course_code.toLowerCase().includes(filterText.toLowerCase())
-    );
-  });
 
   const notify = async (message: string) => {
     await toast.success(message, {
@@ -106,15 +100,29 @@ const SemesterCourses = () => {
       });
 
       setSemesterList(theArray);
-      setCheckedCourses(allcourses);
+      setCheckedCourses([]);
+      setCheckedLecturers([]);
+
+      // setCourses(allcourses)
+      setCourses(
+        allcourses.map((course: Course) => {
+          return { ...course, isChecked: false };
+        })
+      );
+      setLecturers(
+        lecturers.map((lecturer: any) => {
+          return { ...lecturer, isChecked: false };
+        })
+      );
       console.log("semester list: ", checkedCourses);
       notify(response.data.message);
-      // navigate("/teaching-load/new");
+      navigate("/teaching-load/new");
     } catch (error) {
       console.error(error);
     }
   }
 
+  const [filterText, setFilterText] = useState("");
   return (
     <div
       style={{ width: "800px" }}
@@ -153,35 +161,41 @@ const SemesterCourses = () => {
       </div>
 
       <div className="course_list">
-        {filteredCourses.map((course: Course, index: number) => (
-          <div
-            key={index}
-            className="hover:bg-green-300 py-1 cursor-pointer transition"
-          >
-            <div className="grid grid-cols-4 gap-4">
-              <p key={course.id} className="text-left col-span-2">
-                {/* <p className="text-left col-span-2"> */}
+        {allcourses
+          ?.filter((courseUnit: any) => {
+            return filterText.toLowerCase() === ""
+              ? courseUnit
+              : courseUnit.course_name.toLowerCase().includes(filterText);
+          })
+          .map((course: Course, index: number) => (
+            <div
+              key={course.id}
+              className="hover:bg-green-300 py-1 cursor-pointer transition"
+            >
+              <div className="grid grid-cols-4 gap-4">
+                <p key={course.id} className="text-left col-span-2">
+                  {/* <p className="text-left col-span-2"> */}
 
-                <input
-                  type="checkbox"
-                  className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-                  name="courseUnitss[]"
-                  checked={course.isChecked}
-                  value={course.id}
-                  onChange={() => handleCheckedCourses(course.id)}
-                />
-                {course.course_name}
-              </p>
+                  <input
+                    type="checkbox"
+                    className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
+                    name="courseUnitss[]"
+                    checked={course.isChecked}
+                    value={course.id}
+                    onChange={() => handleCheckedCourses(course.id)}
+                  />
+                  {course.course_name}
+                </p>
 
-              <div key={course.id} className="col-span-1">
-                {course.course_code}
+                <div key={course.id} className="col-span-1">
+                  {course.course_code}
+                </div>
+                <p key={course.id} className="ml-9 col-span-1">
+                  {+course.course_cus}
+                </p>
               </div>
-              <p key={course.id} className="ml-9 col-span-1">
-                {+course.course_cus}
-              </p>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       <div className="flex justify-center items-center mt-4">
         <button
