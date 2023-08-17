@@ -7,13 +7,17 @@ import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
+import { useRef, useState } from "react";
+import { successNotification } from "./utilities/toastify/Toastify";
 
 export default function HomeAssign() {
-  const modal = document.querySelector(".mydialog") as HTMLDialogElement;
+  // const modal = document.querySelector(".mydialog") as HTMLDialogElement;
+  const modalRef = useRef<HTMLDialogElement>(null);
   const { id } = useUserstore((state) => state.user);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
+  const [deleting, setDeleting] = useState(false)
 
   const setCourses = useNewLoadStore21((state) => state.setCourses);
 
@@ -32,6 +36,7 @@ export default function HomeAssign() {
   };
 
   const deleteAllLoad = async () => {
+    setDeleting(true)
     const assignee_id: number = id;
     const semester: number = 1;
 
@@ -41,10 +46,12 @@ export default function HomeAssign() {
     };
 
     try {
-      const url = `https://teaching-load-api.onrender.com/api/delete/${assignee_id}`;
+      const url = `https://teaching-load-api.onrender.com/api/delete`;
       const response = await axios.delete(url, { data });
       setLecturerLoad(response.data?.assignments.assignments);
-      modal?.close(); // closing the dialog box
+      setDeleting(false)
+      modalRef.current?.close(); // closing the dialog box
+      successNotification(response.data.message)
     } catch (error) {
       console.error(error);
     }
@@ -61,10 +68,10 @@ export default function HomeAssign() {
               className="btn mb-3 mr-4 hover:bg-red-600 outline-none hover:text-white px-5 py-2 border-2 border-red-400 rounded disabled:opacity-30 disabled:bg-red-600 disabled:text-white"
               disabled={lecturerLoad?.length === 0}
               onClick={() => {
-                const modal = document.querySelector(
-                  ".mydialog"
-                ) as HTMLDialogElement;
-                modal?.showModal();
+                // const modal = document.querySelector(
+                //   ".mydialog"
+                // ) as HTMLDialogElement;
+                modalRef.current?.showModal();
               }}
             >
               Cancel
@@ -80,7 +87,7 @@ export default function HomeAssign() {
 
         <BelowButtons broadcast={broadcast} />
 
-        <dialog data-modal className="rounded-lg p-5 outline-none mydialog">
+        <dialog data-modal className="rounded-lg p-5 outline-none mydialog" ref={modalRef}>
           <div className="confirm">
             <div className=" text-lg mb-3">
               Are you sure you want to delete all the load <br /> you assigned
@@ -97,13 +104,15 @@ export default function HomeAssign() {
               <button
                 className="w-full text-white px-4 rounded py-2 bg-red-600 mt-2 hover:scale-95 outline-none"
                 onClick={() => deleteAllLoad()}
+                disabled={deleting}
               >
-                Yes
+                {deleting ? "Deleting load...": "Yes"}
+                {/* Yes */}
               </button>
               <button
                 className="w-full text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"
                 onClick={() => {
-                  modal?.close();
+                  modalRef.current?.close();
                 }}
               >
                 No
