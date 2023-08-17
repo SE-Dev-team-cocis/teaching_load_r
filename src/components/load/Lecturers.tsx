@@ -6,18 +6,20 @@ type LecturersProps = {
   lecturers: Lecturer[];
 };
 
-const Lecturers = ({ lecturers }: LecturersProps) => {
+// const Lecturers = ({ lecturers }: LecturersProps) => {
+const Lecturers = () => {
+
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const setCheckedLecturers = useNewLoadStore21((state) => state.setCheckedLecturers)
-  let myLecturers: Lecturer[] = lecturers;
+  // let myLecturers: Lecturer[] = lecturers;
 
-  useMemo(() => {
-    setLecturers(myLecturers);
-  }, [myLecturers]);
+  // useMemo(() => {
+  //   setLecturers(myLecturers);
+  // }, [myLecturers]);
 
   function handleCheckedLecturer(id: number) {
-    const newUpdatedLecturers: Lecturer[] = myLecturers.map(
+    const newUpdatedLecturers: Lecturer[] = allLecturers.map(
       (lecturer: Lecturer) =>
         lecturer.id === id
           ? { ...lecturer, isChecked: !lecturer.isChecked }

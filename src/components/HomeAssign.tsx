@@ -12,6 +12,9 @@ export default function HomeAssign() {
   const modal = document.querySelector(".mydialog") as HTMLDialogElement;
   const { id } = useUserstore((state) => state.user);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
+  const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
+  const lecturers = useNewLoadStore21((state) => state.lecturers);
+
   const setCourses = useNewLoadStore21((state) => state.setCourses);
 
   const notify = (message: string) => {
@@ -50,10 +53,10 @@ export default function HomeAssign() {
     }
   };
 
-  if (isLoading)
-    return <p className="text-center mt-4 font-medium text-lg">Loading...</p>;
+  // if (isLoading)
+  //   return <p className="text-center mt-4 font-medium text-lg">Loading...</p>;
 
-  var broadcast: boolean = loads?.length === 0 ? false : true;
+  var broadcast: boolean = lecturerLoad?.length === 0 ? false : true;
 
   return (
     <>
@@ -62,7 +65,7 @@ export default function HomeAssign() {
           <div className="flex items-center justify-end">
             <button
               className="btn mb-3 mr-4 hover:bg-red-600 outline-none hover:text-white px-5 py-2 border-2 border-red-400 rounded disabled:opacity-30 disabled:bg-red-600 disabled:text-white"
-              disabled={loads?.length === 0}
+              disabled={lecturerLoad?.length === 0}
               onClick={() => {
                 const modal = document.querySelector(
                   ".mydialog"
@@ -79,7 +82,9 @@ export default function HomeAssign() {
           {/* <Courses courses={myCourses} /> */}
           <Courses />
 
-          <Lecturers lecturers={myLecturers} />
+          {/* <Lecturers lecturers={myLecturers} /> */}
+          <Lecturers />
+
           <LoadSummary />
         </div>
 
