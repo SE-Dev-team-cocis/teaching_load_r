@@ -27,32 +27,35 @@ const SemesterCourses = () => {
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
+  const setCourses = useNewLoadStore21(state=> state.setCourses)
 
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
   const [filterText, setFilterText] = useState("");
-  const [myCourses, setMyCourses] = useState<Course[]>([]);
+  // const [myCourses, setMyCourses] = useState<Course[]>([]);
 
-  useMemo(() => {
-    setMyCourses(allcourses);
-  }, [allcourses]);
+  // useMemo(() => {
+  //   setMyCourses(allcourses);
+  // }, [allcourses]);
 
   function handleCheckedCourses(id: number) {
-    const updatedCourses: Course[] = myCourses.map((course: Course) =>
+    // const updatedCourses: Course[] = myCourses.map((course: Course) =>
+    const updatedCourses: Course[] = allcourses.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
 
-    setMyCourses(updatedCourses);
+    setCourses(updatedCourses);
 
-    const checkedOnes = updatedCourses.filter((course) => {
+    const checkedOnes: Course[] = updatedCourses.filter((course) => {
       return course.isChecked === true;
     });
+
 
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
 
-  const filteredCourses = myCourses.filter((course) => {
+  const filteredCourses = allcourses.filter((course: Course) => {
     return (
       course.course_name.toLowerCase().includes(filterText.toLowerCase()) ||
       course.course_code.toLowerCase().includes(filterText.toLowerCase())
@@ -95,14 +98,16 @@ const SemesterCourses = () => {
           },
         }
       );
-      console.log(response.data?.semesterlist);
+      // console.log(response.data?.semesterlist);
       const mylist = response.data?.semesterlist;
       let theArray: any[] = [];
       const newlist: any[] = mylist?.map((item: any) => {
         theArray.push(item.course);
       });
+
       setSemesterList(theArray);
-      console.log("semester list: ", theArray);
+      setCheckedCourses(allcourses);
+      console.log("semester list: ", checkedCourses);
       notify(response.data.message);
       // navigate("/teaching-load/new");
     } catch (error) {
@@ -148,9 +153,9 @@ const SemesterCourses = () => {
       </div>
 
       <div className="course_list">
-        {filteredCourses.map((course) => (
+        {filteredCourses.map((course: Course, index: number) => (
           <div
-            key={course.id}
+            key={index}
             className="hover:bg-green-300 py-1 cursor-pointer transition"
           >
             <div className="grid grid-cols-4 gap-4">

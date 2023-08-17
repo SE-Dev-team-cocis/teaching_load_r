@@ -5,7 +5,7 @@ export type Lecturer = {
   lastName: string;
   department: string;
   role: string;
-  email: string;
+  email?: string;
   isChecked: boolean;
 };
 
@@ -44,6 +44,15 @@ export type SemesterList = {
   isChecked: boolean;
   course: Course;
 };
+
+// type Course = {
+//   id: number;
+//   course_name: string;
+//   course_code: string;
+//   course_cus: number;
+//   isChecked: boolean;
+//   subgroups?: Subgroup[];
+// };
 
 type AssignLoad = {
   courses: string;

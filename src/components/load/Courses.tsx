@@ -40,13 +40,12 @@ const Courses = () => {
     (state) => state.setCheckedSemesterList
   );
   
-  useMemo(() => {
-    // setCourses(semesterList);
-    setCheckedCourses(allCourses)
-    // setSemesterList(semesterlist)
-    // setSemesterList(courses);
-    setCheckedSemesterList(semesterList)
-  }, []);
+  // useMemo(() => {
+  //   // setCourses(semesterList);
+  //   setCheckedCourses([])
+
+  //   setCheckedSemesterList([])
+  // }, []);
     
 
   function handleCheckedCourses(id: number) {
@@ -54,6 +53,7 @@ const Courses = () => {
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
 
+    // setSemesterList(updatedCourses);
     setSemesterList(updatedCourses);
 
     const checkedOnes = updatedCourses.filter((course: Course) => {
@@ -94,8 +94,8 @@ const Courses = () => {
                 ? courseUnit
                 : courseUnit.course_name.toLowerCase().includes(filterText);
             })
-            .map((courseUnit: Course) => (
-              <div key={courseUnit.id} className="flex flex-col">
+            .map((courseUnit: Course, index: number) => (
+              <div key={index} className="flex flex-col">
                 <div>
                   <input
                     type="checkbox"

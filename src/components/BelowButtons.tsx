@@ -1,6 +1,6 @@
 import useNewLoadStore21, { LecturerLoad } from "../zustand/newLoadStore2";
 import { useMutation, QueryClient } from "@tanstack/react-query";
-import { Load, assignLoad } from "../zustand/api/apis";
+import { Lecturer, Load, assignLoad } from "../zustand/api/apis";
 import { toast } from "react-toastify";
 import CourseSubgroup, { Course } from "./load/CourseSubgroup";
 import useUserstore from "../zustand/userStore";
@@ -36,6 +36,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     (state) => state.checkedSemesterList
   );
 
+  // console.log("Sem list: ", semesterList)
+
   const setCheckedLecturers = useNewLoadStore21(
     (state) => state.setCheckedLecturers
   );
@@ -45,6 +47,10 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const setCheckedSemesterList = useNewLoadStore21(
     (state) => state.setCheckedSemesterList
   );
+   const setSemesterList = useNewLoadStore21(
+     (state) => state.setSemesterList
+   );
+   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
 
   const [theLoad, setTheLoad] = useState(lecturerLoad);
 
@@ -74,9 +80,13 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       assignee_id: id,
     };
 
-    //  setCheckedCourses([]);
-    //  setCheckedCourses([]);
-    setCheckedSemesterList(semesterList);
+
+    
+    // setCheckedSemesterList([]);
+    // setCheckedCourses([])
+
+    // console.log("Assigm data: ", data);
+
 
     // const url = "https://teaching-load-api.onrender.com/api/assign";
 
@@ -87,7 +97,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     //   },
     // });
 
-    mutate(data); // call the mutation function which will update the assigned load table
+     mutate(data); // call the mutation function which will update the assigned load table
     // setCheckedCourses([]);
     // setCheckedLecturers([]);
     // setLecturerLoad(response.data.assignments?.assignments);
@@ -113,9 +123,14 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     if (data) {
       const newLoad = data?.teachingLoad;
       setLecturerLoad(data?.assignments?.assignments);
-      setCheckedLecturers(lecturers);
-      // setCheckedCourses([]);
-      setCheckedSemesterList(semesterList);
+      setCheckedLecturers([]);
+      setCheckedCourses([]);
+      setSemesterList(semesterList.map((course: Course) => {
+        return {...course, isChecked: false}
+      }));
+      setLecturers(lecturers.map((lecturer: Lecturer) => {
+        return {...lecturer, isChecked: false}
+      }));
 
       successNotification(data.message);
     }
