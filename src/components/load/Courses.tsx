@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import useUserstore from "../../zustand/userStore";
+import { Link } from "react-router-dom";
 
 type Subgroup = {
   id: number;
@@ -24,15 +25,13 @@ type CourseProps = {
 };
 
 const Courses = () => {
-
-  const user = useUserstore(state => state.user)
+  const user = useUserstore((state) => state.user);
 
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
   const allCourses = useNewLoadStore21((state) => state.allCourses);
-
 
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const semesterList = useNewLoadStore21((state) => state.semesterList);
@@ -52,16 +51,18 @@ const Courses = () => {
       return course.isChecked === true;
     });
 
-    setCheckedCourses(checkedOnes); 
+    setCheckedCourses(checkedOnes);
   }
   const [filterText, setFilterText] = useState("");
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
       <p className="text-xl font-semibold">Courses</p>
-      <input
-        type="text"
-        placeholder="Search for a course here..."
-        className="
+      {semesterList.length > 1 ? (
+        <>
+          <input
+            type="text"
+            placeholder="Search for a course here..."
+            className="
           focus:outline-none
           focus:ring-1
           focus:ring-green-700
@@ -72,11 +73,15 @@ const Courses = () => {
           focus:border-teal-500
           w-full
           rounded my-3"
-        value={filterText}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setFilterText(e.target.value)
-        }
-      />
+            value={filterText}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFilterText(e.target.value)
+            }
+          />
+        </>
+      ) : (
+        ""
+      )}
       <div className="list">
         {/* {allCourses */}
         {semesterList.length > 1 ? (
@@ -124,10 +129,12 @@ const Courses = () => {
             ))
         ) : (
           <>
-            <p>You currently have no semester list</p>
-            <button className="mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">
-              Create Semester list
-            </button>
+            <div className="flex items-center justify-center flex-col mt-8">
+              <p>You currently have no semester list</p>
+              <button className="mt-3 bg-green-700 text-white px-4 py-2 rounded-md">
+                <Link to={"/semestercourses"}>Create Semester list</Link>
+              </button>
+            </div>
           </>
         )}
       </div>
