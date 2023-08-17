@@ -1,11 +1,3 @@
-import {
-  Load,
-  fetchCourses,
-  fetchLecturers,
-  fetchLoad,
-  fetchSemesterList,
-} from "../zustand/api/apis";
-
 import LoadSummary from "./load/LoadSummary";
 import { useQuery } from "@tanstack/react-query";
 import Lecturers from "./load/Lecturers";
@@ -15,65 +7,12 @@ import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
-import { useEffect, useMemo } from "react";
-
-type Lecturer = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  role: string;
-  department: string;
-  email: string;
-  isChecked: boolean;
-};
-
-type Course = {
-  id: number;
-  course_name: string;
-  course_code: string;
-  course_cus: number;
-  isChecked: boolean;
-};
-
-export type TotalLoad = {
-  total: number;
-  id: number;
-  staffId: number;
-  staffName: Lecturer;
-  assignee_id: number;
-};
 
 export default function HomeAssign() {
   const modal = document.querySelector(".mydialog") as HTMLDialogElement;
   const { id } = useUserstore((state) => state.user);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const setCourses = useNewLoadStore21((state) => state.setCourses);
-
-  const {
-    data: lecturers,
-    isLoading,
-    isSuccess: loadedLecturers,
-  } = useQuery({
-    queryKey: ["lecturers"],
-    queryFn: fetchLecturers,
-  });
-
-  let myLecturers: any[] = [];
-  if (loadedLecturers) {
-    myLecturers = lecturers;
-  }
-
-
-  const { data: loads, isSuccess: loadedLoads } = useQuery({
-    queryKey: ["load"],
-    queryFn: fetchLoad,
-  });
-
-  useMemo(() => {
-    setLecturerLoad(loads);
-    // setCourses(myCourses)
-  }, []);
- 
 
   const notify = (message: string) => {
     toast.success(message, {
