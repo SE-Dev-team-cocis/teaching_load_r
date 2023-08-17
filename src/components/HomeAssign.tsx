@@ -41,20 +41,14 @@ export default function HomeAssign() {
     };
 
     try {
-      const url = "https://teaching-load-api.onrender.com/api/delete";
+      const url = `https://teaching-load-api.onrender.com/api/delete/${assignee_id}`;
       const response = await axios.delete(url, { data });
-
-      console.log(response.data.assignments);
-
       setLecturerLoad(response.data?.assignments.assignments);
       modal?.close(); // closing the dialog box
     } catch (error) {
       console.error(error);
     }
   };
-
-  // if (isLoading)
-  //   return <p className="text-center mt-4 font-medium text-lg">Loading...</p>;
 
   var broadcast: boolean = lecturerLoad?.length === 0 ? false : true;
 
@@ -79,12 +73,8 @@ export default function HomeAssign() {
         </div>
 
         <div className="grid grid-cols-3 gap-2 mt-3">
-          {/* <Courses courses={myCourses} /> */}
           <Courses />
-
-          {/* <Lecturers lecturers={myLecturers} /> */}
           <Lecturers />
-
           <LoadSummary />
         </div>
 
