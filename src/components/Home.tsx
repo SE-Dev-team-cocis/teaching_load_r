@@ -73,7 +73,7 @@ export default function Home() {
     setCheckedLecturers([]);
 
     setSemesterList(semList);
-  }, []);
+  }, [loads, myCourses, myLecturers,semList]);
 
   if(isLoading){
     return (

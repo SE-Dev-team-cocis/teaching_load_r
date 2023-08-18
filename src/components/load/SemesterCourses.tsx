@@ -26,7 +26,7 @@ const SemesterCourses = () => {
   const staff_id = user.id;
 
   const allcourses = useNewLoadStore21((state) => state.allCourses);
-  const lecturers = useNewLoadStore21((state) => state.allCourses);
+  const lecturers = useNewLoadStore21((state) => state.lecturers);
 
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);

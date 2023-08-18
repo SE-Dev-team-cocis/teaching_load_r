@@ -61,7 +61,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const checkedLecturer = lecturers?.find((lect) =>
     lect.isChecked === true ? lect.id : null
   );
-  console.log("Checked lecturer: ", checkedLecturer);
+  // console.log("Checked lecturer: ", checkedLecturer);
 
   const myid: any = checkedLecturer?.id;
   const assignCourses = async () => {

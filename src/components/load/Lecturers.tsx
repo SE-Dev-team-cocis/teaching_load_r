@@ -93,4 +93,4 @@ const Lecturers = () => {
   );
 };
 
-export default memo(Lecturers);
+export default Lecturers;
