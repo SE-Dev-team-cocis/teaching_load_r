@@ -84,10 +84,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       assignee_id: id,
     };
 
-    // setCheckedSemesterList([]);
-    // setCheckedCourses([])
-
-    // console.log("Assigm data: ", data);
 
     // const url = "https://teaching-load-api.onrender.com/api/assign";
 
@@ -98,13 +94,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     //   },
     // });
 
-    // console.log("Response data: ", response.data)
-
     mutate(data); // call the mutation function which will update the assigned load table
-    // setCheckedCourses([]);
-    // setCheckedLecturers([]);
-    // setLecturerLoad(response.data.assignments?.assignments);
-    // successNotification(response.data?.message);
   };
 
   const { mutate, isLoading, isSuccess, data } = useMutation({
@@ -143,11 +133,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     }
   }
 
-  // useMemo(() => {
-  //   // setCheckedSemesterList(semesterList);
-  // }, [])
-
-  useEffect(() => {
+  useMemo(() => {
     afterLoading();
   }, [data]);
 
@@ -170,7 +156,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           className="text-green-700 px-4 rounded py-2 border-2 border-green-700 hover:bg-green-700 hover:text-white mt-2 hover:scale-95 disabled:opacity-50"
           type="button"
           // disabled={checkedCourses?.length === 0}
-          disabled={checkedSemesterList?.length === 0}
+          disabled={checkedCourses?.length === 0}
           onClick={() => {
             const modal = document.querySelector(
               "[data-modal]"
