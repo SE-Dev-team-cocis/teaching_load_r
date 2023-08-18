@@ -46,7 +46,7 @@ const Sidebar = () => {
           <div className="link_item ">
             <p className="flex items-center mt-1 py-1 px-5">
               <BsHouse className="mr-2" />
-              <span>Dashboard</span>
+              <span>Home</span>
             </p>
           </div>
         </NavLink>
