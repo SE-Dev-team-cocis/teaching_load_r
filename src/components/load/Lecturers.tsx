@@ -8,10 +8,13 @@ type LecturersProps = {
 
 // const Lecturers = ({ lecturers }: LecturersProps) => {
 const Lecturers = () => {
-
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
-  const setCheckedLecturers = useNewLoadStore21((state) => state.setCheckedLecturers)
+  const setCheckedLecturers = useNewLoadStore21(
+    (state) => state.setCheckedLecturers
+  );
+
+  // console.log(allLecturers)
   // let myLecturers: Lecturer[] = lecturers;
 
   // useMemo(() => {
@@ -19,16 +22,25 @@ const Lecturers = () => {
   // }, [myLecturers]);
 
   function handleCheckedLecturer(id: number) {
-    const newUpdatedLecturers: Lecturer[] = allLecturers.map(
-      (lecturer: Lecturer) =>
-        lecturer.id === id
-          ? { ...lecturer, isChecked: !lecturer.isChecked }
-          : lecturer
-    );
-    setLecturers(newUpdatedLecturers);
+    // console.log(id);
 
-    const newCheckedLecturers: Lecturer[] = newUpdatedLecturers.filter((lecturer: Lecturer) => lecturer.isChecked === true)
-    setCheckedLecturers(newCheckedLecturers)
+    const newUpdatedLecturers: Lecturer[] = allLecturers.map(
+      (lecturer: Lecturer) => {
+        if (lecturer.id === id) {
+          return { ...lecturer, isChecked: !lecturer.isChecked };
+        } else {
+          return { ...lecturer, isChecked: false };
+        }
+      }
+    );
+
+    const newCheckedLecturers = allLecturers.filter((lecturer: Lecturer) => {
+      return lecturer.isChecked === true;
+    });
+    setLecturers(newUpdatedLecturers);
+    // console.log("new updated lecturers", newCheckedLecturers);
+
+    setCheckedLecturers(newCheckedLecturers);
   }
   const [filterText, setFilterText] = useState("");
 
@@ -63,18 +75,18 @@ const Lecturers = () => {
               : lecturer.firstName.toLowerCase().includes(filterText) ||
                   lecturer.lastName.toLowerCase().includes(filterText);
           })
-          .map((lecturer) => (
-            <p key={lecturer.id} className="flex items-center">
+          .map((lecturer, index) => (
+            <div key={index} className="flex items-center">
               <input
                 type="radio"
                 className="mr-3 ml-2 h-4.5 w-4.5 text-green-700 cursor-pointer border-2 focus:bg-green-700 focus:ring-green-700 rounded-full"
-                name="lecturers"
+                name="lecturer"
                 checked={lecturer.isChecked}
                 value={lecturer.id}
                 onChange={() => handleCheckedLecturer(lecturer.id)}
               />
-              {lecturer.firstName} {lecturer.lastName}
-            </p>
+              {lecturer?.firstName} {lecturer?.lastName}
+            </div>
           ))}
       </div>
     </div>

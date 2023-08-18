@@ -94,6 +94,7 @@ const SemesterCourses = () => {
       );
       // console.log(response.data?.semesterlist);
       const mylist = response.data?.semesterlist;
+      // console.log(mylist)
       let theArray: any[] = [];
       const newlist: any[] = mylist?.map((item: any) => {
         theArray.push(item.course);
@@ -114,7 +115,7 @@ const SemesterCourses = () => {
           return { ...lecturer, isChecked: false };
         })
       );
-      console.log("semester list: ", checkedCourses);
+      // console.log("semester list: ", semesterList);
       notify(response.data.message);
       navigate("/teaching-load/new");
     } catch (error) {
@@ -168,8 +169,8 @@ const SemesterCourses = () => {
               : courseUnit.course_name.toLowerCase().includes(filterText);
           })
           .map((course: Course, index: number) => (
-            <div
-              key={course.id}
+            <section
+              key={course.course_name}
               className="hover:bg-green-300 py-1 cursor-pointer transition"
             >
               <div className="grid grid-cols-4 gap-4">
@@ -194,7 +195,7 @@ const SemesterCourses = () => {
                   {+course.course_cus}
                 </p>
               </div>
-            </div>
+            </section>
           ))}
       </div>
       <div className="flex justify-center items-center mt-4">

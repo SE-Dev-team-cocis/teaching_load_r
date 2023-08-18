@@ -63,16 +63,16 @@ const Courses = () => {
             type="text"
             placeholder="Search for a course here..."
             className="
-          focus:outline-none
-          focus:ring-1
-          focus:ring-green-700
-          py-2
-          px-4
-          border
-          border-gray
-          focus:border-teal-500
-          w-full
-          rounded my-3"
+            focus:outline-none
+            focus:ring-1
+            focus:ring-green-700
+            py-2
+            px-4
+            border
+            border-gray
+            focus:border-teal-500
+            w-full
+            rounded my-3"
             value={filterText}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setFilterText(e.target.value)

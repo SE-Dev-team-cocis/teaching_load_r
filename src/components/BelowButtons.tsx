@@ -47,10 +47,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const setCheckedSemesterList = useNewLoadStore21(
     (state) => state.setCheckedSemesterList
   );
-   const setSemesterList = useNewLoadStore21(
-     (state) => state.setSemesterList
-   );
-   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
+  const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
+  const setLecturers = useNewLoadStore21((state) => state.setLecturers);
 
   const [theLoad, setTheLoad] = useState(lecturerLoad);
 
@@ -60,12 +58,18 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const courseCreditUnits: number[] = [];
 
   let lecturerID: number;
+  const checkedLecturer = lecturers?.find((lect) =>
+    lect.isChecked === true ? lect.id : null
+  );
+  console.log("Checked lecturer: ", checkedLecturer);
 
+  const myid: any = checkedLecturer?.id;
   const assignCourses = async () => {
-    const lecturersIDs: number[] = checkedLecturers.map(
-      (lecturer) => lecturer.id
-    );
-    lecturerID = lecturersIDs[0];
+    // const lecturersIDs: number[] = checkedLecturers.map(
+    //   (lecturer) => lecturer.id
+    // );
+    // lecturerID = lecturersIDs[0];
+    // const lecturer = lecturers.find((lecturer) => lecturer.id === lecturerID);
 
     checkedCourses.forEach((course) => {
       courseNames.push(course.course_name);
@@ -75,18 +79,15 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     // Object which stores the post data
     const data: AssignLoad = {
       courses: JSON.stringify(courseNames),
-      staff_id: lecturerID,
+      staff_id: myid,
       CUs: JSON.stringify(courseCreditUnits),
       assignee_id: id,
     };
 
-
-    
     // setCheckedSemesterList([]);
     // setCheckedCourses([])
 
     // console.log("Assigm data: ", data);
-
 
     // const url = "https://teaching-load-api.onrender.com/api/assign";
 
@@ -99,9 +100,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
     // console.log("Response data: ", response.data)
 
-
-
-     mutate(data); // call the mutation function which will update the assigned load table
+    mutate(data); // call the mutation function which will update the assigned load table
     // setCheckedCourses([]);
     // setCheckedLecturers([]);
     // setLecturerLoad(response.data.assignments?.assignments);
@@ -129,12 +128,16 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       setLecturerLoad(data?.assignments?.assignments);
       setCheckedLecturers([]);
       setCheckedCourses([]);
-      setSemesterList(semesterList.map((course: Course) => {
-        return {...course, isChecked: false}
-      }));
-      setLecturers(lecturers.map((lecturer: Lecturer) => {
-        return {...lecturer, isChecked: false}
-      }));
+      setSemesterList(
+        semesterList.map((course: Course) => {
+          return { ...course, isChecked: false };
+        })
+      );
+      setLecturers(
+        lecturers.map((lecturer: Lecturer) => {
+          return { ...lecturer, isChecked: false };
+        })
+      );
 
       successNotification(data.message);
     }
@@ -182,7 +185,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           type="button"
           onClick={() => assignCourses()}
           disabled={
-            checkedCourses?.length === 0 || checkedLecturers?.length === 0
+            checkedCourses?.length === 0 || checkedLecturer === undefined
             // checkedSemesterList?.length === 0 || checkedLecturers?.length === 0
           }
         >
