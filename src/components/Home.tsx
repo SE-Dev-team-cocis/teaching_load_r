@@ -10,6 +10,7 @@ export default function Home() {
   const setCourses = useNewLoadStore21((state) => state.setCourses);
   // const lecturers = useNewLoadStore21((state) => state.lecturers);
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
+  const setDepartments = useNewLoadStore((state) => state.setDepartments)
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
@@ -81,7 +82,12 @@ export default function Home() {
     queryFn: fetchDepartments,
   });
 
-  console.log("Departments: ", departments)
+  let depts: Department[] = [];
+  if (loadedDepartments) {
+    depts = departments;
+  }
+
+  // console.log("Departments: ", departments)
 
   useMemo(() => {
     setLecturerLoad(loads);
@@ -90,6 +96,7 @@ export default function Home() {
     setCheckedCourses([]);
     setCheckedSemesterList([]);
     setCheckedLecturers([]);
+    setDepartments(depts)
 
     setSemesterList(semList);
   }, [loads, myCourses, myLecturers, semList]);
