@@ -6,7 +6,9 @@ import {
   BsChevronDown,
   BsPlusCircle,
   BsCardChecklist,
+  
 } from "react-icons/bs";
+import { RxDashboard } from "react-icons/rx";
 import Image from "../../assets/images/person_holder.png";
 import useUserstore from "../../zustand/userStore";
 import { useEffect, useMemo, useState } from "react";
@@ -28,10 +30,10 @@ const Sidebar = () => {
     <div className="bg-white h-screen rounded-sm pt-5 sidebar">
       <div className="profile flex flex-col items-center justify-center border-b-2 border-b-green-700">
         <img src={Image} width={100} height={100} alt="person_image" />
-        <div className="pt-2">
-          <h4>
+        <div className="pt-2 flex flex-col items-center">
+          <p>
             {user.lastName} {user.firstName}
-          </h4>
+          </p>
           <p className="text-center">{user.department}</p>
         </div>
       </div>
@@ -57,7 +59,7 @@ const Sidebar = () => {
         >
           <div className="link_item ">
             <p className="flex items-center mt-1 py-1 px-5">
-              <BsHouse className="mr-2" />
+              <RxDashboard className="mr-2" />
               <span>Central Dashboard</span>
             </p>
           </div>

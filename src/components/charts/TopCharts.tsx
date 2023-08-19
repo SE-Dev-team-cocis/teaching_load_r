@@ -4,6 +4,7 @@ import { Doughnut, Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
+  
   const LecturerProgress = {
     labels: ["Minimum Load", "Under Load", "Extra Load"],
     datasets: [
@@ -36,6 +37,9 @@ const TopCharts = ({ collegeLoad, totalStaff, courseSummary }: any) => {
   };
 
   return (
+    // {
+    //   // collegeLoad < 1 
+    // }
     <div className="grid grid-cols-12 gap-4 dashboard">
       <div className="col-span-6 dashboard_card rounded-lg">
         <div className="grid grid-cols-12 gap-12">

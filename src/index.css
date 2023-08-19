@@ -108,12 +108,12 @@ dialog::backdrop{
 }
 .department{
   background-color: white;
-  min-height: 490px;
+  height: 500px;
 }
 
 
 .department .summary .list{
-  height: 180px;
+  height: 170px;
   overflow-y: auto;
   overflow-x: hidden;
  

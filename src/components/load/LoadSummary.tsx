@@ -30,16 +30,6 @@ const notify = (message: string) => {
 const LoadSummary = () => {
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
-  // const set
-
-  const { data: loads, isSuccess: loadedLoads } = useQuery({
-    queryKey: ["load"],
-    queryFn: fetchLoad,
-  });
-
-  useMemo(() => {
-    setLecturerLoad(loads);
-  }, []);
 
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
