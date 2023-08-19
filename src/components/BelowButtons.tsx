@@ -51,6 +51,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   );
 
   const myid: any = checkedLecturer?.id;
+  const [assigning, setAssigning] = useState(false)
 
   // Function to assign courses
   const assignCourses = async () => {
@@ -72,13 +73,14 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     const url = "https://teaching-load-api.onrender.com/api/assign";
     try{
       
-  
+    setAssigning(true)
     const response = await axios.post(url, data, {
       headers: {
         "Content-Type": "application/json",
         // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
       },
     });
+    setAssigning(false)
     setLecturerLoad(response.data?.assignments?.assignments);
     setCheckedLecturers([]);
     setCheckedCourses([]);
@@ -93,7 +95,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       })
     );
 
-    successNotification(data.message); 
+    successNotification(response.data?.message); 
 
     }catch(error){
       console.error(error)
@@ -117,30 +119,30 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   let myLoad: any = [];
 
-  function afterLoading() {
-    if (data) {
-      // const newLoad = data?.teachingLoad;
-      setLecturerLoad(data?.assignments?.assignments);
-      setCheckedLecturers([]);
-      setCheckedCourses([]);
-      setSemesterList(
-        semesterList.map((course: Course) => {
-          return { ...course, isChecked: false };
-        })
-      );
-      setLecturers(
-        lecturers.map((lecturer: Lecturer) => {
-          return { ...lecturer, isChecked: false };
-        })
-      );
+  // function afterLoading() {
+  //   if (data) {
+  //     // const newLoad = data?.teachingLoad;
+  //     setLecturerLoad(data?.assignments?.assignments);
+  //     setCheckedLecturers([]);
+  //     setCheckedCourses([]);
+  //     setSemesterList(
+  //       semesterList.map((course: Course) => {
+  //         return { ...course, isChecked: false };
+  //       })
+  //     );
+  //     setLecturers(
+  //       lecturers.map((lecturer: Lecturer) => {
+  //         return { ...lecturer, isChecked: false };
+  //       })
+  //     );
 
-      successNotification(data.message);
-    }
-  }
+  //     successNotification(data.message);
+  //   }
+  // }
 
-  useMemo(() => {
-    afterLoading();
-  }, [data]);
+  // useMemo(() => {
+  //   afterLoading();
+  // }, [data]);
 
   const user = useUserstore((state) => state.user);
   const broadcastLoad = async (id: number) => {
@@ -180,7 +182,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
             // checkedSemesterList?.length === 0 || checkedLecturers?.length === 0
           }
         >
-          {isLoading ? "Assigning load..." : "Assign"}
+          {assigning ? "Assigning load..." : "Assign"}
         </button>
         <button
           className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-50"
