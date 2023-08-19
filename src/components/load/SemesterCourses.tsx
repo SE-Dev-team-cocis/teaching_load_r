@@ -1,10 +1,10 @@
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import useUserstore from "../../zustand/userStore";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { Lecturer } from "../../zustand/api/apis";
+import { successNotification } from "../utilities/toastify/Toastify";
 
 type Course = {
   id: number;
@@ -13,12 +13,6 @@ type Course = {
   course_cus: number;
   isChecked: boolean;
 };
-
-// type SemesterList = {
-//   course_code: number;
-//   staff_id: number;
-//   semester: number;
-// };
 
 const SemesterCourses = () => {
   const navigate = useNavigate();
@@ -33,8 +27,6 @@ const SemesterCourses = () => {
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const setCheckedLecturers = useNewLoadStore21((state) => state.setCheckedLecturers);
 
-  const semesterList = useNewLoadStore21((state) => state.semesterList);
-
   const setCourses = useNewLoadStore21((state) => state.setCourses);
 
   const setCheckedCourses = useNewLoadStore21(
@@ -42,7 +34,6 @@ const SemesterCourses = () => {
   );
 
   function handleCheckedCourses(id: number) {
-    // const updatedCourses: Course[] = myCourses.map((course: Course) =>
     const updatedCourses: Course[] = allcourses.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
@@ -55,21 +46,6 @@ const SemesterCourses = () => {
 
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
-
-  const notify = async (message: string) => {
-    await toast.success(message, {
-      position: "top-center",
-      toastId: 5483,
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-
   async function handleSemesterCourses() {
     const data = checkedCourses.map((checked) => {
       return {
@@ -94,7 +70,6 @@ const SemesterCourses = () => {
       );
       // console.log(response.data?.semesterlist);
       const mylist = response.data?.semesterlist;
-      // console.log(mylist)
       let theArray: any[] = [];
       const newlist: any[] = mylist?.map((item: any) => {
         theArray.push(item.course);
@@ -115,8 +90,7 @@ const SemesterCourses = () => {
           return { ...lecturer, isChecked: false };
         })
       );
-      // console.log("semester list: ", semesterList);
-      notify(response.data.message);
+      successNotification(response.data.message);
       navigate("/teaching-load/new");
     } catch (error) {
       console.error(error);
@@ -130,7 +104,6 @@ const SemesterCourses = () => {
       className="px-10 bg-white mx-auto pb-10 pt-2 mt-10 rounded-lg"
     >
       <p className="text-center text-2xl mt-4">Create Semester list</p>
-
       <div className="text-center pr-10">
         <input
           type="text"
@@ -175,8 +148,6 @@ const SemesterCourses = () => {
             >
               <div className="grid grid-cols-4 gap-4">
                 <p key={course.id} className="text-left col-span-2">
-                  {/* <p className="text-left col-span-2"> */}
-
                   <input
                     type="checkbox"
                     className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
