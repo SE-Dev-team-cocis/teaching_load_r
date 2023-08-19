@@ -84,28 +84,46 @@ const DepartmentDetails = () => {
   return (
     <div className="department_details">
       <p className="m-4 text-center"> Details for {name} department </p>
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th className="text-left">Name</th>
-            <th className="text-left">Staff title</th>
-            <th className="text-left">Total Load</th>
-            <th className="text-left">Actions</th>
+       <table className="w-full border-2 border-b-gray-400">
+          <thead className="bg-gray-50 bottom-2 border-gray-200">
+            <tr>
+              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                No.
+              </th>
+               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                Name
+              </th>
+               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                Staff title
+              </th>
+               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                Total Load
+              </th>
+               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                Actions
+              </th>
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="divide-y divide-gray-400">
           {departmentData.map((data, index) => (
             <tr key={index}>
-              <td className="text-left">{data.name}</td>
-              <td className="text-left">{data.title}</td>
-
-              <td className="text-left pl-8">{data.load}</td>
-
-              <td className="text-left">
-                <span className="text-blue-500">View</span>{" "}
-                <span className="ml-2 mr-2 text-green-700">Edit</span>
-                <span className="text-red-500">Delete</span>
+               <td className="p-2 text-sm text-gray-700 ">
+                 {index+1}
+                </td>
+               <td className="p-2 text-sm text-gray-700 ">
+                 {data.name}
+                </td>
+              <td className="p-2 text-sm text-gray-700 ">
+                 {data.title}
+                </td>
+              <td className="p-2 text-sm text-gray-700 ">
+                 {data.load}
+                </td>
+              <td className="p-2 text-sm text-gray-700 ">
+                    <span className="text-blue-500">View</span>{" "}
+                  <span className="ml-2 mr-2 text-green-700">Edit</span>
+                  <span className="text-red-500">Delete</span>
               </td>
             </tr>
           ))}
