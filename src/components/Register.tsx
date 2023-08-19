@@ -18,9 +18,19 @@ type InitialValues = {
   department: string;
 };
 
-const Register = () => {
+const Register = async () => {
   const navigate = useNavigate();
   const customId: string = "Register";
+  const [departments, setDepartments] = useState([])
+
+  try{
+    const url = "https://teaching-load-api.onrender.com/api/department";
+    const response = axios.get(url)
+    console.log(response.data?.departments)
+    setDepartments(response.data?.departments)
+  }catch(error){
+    console.error(error)
+  }
 
   const departmentOptions: string[] = [
     "Networks",
