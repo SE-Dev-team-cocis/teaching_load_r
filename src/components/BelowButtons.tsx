@@ -104,45 +104,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     // mutate(data); // call the mutation function which will update the assigned load table
   };
 
-  // const { mutate, isLoading, isSuccess, data } = useMutation({
-  //   mutationFn: (data: AssignLoad) => assignLoad(data),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["load"],
-  //     });
-  //     queryClient.refetchQueries({
-  //       queryKey: ["load"],
-  //       type: "active",
-  //     });
-  //   },
-  // });
-
-  let myLoad: any = [];
-
-  // function afterLoading() {
-  //   if (data) {
-  //     // const newLoad = data?.teachingLoad;
-  //     setLecturerLoad(data?.assignments?.assignments);
-  //     setCheckedLecturers([]);
-  //     setCheckedCourses([]);
-  //     setSemesterList(
-  //       semesterList.map((course: Course) => {
-  //         return { ...course, isChecked: false };
-  //       })
-  //     );
-  //     setLecturers(
-  //       lecturers.map((lecturer: Lecturer) => {
-  //         return { ...lecturer, isChecked: false };
-  //       })
-  //     );
-
-  //     successNotification(data.message);
-  //   }
-  // }
-
-  // useMemo(() => {
-  //   afterLoading();
-  // }, [data]);
 
   const user = useUserstore((state) => state.user);
   const broadcastLoad = async (id: number) => {
