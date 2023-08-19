@@ -1,31 +1,9 @@
 import { BsTrash } from "react-icons/bs";
 import axios from "axios";
-import { toast } from "react-toastify";
 import useUserstore from "../../zustand/userStore";
 import { Load, fetchLoad } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { LecturerLoad } from "../../zustand/loadStore";
-import { useEffect, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { successNotification } from "../utilities/toastify/Toastify";
-
-type LoadPops = {
-  totalLoad: Load[];
-};
-
-const notify = (message: string) => {
-  toast.success(message, {
-    toastId: 26,
-    position: "top-center",
-    autoClose: 2000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: false,
-    draggable: false,
-    progress: undefined,
-    theme: "light",
-  });
-};
 
 const LoadSummary = () => {
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
