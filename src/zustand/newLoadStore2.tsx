@@ -51,6 +51,7 @@ type StoreType = {
   checkedCourses: CheckedCourses[];
   checkedSemesterList: Courses[];
   lecturerLoad: any[]; // For the specific lecturer load
+  departments: any[];
 
   setCheckedCourses: (courses: CheckedCourses[]) => void;
   setCourses: (courses: Courses[]) => void;
@@ -58,6 +59,7 @@ type StoreType = {
   setSemesterList: (courses: any[]) => void;
   setCheckedSemesterList: (courses: CheckedCourses[]) => void;
   setLecturerLoad: (_load: any[]) => void;
+  setDepartments: (_department: any[]) => void;
 };
 const useNewLoadStore21 = create<StoreType>()(
   persist(
@@ -69,6 +71,7 @@ const useNewLoadStore21 = create<StoreType>()(
       semesterList: [],
       checkedSemesterList: [],
       lecturerLoad: [],
+      departments: [],
       setCourses: (courses: Courses[]) => {
         set({ allCourses: courses });
       },
@@ -101,6 +104,11 @@ const useNewLoadStore21 = create<StoreType>()(
           lecturerLoad: _load,
         });
       },
+      setDepartments: (_department: any[]) => {
+        set({
+          departments: _department,
+        });
+      }
     }),
     {
       name: "new-assign-rq-store",

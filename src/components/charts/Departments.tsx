@@ -9,9 +9,9 @@ const Departments = ({ department, staff }: any) => {
   ];
   const available =
     data[0] === 0 && data[1] === 0 && data[2] === 0 ? false : true;
-  console.log(department);
+  // console.log(department);
 
-  // console.log(department, staff)
+  console.log(department.department_id, staff);
   return (
     <div className="rounded-lg p-2 col-span-3 department">
       <p className="text-center font-semibold text-lg mb-2 text-gray-800">
@@ -39,7 +39,8 @@ const Departments = ({ department, staff }: any) => {
           </div>
           <div className="details mt-2">
             <p>
-              <Link to={`${department.department_name}`}>View details </Link>
+              {/* <Link to={`${department.department_name}`}>View details </Link> */}
+              <Link to={`${department.department_id}`}>View details </Link>
             </p>
           </div>
           <div className="chart mt-2 text-center below-chart">

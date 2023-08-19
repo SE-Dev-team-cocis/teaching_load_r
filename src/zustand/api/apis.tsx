@@ -16,6 +16,7 @@ export type Load = {
   CUs: number[];
   assignee_id?: number;
   staffName?: Lecturer;
+  department_id: number;
 };
 
 type Subgroup = {
@@ -84,6 +85,14 @@ type LoginData = {
   password: string;
 };
 
+
+export type Department = {
+  id: number;
+  department: string;
+  department_code: string;
+  college_id: number
+}
+
 export const fetchLecturers = async () => {
   const url = "https://teaching-load-api.onrender.com/api/getStaff";
 
@@ -128,6 +137,7 @@ export const fetchLoad = async () => {
       CUs: load.CUs,
       assignee_id: load.assignee_id,
       staffName: {},
+      department_id: load.department_id
     };
   });
 
@@ -211,28 +221,25 @@ export const UserLogin = async (data: LoginData) => {
   return user;
 };
 
-// export const deleteAllLoad = async (data: DeleteAllLoad) => {
-//   const url = "http://127.0.0.1:8000/api/delete";
+export const fetchDepartments = async () => {
+  const url = "https://teaching-load-api.onrender.com/api/department";
 
-//   const response = await axios.post(url, data, {
-//     headers: {
-//       "Content-Type": "application/json",
-//       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
-//     },
-//   });
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+      // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+    },
+  });
+  const departments = response.data?.departments;
 
-//   return response.data.message;
-// };
+  const depts: Department[] =  departments?.map((department: Department) => {
+    return {
+      id: department.id,
+      department_name: department.department,
+      department_code: department.department_code,
+      college: department.college_id
+    };
+  })
 
-// export const deleteLoad = async (data: DeleteLoad) => {
-//   const url = "http://127.0.0.1:8000/api/deleteLoad";
-
-//   const response = await axios.post(url, data, {
-//     headers: {
-//       "Content-Type": "application/json",
-//       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
-//     },
-//   });
-
-//   return response.data.message;
-// };
+  return depts;
+}

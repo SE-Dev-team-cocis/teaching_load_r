@@ -6,7 +6,11 @@ import TextField from "./utilities/TextField";
 
 import { RegisterationSchema } from "./YupSchemas/schema";
 import useUserstore from "../zustand/userStore";
-import { successNotification, errorNotification } from "./utilities/toastify/Toastify";
+import {
+  successNotification,
+  errorNotification,
+} from "./utilities/toastify/Toastify";
+import { useMemo, useState } from "react";
 
 type InitialValues = {
   firstName: string;
@@ -18,26 +22,44 @@ type InitialValues = {
   department: string;
 };
 
-const Register = async () => {
+const Register = () => {
   const navigate = useNavigate();
   const customId: string = "Register";
-  const [departments, setDepartments] = useState([])
+  const [departments, setDepartments] = useState<any>([]);
 
-  try{
-    const url = "https://teaching-load-api.onrender.com/api/department";
-    const response = axios.get(url)
-    console.log(response.data?.departments)
-    setDepartments(response.data?.departments)
-  }catch(error){
-    console.error(error)
+  async function fetchDepts() {
+    try {
+      const url = "https://teaching-load-api.onrender.com/api/department";
+      const response = await axios.get(url);
+      console.log(response.data?.departments);
+      // setDepartments(response.data?.departments);
+      const depts = response.data?.departments.map((dep: any) => {
+        return {
+          name: dep.department,
+          id: dep.id,
+          slug: dep.department_code,
+          collegeId: dep.college_id,
+        };
+      });
+      setDepartments(depts);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+  useMemo(() => {
+    fetchDepts();
+  }, []);
+
+  
+  // console.log("Departments: ", departments)
 
   const departmentOptions: string[] = [
     "Networks",
     "Information Systems",
     "Computer Science",
   ];
-  const roleOptions: string[] = ["Head of department", "Lecturer", "Dean"]
+  const roleOptions: string[] = ["Head of department", "Lecturer", "Dean"];
   const initialValues: InitialValues = {
     firstName: "",
     lastName: "",
@@ -54,7 +76,6 @@ const Register = async () => {
     useFormik({
       initialValues: initialValues,
       onSubmit: async (values) => {
-
         const url = "https://teaching-load-api.onrender.com/api/register";
         try {
           const response = await axios.post(url, values, {
@@ -65,12 +86,12 @@ const Register = async () => {
 
           if (response.data.register === true) {
             localStorage.clear();
-            
+
             localStorage.setItem(
               "token",
               JSON.stringify(response.data.access_token)
             );
-            successNotification("You have registered successfully")
+            successNotification("You have registered successfully");
             setUser(response.data.user);
             navigate("/teaching-load");
           }
@@ -142,7 +163,8 @@ const Register = async () => {
                   type="select"
                   name="department"
                   label="Department"
-                  options={departmentOptions}
+                  // options={departmentOptions}
+                  options={departments.map((dept: any) => dept.name)}
                   handleBlur={handleBlur}
                   handleChange={handleChange}
                   errors={errors}

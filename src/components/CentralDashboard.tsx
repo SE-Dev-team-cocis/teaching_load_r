@@ -16,6 +16,7 @@ const CentralDashboard = () => {
     try {
       const url = "https://teaching-load-api.onrender.com/api/dashboard";
       const response = await axios.get(url);
+      // console.log(response.data)
       if (response.data?.count === 0) {
         setCount(1);
         return <p>{response.data.message}</p>;

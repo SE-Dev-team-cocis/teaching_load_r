@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Course, Lecturer, SemesterList, fetchCourses, fetchLecturers, fetchLoad, fetchSemesterList } from "../zustand/api/apis";
+import { Course, Lecturer, SemesterList, fetchCourses, fetchDepartments, fetchLecturers, fetchLoad, fetchSemesterList } from "../zustand/api/apis";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
@@ -14,7 +14,9 @@ export default function Home() {
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
-  const setCheckedLecturers = useNewLoadStore21(state => state.setCheckedLecturers)
+  const setCheckedLecturers = useNewLoadStore21(
+    (state) => state.setCheckedLecturers
+  );
   const setCheckedSemesterList = useNewLoadStore21(
     (state) => state.setCheckedSemesterList
   );
@@ -49,8 +51,14 @@ export default function Home() {
     queryFn: fetchLoad,
   });
 
+  // console.log("Loads: ", loads)
+
   // Fetchign semester list
-  const { data: semesterList, isSuccess: loadedSemesterList, isLoading } = useQuery({
+  const {
+    data: semesterList,
+    isSuccess: loadedSemesterList,
+    isLoading,
+  } = useQuery({
     queryKey: ["semesterlist"],
     queryFn: fetchSemesterList,
   });
@@ -62,7 +70,18 @@ export default function Home() {
     semList = semesterList;
   }
 
-  // console.log("Semester list: ", semesterList)
+  // Fetching departments
+  // Fetchign semester list
+  const {
+    data: departments,
+    isSuccess: loadedDepartments,
+
+  } = useQuery({
+    queryKey: ["departments"],
+    queryFn: fetchDepartments,
+  });
+
+  console.log("Departments: ", departments)
 
   useMemo(() => {
     setLecturerLoad(loads);
@@ -73,9 +92,9 @@ export default function Home() {
     setCheckedLecturers([]);
 
     setSemesterList(semList);
-  }, [loads, myCourses, myLecturers,semList]);
+  }, [loads, myCourses, myLecturers, semList]);
 
-  if(isLoading){
+  if (isLoading) {
     return (
       <>
         <div className="buttons border-b-2 border-b-green-700 pt-4">
@@ -88,11 +107,9 @@ export default function Home() {
           </div>
         </div>
         <div className="mt-3"></div>
-        <p className="text-center font-semibold text-green">
-          Loading...
-        </p>
+        <p className="text-center font-semibold text-green">Loading...</p>
       </>
-    )
+    );
   }
 
   return (
