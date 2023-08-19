@@ -121,3 +121,8 @@ dialog::backdrop{
  .department .below-chart{
     height: 300px;
   }
+
+  .department_details{
+    width: 700px;
+    background-color: aliceblue;
+  }

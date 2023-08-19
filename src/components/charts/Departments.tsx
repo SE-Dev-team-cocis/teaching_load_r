@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import DepartmentChart from "./DepartmentChart";
 
 const Departments = ({ department, staff }: any) => {
@@ -8,7 +9,7 @@ const Departments = ({ department, staff }: any) => {
   ];
   const available =
     data[0] === 0 && data[1] === 0 && data[2] === 0 ? false : true;
-  console.log(available);
+  console.log(department);
 
   // console.log(department, staff)
   return (
@@ -37,7 +38,9 @@ const Departments = ({ department, staff }: any) => {
             </div>
           </div>
           <div className="details mt-2">
-            <p>View details</p>
+            <p>
+              <Link to={`${department.department_name}`}>View details </Link>
+            </p>
           </div>
           <div className="chart mt-2 text-center below-chart">
             <p className="pt-2">No. of lecturers Vs Total load</p>
@@ -45,7 +48,10 @@ const Departments = ({ department, staff }: any) => {
           </div>
         </div>
       ) : (
-        <p className="text-center"> There is currently no available broadcast load in this department</p>
+        <p className="text-center">
+          {" "}
+          There is currently no available broadcast load in this department
+        </p>
       )}
     </div>
   );
