@@ -95,11 +95,6 @@ const DepartmentDetails = () => {
         </thead>
 
         <tbody>
-          {/* {
-            allData.filter((data) => {
-
-            })
-          } */}
           {departmentData.map((data, index) => (
             <tr key={index}>
               <td className="text-left">{data.name}</td>
@@ -114,30 +109,6 @@ const DepartmentDetails = () => {
               </td>
             </tr>
           ))}
-          {/* <tr>
-            <td className="text-left">Loorinho</td>
-            <td className="text-left">Lecturer</td>
-
-            <td className="text-left pl-8">49</td>
-
-            <td className="text-left">Delete</td>
-          </tr>
-          <tr>
-            <td className="text-left">Loorinho</td>
-            <td className="text-left">Lecturer</td>
-
-            <td className="text-left pl-8">49</td>
-
-            <td className="text-left">Delete</td>
-          </tr>
-          <tr>
-            <td className="text-left">Loorinho</td>
-            <td className="text-left">Lecturer</td>
-
-            <td className="text-left pl-8">49</td>
-
-            <td className="text-left">Delete</td>
-          </tr> */}
         </tbody>
       </table>
     </div>
