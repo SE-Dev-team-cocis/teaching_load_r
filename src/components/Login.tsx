@@ -84,7 +84,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="login_form border-2 border-green-700 bg-white rounded-lg p-5 mx-auto">
+      <div className="login_form border-2 border-green-700 bg-white rounded-lg p-5 ">
         <header className="flex justify-center items-center flex-col">
           <img
             src={MukLogo}

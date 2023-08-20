@@ -4,13 +4,21 @@
 
 
 .login_form{
+  /* Used inset to position the form in the center */
     width: 440px;
-    margin: 70px auto;  
+    height: 590px;
+    /* margin: 70px auto;   */
+    position: absolute;
+    inset:0;
+    margin: auto;
 }
 
 .register_form{
      width: 550px;
-    margin: 10px auto;
+      height: 820px;
+    position: absolute;
+    inset: 0;
+    margin: auto;
     background-color: white;
 }
 
@@ -136,4 +144,15 @@ dialog::backdrop{
     min-width: 450px;
   min-height: 350px;
   overflow: hidden;
+  }
+
+
+
+  /* Very important for cutting short a very lengthy paragraph */
+  .myCutParagraph{
+     display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+    text-overflow: ellipsis;
+    /* overflow: hidden; */
   }

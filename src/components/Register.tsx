@@ -102,18 +102,18 @@ const Register = () => {
             return;
           }
         } catch (err) {
-          errorNotification("503 | Bad Gateway");
+          errorNotification("Invalid credentials");
         }
       },
       validationSchema: RegisterationSchema,
     });
   return (
-    <div className="register_form border-2 border-green-700 rounded-lg p-5">
+    <div className="register_form border-2 border-green-700 rounded-lg px-5">
       <header className="flex justify-center items-center flex-col">
         <img
           src={MukLogo}
           alt="logo"
-          style={{ width: "200px", height: "200px" }}
+          style={{ width: "150px", height: "150px" }}
           className="me-5 muk_logo"
           loading="lazy"
         />
