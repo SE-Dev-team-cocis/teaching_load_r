@@ -46,15 +46,6 @@ export type SemesterList = {
   course: Course;
 };
 
-// type Course = {
-//   id: number;
-//   course_name: string;
-//   course_code: string;
-//   course_cus: number;
-//   isChecked: boolean;
-//   subgroups?: Subgroup[];
-// };
-
 type AssignLoad = {
   courses: string;
   staff_id: number;
@@ -69,9 +60,6 @@ export type User = {
   role: string;
   department: string;
   email: string;
-  // email_verified_at: null,
-  // created_at: "2023-07-11T13:40:01.000000Z",
-  // updated_at: "2023-07-11T13:40:01.000000Z"
 };
 
 type LoginResponse = {
