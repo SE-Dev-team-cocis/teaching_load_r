@@ -5,35 +5,16 @@ import Courses from "./load/Courses";
 import BelowButtons from "./BelowButtons";
 import useUserstore from "../zustand/userStore";
 import axios from "axios";
-import { toast } from "react-toastify";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useRef, useState } from "react";
 import { successNotification } from "./utilities/toastify/Toastify";
 
 export default function HomeAssign() {
-  // const modal = document.querySelector(".mydialog") as HTMLDialogElement;
   const modalRef = useRef<HTMLDialogElement>(null);
   const { id } = useUserstore((state) => state.user);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
-  const lecturers = useNewLoadStore21((state) => state.lecturers);
   const [deleting, setDeleting] = useState(false)
-
-  const setCourses = useNewLoadStore21((state) => state.setCourses);
-
-  const notify = (message: string) => {
-    toast.success(message, {
-      toastId: 23,
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-    });
-  };
 
   const deleteAllLoad = async () => {
     setDeleting(true)
