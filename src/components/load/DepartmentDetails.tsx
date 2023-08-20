@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { Department, Lecturer } from "../../zustand/api/apis";
+import {Lecturer } from "../../zustand/api/apis";
 
 const DepartmentDetails = () => {
   const params = useParams();
-  // const deptId = parseInt(+name);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
   const oldDepartments = useNewLoadStore21((state) => state.departments);
@@ -13,28 +12,18 @@ const DepartmentDetails = () => {
   if (params.name !== undefined) {
     dept = +params.name;
   }
-
   const theDepartment: any = oldDepartments.filter((department) => {
     return department.id === dept;
   });
-
   const the_dept = oldDepartments.find((department) => {
     return department.id === dept;
   });
-  // console.log("dept: ", the_dept.department_name); // getting the chosen department bu id
-
   const staffIds = lecturers.map((lecturer: Lecturer) => {
     return lecturer.id;
   });
-
-  // console.log("Staff Ids: ", staffIds);
-
   const assignedLecturers = lecturerLoad.filter((load) => {
     return load.staff_id in staffIds;
   });
-
-  // console.log("Assigned lecturers based on staff id: ", assignedLecturers);
-
   const assignedIds = assignedLecturers.map((lecturer) => {
     return lecturer.staff_id;
   });
@@ -55,7 +44,6 @@ const DepartmentDetails = () => {
   const assignedDetails = lecturerDetails.filter((name) => {
     return name !== null;
   });
-  // console.log("Assigned lecturers' names : ", assignedDetails);
 
   const lecturerLoads = lecturerLoad.map((load) => {
     if (assignedIds.includes(load.staff_id)) {
@@ -64,8 +52,6 @@ const DepartmentDetails = () => {
       return null;
     }
   });
-
-  // console.log("Assigned loads: ", lecturerLoads);
 
   const allData = assignedDetails
     .map((data, index) => {
@@ -80,7 +66,6 @@ const DepartmentDetails = () => {
     .filter((data) => {
       return data.department === the_dept.department_name;
     });
-  // console.log("All details: ", allData);
 
   return (
     <div className="department_details">
@@ -100,7 +85,7 @@ const DepartmentDetails = () => {
             <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
               Staff title
             </th>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
               Total Load
             </th>
             <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
@@ -112,10 +97,10 @@ const DepartmentDetails = () => {
         <tbody className="divide-y divide-gray-400">
           {allData.map((data, index) => (
             <tr key={index}>
-              <td className="p-2 text-sm text-gray-700 ">{index + 1}</td>
+              <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
               <td className="p-2 text-sm text-gray-700 ">{data.name}</td>
               <td className="p-2 text-sm text-gray-700 ">{data.role}</td>
-              <td className="p-2 text-sm text-gray-700 ">{data.load}</td>
+              <td className="p-2 text-sm text-gray-700 text-center">{data.load}</td>
               <td className="p-2 text-sm text-gray-700 ">
                 <span className="text-blue-500">View</span>{" "}
                 <span className="ml-2 mr-2 text-green-700">Edit</span>
