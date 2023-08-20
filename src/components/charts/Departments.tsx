@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useRef } from 'react'
 import DepartmentChart from "./DepartmentChart";
 
 const Departments = ({ department, staff }: any) => {
+
+  const detailsRef = useRef<HTMLDialogElement>() 
   const data = [
     department.min_load,
     department.extra_load,
@@ -37,12 +40,12 @@ const Departments = ({ department, staff }: any) => {
                 }
               })}
             </div>
-{/*             <div className="details mt-2"> */}
+            <dialog className="details mt-2" open ref={detailsRef}>
               <p>
                 {/* <Link to={`${department.department_name}`}>View details </Link> */}
                 <Link to={`${department.department_id}`} className="bg-green-700 px-3 py-1 text-white">View details </Link>
               </p>
-{/*             </div> */}
+            </dialog>
           </div>
 
           <div className="chart mt-2 text-center below-chart">
