@@ -1,17 +1,23 @@
 import { useParams } from "react-router-dom";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import {Lecturer } from "../../zustand/api/apis";
+import { Lecturer } from "../../zustand/api/apis";
+import { useRef } from "react";
+import LecturerDetails from "./LecturerDetails";
 
-const DepartmentDetails = () => {
+const DepartmentDetails = ({ id }: any) => {
   const params = useParams();
+  const lecturerRef = useRef<HTMLDialogElement>(null);
+
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
   const oldDepartments = useNewLoadStore21((state) => state.departments);
 
-  let dept: number;
-  if (params.name !== undefined) {
-    dept = +params.name;
-  }
+  // let dept: number;
+  // if (params.name !== undefined) {
+  //   dept = +params.name;
+  // }
+
+  let dept = id;
   const theDepartment: any = oldDepartments.filter((department) => {
     return department.id === dept;
   });
@@ -88,7 +94,7 @@ const DepartmentDetails = () => {
             <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
               Total Load
             </th>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
               Actions
             </th>
           </tr>
@@ -98,18 +104,36 @@ const DepartmentDetails = () => {
           {allData.map((data, index) => (
             <tr key={index}>
               <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
-              <td className="p-2 text-sm text-gray-700 ">{data.name}</td>
+              <td
+                className="p-2 text-sm text-gray-700 cursor-pointer"
+                onClick={() => lecturerRef.current?.showModal()}
+              >
+                {data.name}
+              </td>
               <td className="p-2 text-sm text-gray-700 ">{data.role}</td>
-              <td className="p-2 text-sm text-gray-700 text-center">{data.load}</td>
-              <td className="p-2 text-sm text-gray-700 ">
-                <span className="text-blue-500">View</span>{" "}
-                <span className="ml-2 mr-2 text-green-700">Edit</span>
-                <span className="text-red-500">Delete</span>
+              <td className="p-2 text-sm text-gray-700 text-center">
+                {data.load}
+              </td>
+              <td className="p-2 text-sm text-gray-700 text-center">
+                <span
+                  className="text-blue-500 cursor-pointer "
+                  onClick={() => lecturerRef.current?.showModal()}
+                >
+                  View
+                </span>
+                <span className="ml-2 mr-2 text-green-700 cursor-pointer px-3">
+                  Edit
+                </span>
+                <span className="text-red-500 cursor-pointer">Delete</span>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <dialog className="lecturer_dialog" ref={lecturerRef}>
+        <LecturerDetails id={1} />
+      </dialog>
     </div>
   );
 };
