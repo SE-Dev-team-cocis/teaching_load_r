@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Course, Department, Lecturer, SemesterList, fetchCourses, fetchDepartments, fetchLecturers, fetchLoad, fetchSemesterList } from "../zustand/api/apis";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -8,7 +8,6 @@ import useNewLoadStore21 from "../zustand/newLoadStore2";
 export default function Home() {
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const setCourses = useNewLoadStore21((state) => state.setCourses);
-  // const lecturers = useNewLoadStore21((state) => state.lecturers);
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const setDepartments = useNewLoadStore21((state) => state.setDepartments);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
@@ -39,8 +38,6 @@ export default function Home() {
     queryFn: fetchLecturers,
   });
 
-  // console.log("Lects: ", lecturers)
-
   let myLecturers: Lecturer[] = [];
   if (loadedLecturers) {
     myLecturers = lecturers;
@@ -52,8 +49,6 @@ export default function Home() {
     queryFn: fetchLoad,
   });
 
-  // console.log("Loads: ", loads)
-
   // Fetchign semester list
   const {
     data: semesterList,
@@ -64,15 +59,12 @@ export default function Home() {
     queryFn: fetchSemesterList,
   });
 
-  // console.log("Semester list: ", semesterList)
-
   let semList: SemesterList[] = [];
   if (loadedLecturers) {
     semList = semesterList;
   }
 
   // Fetching departments
-  // Fetchign semester list
   const {
     data: departments,
     isSuccess: loadedDepartments,
@@ -87,8 +79,6 @@ export default function Home() {
     depts = departments;
   }
 
-  // console.log("Departments: ", depts)
-
   useMemo(() => {
     setLecturerLoad(loads);
     setCourses(myCourses);
@@ -97,9 +87,8 @@ export default function Home() {
     setCheckedSemesterList([]);
     setCheckedLecturers([]);
     setDepartments(depts)
-
     setSemesterList(semList);
-  }, [loads, myCourses, myLecturers, semList]);
+  }, [loads, myCourses, myLecturers, semList, depts]);
 
   if (isLoading) {
     return (
