@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Course, Lecturer, SemesterList, fetchCourses, fetchDepartments, fetchLecturers, fetchLoad, fetchSemesterList } from "../zustand/api/apis";
+import { Course, Department, Lecturer, SemesterList, fetchCourses, fetchDepartments, fetchLecturers, fetchLoad, fetchSemesterList } from "../zustand/api/apis";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
@@ -10,7 +10,7 @@ export default function Home() {
   const setCourses = useNewLoadStore21((state) => state.setCourses);
   // const lecturers = useNewLoadStore21((state) => state.lecturers);
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
-  const setDepartments = useNewLoadStore((state) => state.setDepartments)
+  const setDepartments = useNewLoadStore21((state) => state.setDepartments);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
@@ -87,7 +87,7 @@ export default function Home() {
     depts = departments;
   }
 
-  // console.log("Departments: ", departments)
+  // console.log("Departments: ", depts)
 
   useMemo(() => {
     setLecturerLoad(loads);
