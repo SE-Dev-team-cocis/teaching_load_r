@@ -50,7 +50,7 @@ const Departments = ({ department, staff }: any) => {
               </Link> */}
               <button
                 // to={`${department.department_id}`}
-                className="bg-green-700 px-3 py-1 text-white"
+                className="bg-green-700 px-3 py-1 text-white outline-none rounded"
                 onClick={() => {
                   detailsRef.current?.showModal();
                 }}
