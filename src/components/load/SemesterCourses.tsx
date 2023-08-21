@@ -25,7 +25,9 @@ const SemesterCourses = () => {
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
-  const setCheckedLecturers = useNewLoadStore21((state) => state.setCheckedLecturers);
+  const setCheckedLecturers = useNewLoadStore21(
+    (state) => state.setCheckedLecturers
+  );
 
   const setCourses = useNewLoadStore21((state) => state.setCourses);
 
@@ -54,6 +56,8 @@ const SemesterCourses = () => {
         semester: 1,
       };
     });
+
+    // console.log("Data: ", data);
 
     const url =
       "https://teaching-load-api.onrender.com/api/semesterlist/create";
@@ -104,7 +108,7 @@ const SemesterCourses = () => {
       className="px-10 bg-white mx-auto pb-10 pt-2 mt-10 rounded-lg"
     >
       <p className="text-center text-2xl mt-4">Create Semester list</p>
-      <div className="text-center pr-10">
+      <>
         <input
           type="text"
           placeholder="Search for a course here by it's name, or course code"
@@ -126,12 +130,13 @@ const SemesterCourses = () => {
             setFilterText(e.target.value)
           }
         />
-      </div>
+      </>
 
-      <div className="grid grid-cols-4 gap-5 mb-3">
-        <p className="pl-9 font-semibold col-span-2">Course name</p>
-        <p className="font-semibold col-span-1">Course code</p>
-        <p className="font-semibold col-span-1">Credit units</p>
+      <div className="grid grid-cols-12 mb-3">
+        <span className="col-span-1"></span>
+        <p className="font-semibold col-span-6">Course name</p>
+        <p className="font-semibold col-span-2">Course code</p>
+        <p className="font-semibold col-span-2 text-center">Credit units</p>
       </div>
 
       <div className="course_list">
@@ -139,34 +144,23 @@ const SemesterCourses = () => {
           ?.filter((courseUnit: any) => {
             return filterText.toLowerCase() === ""
               ? courseUnit
-              : courseUnit.course_name.toLowerCase().includes(filterText);
+              : courseUnit.course_name.toLowerCase().includes(filterText) ||
+                  courseUnit.course_code.toLowerCase().includes(filterText);
           })
           .map((course: Course, index: number) => (
-            <section
-              key={course.course_name}
-              className="hover:bg-green-300 py-1 cursor-pointer transition"
-            >
-              <div className="grid grid-cols-4 gap-4">
-                <p key={course.id} className="text-left col-span-2">
-                  <input
-                    type="checkbox"
-                    className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
-                    name="courseUnitss[]"
-                    checked={course.isChecked}
-                    value={course.id}
-                    onChange={() => handleCheckedCourses(course.id)}
-                  />
-                  {course.course_name}
-                </p>
-
-                <div key={course.id} className="col-span-1">
-                  {course.course_code}
-                </div>
-                <p key={course.id} className="ml-9 col-span-1">
-                  {+course.course_cus}
-                </p>
-              </div>
-            </section>
+            <div key={index} className="grid grid-cols-12 gap-3">
+              <input
+                type="checkbox"
+                className="col-span-1 mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
+                name="course[]"
+                checked={course.isChecked}
+                value={course.id}
+                onChange={() => handleCheckedCourses(course.id)}
+              />
+              <p className="col-span-6">{course.course_name}</p>
+              <p className="col-span-3">{course.course_code}</p>
+              <p className="col-span-1 pr-7"> {course.course_cus}</p>
+            </div>
           ))}
       </div>
       <div className="flex justify-center items-center mt-4">
