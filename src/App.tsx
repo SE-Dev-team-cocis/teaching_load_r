@@ -9,6 +9,7 @@ import CentralDashboard from "./components/CentralDashboard";
 import SemesterCourses from "./components/load/SemesterCourses";
 import DepartmentDetails from "./components/load/DepartmentDetails";
 import Trial from "./components/Trial";
+import UnassignedCourses from "./components/load/UnassignedCourses";
 
 const App = () => {
   return (
@@ -19,12 +20,15 @@ const App = () => {
         <Route path="/teaching-load" element={<Home />} />
         <Route path="/teaching-load/new" element={<HomeAssign />} />
         <Route path="/teaching-load/central" element={<CentralDashboard />} />
-        <Route path="/teaching-load/central/:name" element={<DepartmentDetails />} />
+        <Route
+          path="/teaching-load/central/:name"
+          element={<DepartmentDetails />}
+        />
 
         <Route path="/settings" element={<Settings />} />
         <Route path="/semestercourses" element={<SemesterCourses />} />
+        <Route path="/trial" element={<UnassignedCourses />} />
       </Route>
-      <Route path="/trial" element={<Trial />} />
     </Routes>
   );
 };
