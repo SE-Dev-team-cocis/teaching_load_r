@@ -141,8 +141,10 @@ dialog::backdrop{
   overflow: hidden;
   }
    .lecturer_dialog{
-    min-width: 450px;
-  min-height: 350px;
+    /* min-width: 450px; */
+    width: 850px;
+
+    min-height: 350px;
   overflow: hidden;
   }
 
