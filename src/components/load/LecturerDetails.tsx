@@ -5,7 +5,6 @@ type LecturerDetailsProps = {
 
 const LecturerDetails = ({id}:LecturerDetailsProps) => {
   return (
-    // <div>LecturerDetails page for staff with id = {id}</div>
       <div className="lecturer_details">
         <p className="m-4 text-center">
         
@@ -14,32 +13,38 @@ const LecturerDetails = ({id}:LecturerDetailsProps) => {
         <table className="w-full border-2 border-b-gray-400">
           <thead className="bg-gray-50 bottom-2 border-gray-200">
             <tr>
-  {/*             <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
                 No.
-              </th> */}
+              </th>
               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
                 Course name
               </th>
-              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
                 Course code
               </th>
               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
                 Course Credit units
               </th>
               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
-                Actions
+                Action
               </th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-gray-400">
               <tr>
-                  <td className="p-2 text-sm text-gray-700 ">Distributed Systems</td>
-                    <td className="p-2 text-sm text-gray-700 text-center">
+                <td className="p-2 text-sm text-gray-700 text-left">
+                   1
+                  </td>
+                  <td className="p-2 text-sm text-gray-700 text-left">Distributed Systems</td>
+                    <td className="p-2 text-sm text-gray-700 text-left">
                       BSSE 1234
                     </td>
                   <td className="p-2 text-sm text-gray-700 text-center">
                     34
+                  </td>
+                   <td className="p-2 text-sm text-gray-700 text-center">
+                    Delete
                   </td>
               </tr>
               <tr>
@@ -49,6 +54,9 @@ const LecturerDetails = ({id}:LecturerDetailsProps) => {
                     </td>
                   <td className="p-2 text-sm text-gray-700 text-center">
                     12
+                  </td>
+                   <td className="p-2 text-sm text-gray-700 text-center">
+                    Delete
                   </td>
               </tr>
             {/*           {allData.map((data, index) => (
