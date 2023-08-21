@@ -7,20 +7,18 @@ import LecturerDetails from "./LecturerDetails";
 const DepartmentDetails = ({ id }: any) => {
   const params = useParams();
   const lecturerRef = useRef<HTMLDialogElement>(null);
-  const [lecturerId, setLecturerId] = useState<number>(0);
 
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
   const oldDepartments = useNewLoadStore21((state) => state.departments);
 
+  const [lecturerId, setLecturerId] = useState<any>(0);
 
-  function toggleModal(lectId: number | undefined) {
-    lectId !== undefined && setLecturerId(lectId);
-    // setLecturerId(id)
-    // console.log("Lecturer id: ", lectId);
-    console.log("Department id: ", id);
-
+  function toggleDetailsDialog(lect_id: any) {
+    lect_id && lect_id !== undefined && setLecturerId(lect_id);
+    // setLecturerId(lect_id)
     lecturerRef.current?.showModal();
+    // console.log("Lecturer id is: ", lect_id);
   }
 
   // let dept: number;
@@ -64,11 +62,16 @@ const DepartmentDetails = ({ id }: any) => {
 
   const lecturerLoads = lecturerLoad.map((load) => {
     if (assignedIds.includes(load.staff_id)) {
-      return load.CUs.reduce((a: number, b: number) => a + b, 0);
+      return {
+        total: load.CUs.reduce((a: number, b: number) => a + b, 0),
+        staff_id: load.staff_id,
+      };
     } else {
       return null;
     }
   });
+
+  // const status = 
 
   const allData = assignedDetails
     .map((data, index) => {
@@ -77,19 +80,37 @@ const DepartmentDetails = ({ id }: any) => {
         name: data?.name,
         role: data?.role,
         department: data?.department,
-        load: lecturerLoads[index],
+        load: lecturerLoads.map((load) => {
+          if (data?.id === load?.staff_id) {
+            return load?.total;
+          }
+        }),
+
+          //Starts here  // 
+           status: lecturerLoads.map((load) => {
+          if (data?.id === load?.staff_id) {
+              if(load?.total <= 8){
+                return "Underload"
+              }else if(load?.total <= 12){
+                return "Minimum load"
+              
+              }else{
+              return "Extra load"
+            }
+          }}),
+
+          //Ends here
+
+        
       };
     })
     .filter((data) => {
       return data.department === the_dept.department_name;
     });
 
-
-    // console.log("Id: ", lecturerId)
-
   return (
     <div className="department_details">
-      <p className="m-4 text-center">
+      <p className="m-4 text-center text-2xl">
         {" "}
         Details for {the_dept.department_name} department{" "}
       </p>
@@ -109,14 +130,16 @@ const DepartmentDetails = ({ id }: any) => {
               Total Load
             </th>
             <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+              Status
+            </th>
+            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
               Actions
             </th>
           </tr>
         </thead>
 
         <tbody className="divide-y divide-gray-400">
-          {/* {clecturerId} */}
-          {allData.map((data, index) => (
+          {allData?.map((data, index) => (
             <tr key={index}>
               <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
               <td
@@ -130,9 +153,12 @@ const DepartmentDetails = ({ id }: any) => {
                 {data.load}
               </td>
               <td className="p-2 text-sm text-gray-700 text-center">
+                {data.status}
+              </td>
+              <td className="p-2 text-sm text-gray-700 text-center">
                 <span
                   className="text-blue-500 cursor-pointer "
-                  onClick={() => toggleModal(data?.id)}
+                  onClick={() => toggleDetailsDialog(data?.id)}
                 >
                   View
                 </span>
@@ -147,7 +173,7 @@ const DepartmentDetails = ({ id }: any) => {
       </table>
 
       <dialog className="lecturer_dialog" ref={lecturerRef}>
-        <LecturerDetails id={lecturerId} />
+        <LecturerDetails lectID={lecturerId} />
       </dialog>
     </div>
   );

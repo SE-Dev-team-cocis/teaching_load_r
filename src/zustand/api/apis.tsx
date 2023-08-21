@@ -89,7 +89,8 @@ export const fetchLecturers = async () => {
       "Content-Type": "application/json",
       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
     },
-  });
+
+  }, );
   const mydata = response.data.staff;
   const data: Lecturer[] = mydata.map((lecturer: Lecturer) => {
     return {

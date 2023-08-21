@@ -2,26 +2,26 @@ import { all } from "axios";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 
 type LecturerDetailsProps = {
-  id: number;
+  lectID: number;
 };
 
-const LecturerDetails = ({ id }: LecturerDetailsProps) => {
+const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
 
-  // console.log("lecturerLoad", lecturerLoad);
   const lecturerLoadDetails = lecturerLoad.filter(
-    (load) => load.staff_id === id
+    (load) => load.staff_id === lectID
   );
+  // console.log("lecturer load details", lecturerLoadDetails);
 
   // Personal details of the lecturer
-  const lecturer = lecturers.find((lecturer) => lecturer.id === id);
+  const lecturer = lecturers.find((lecturer) => lecturer.id === lectID);
+  // console.log("lecturer  details", lecturer);
 
   // const name = lecturerLoadDetails[0]?.name;
 
   // const details = lecturerLoadDetails[0]?.courses;
-
 
   // console.log("lecturerLoadDetails", JSON.parse(details));
 
@@ -31,7 +31,7 @@ const LecturerDetails = ({ id }: LecturerDetailsProps) => {
     };
   });
 
-  console.log("Assigned courses: ", assignedCourses)
+  // console.log("Assigned courses: ", assignedCourses)
   // const assignedCourses =details?.courses
   // console.log("Assigned courses: ", JSON.parse(assignedCourses));
 
@@ -39,7 +39,7 @@ const LecturerDetails = ({ id }: LecturerDetailsProps) => {
     return cs.courses;
   });
 
-  console.log("the courses only: ", theCoursesOnly[0]);
+  // console.log("the courses only: ", theCoursesOnly[0]);
 
   const courseDetails = allcourses?.filter((course) => {
     if (theCoursesOnly[0]?.includes(course.course_name)) {
@@ -51,7 +51,7 @@ const LecturerDetails = ({ id }: LecturerDetailsProps) => {
     }
   });
 
-  console.log("Course details: ", courseDetails);
+  // console.log("Course details: ", courseDetails);
 
   // const mycourses = lecturerLoadDetails.map((load) => {
   //   return {
@@ -66,7 +66,7 @@ const LecturerDetails = ({ id }: LecturerDetailsProps) => {
 
   return (
     <div className="lecturer_details">
-      <p className="m-4 text-center">
+      <p className="m-4 text-center text-2xl">
         Details for {lecturer?.firstName} {lecturer?.lastName}
       </p>
       <table className="w-full border-2 border-b-gray-400">
