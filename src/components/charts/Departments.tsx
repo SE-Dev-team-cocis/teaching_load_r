@@ -66,7 +66,7 @@ const Departments = ({ department, staff }: any) => {
             <DepartmentChart data={data} />
           </div>
 
-          <dialog className=" department_dialog mydialog rounded-md" ref={detailsRef}>
+          <dialog className=" department_dialog mydialog rounded-md outline-none" ref={detailsRef}>
             {/* This is my modal */}
             <DepartmentDetails id={department.department_id} />
           </dialog>
