@@ -13,17 +13,9 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
   const lecturerLoadDetails = lecturerLoad.filter(
     (load) => load.staff_id === lectID
   );
-  // console.log("lecturer load details", lecturerLoadDetails);
 
   // Personal details of the lecturer
   const lecturer = lecturers.find((lecturer) => lecturer.id === lectID);
-  // console.log("lecturer  details", lecturer);
-
-  // const name = lecturerLoadDetails[0]?.name;
-
-  // const details = lecturerLoadDetails[0]?.courses;
-
-  // console.log("lecturerLoadDetails", JSON.parse(details));
 
   const assignedCourses = lecturerLoadDetails?.map((load: any) => {
     return {
@@ -31,15 +23,10 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
     };
   });
 
-  // console.log("Assigned courses: ", assignedCourses)
-  // const assignedCourses =details?.courses
-  // console.log("Assigned courses: ", JSON.parse(assignedCourses));
-
   const theCoursesOnly = assignedCourses?.map((cs: any) => {
     return cs.courses;
   });
 
-  // console.log("the courses only: ", theCoursesOnly[0]);
 
   const courseDetails = allcourses?.filter((course) => {
     if (theCoursesOnly[0]?.includes(course.course_name)) {
@@ -50,19 +37,6 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
       };
     }
   });
-
-  // console.log("Course details: ", courseDetails);
-
-  // const mycourses = lecturerLoadDetails.map((load) => {
-  //   return {
-  //     courses: JSON.parse(load.courses),
-  //     creditUnits: load.CUs,
-  //     // courseCode: allcourses.filter(
-  //     //   (course) => course.course_name in courseDetails.courses
-  //     // ),
-  //   };
-  // });
-  // // console.log("Courses", mycourses);
 
   return (
     <div className="lecturer_details">
@@ -89,7 +63,6 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
             </th>
           </tr>
         </thead>
-
         <tbody className="divide-y divide-gray-400">
           {courseDetails.map((load, index) => (
             <tr key={index}>
@@ -108,26 +81,6 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
               <td className="p-2 text-sm text-gray-700 text-center">Delete</td>
             </tr>
           ))}
-          {/* <tr>
-            <td className="p-2 text-sm text-gray-700 text-left">1</td>
-            <td className="p-2 text-sm text-gray-700 text-left">
-              Distributed Systems
-            </td>
-            <td className="p-2 text-sm text-gray-700 text-center">BSSE 1234</td>
-            <td className="p-2 text-sm text-gray-700 text-center">34</td>
-            <td className="p-2 text-sm text-gray-700 text-center">Delete</td>
-          </tr>
-          <tr>
-            <td className="p-2 text-sm text-gray-700 text-left">1</td>
-            <td className="p-2 text-sm text-gray-700 text-left ">
-              Embedded Systems
-            </td>
-            <td className="p-2 text-sm text-gray-700 text-center">
-              BSSE 12364
-            </td>
-            <td className="p-2 text-sm text-gray-700 text-center">12</td>
-            <td className="p-2 text-sm text-gray-700 text-center">Delete</td>
-          </tr> */}
         </tbody>
       </table>
     </div>
