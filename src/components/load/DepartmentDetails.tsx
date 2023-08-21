@@ -16,15 +16,10 @@ const DepartmentDetails = ({ id }: any) => {
 
   function toggleDetailsDialog(lect_id: any) {
     lect_id && lect_id !== undefined && setLecturerId(lect_id);
-    // setLecturerId(lect_id)
     lecturerRef.current?.showModal();
-    // console.log("Lecturer id is: ", lect_id);
   }
 
-  // let dept: number;
-  // if (params.name !== undefined) {
-  //   dept = +params.name;
-  // }
+
 
   let dept = id;
   const theDepartment: any = oldDepartments.filter((department) => {
@@ -71,8 +66,6 @@ const DepartmentDetails = ({ id }: any) => {
     }
   });
 
-  // const status = 
-
   const allData = assignedDetails
     .map((data, index) => {
       return {
@@ -86,7 +79,6 @@ const DepartmentDetails = ({ id }: any) => {
           }
         }),
 
-          //Starts here  // 
            status: lecturerLoads.map((load) => {
           if (data?.id === load?.staff_id) {
               if(load?.total <= 8){
@@ -98,9 +90,6 @@ const DepartmentDetails = ({ id }: any) => {
               return "Extra load"
             }
           }}),
-
-          //Ends here
-
         
       };
     })
@@ -171,7 +160,6 @@ const DepartmentDetails = ({ id }: any) => {
           ))}
         </tbody>
       </table>
-
       <dialog className="lecturer_dialog" ref={lecturerRef}>
         <LecturerDetails lectID={lecturerId} />
       </dialog>
