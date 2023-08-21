@@ -1,16 +1,27 @@
 import { useParams } from "react-router-dom";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Lecturer } from "../../zustand/api/apis";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import LecturerDetails from "./LecturerDetails";
 
 const DepartmentDetails = ({ id }: any) => {
   const params = useParams();
   const lecturerRef = useRef<HTMLDialogElement>(null);
+  const [lecturerId, setLecturerId] = useState<number>(0);
 
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
   const oldDepartments = useNewLoadStore21((state) => state.departments);
+
+
+  function toggleModal(lectId: number | undefined) {
+    lectId !== undefined && setLecturerId(lectId);
+    // setLecturerId(id)
+    // console.log("Lecturer id: ", lectId);
+    console.log("Department id: ", id);
+
+    lecturerRef.current?.showModal();
+  }
 
   // let dept: number;
   // if (params.name !== undefined) {
@@ -73,6 +84,9 @@ const DepartmentDetails = ({ id }: any) => {
       return data.department === the_dept.department_name;
     });
 
+
+    // console.log("Id: ", lecturerId)
+
   return (
     <div className="department_details">
       <p className="m-4 text-center">
@@ -101,6 +115,7 @@ const DepartmentDetails = ({ id }: any) => {
         </thead>
 
         <tbody className="divide-y divide-gray-400">
+          {/* {clecturerId} */}
           {allData.map((data, index) => (
             <tr key={index}>
               <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
@@ -117,7 +132,7 @@ const DepartmentDetails = ({ id }: any) => {
               <td className="p-2 text-sm text-gray-700 text-center">
                 <span
                   className="text-blue-500 cursor-pointer "
-                  onClick={() => lecturerRef.current?.showModal()}
+                  onClick={() => toggleModal(data?.id)}
                 >
                   View
                 </span>
@@ -132,7 +147,7 @@ const DepartmentDetails = ({ id }: any) => {
       </table>
 
       <dialog className="lecturer_dialog" ref={lecturerRef}>
-        <LecturerDetails id={1} />
+        <LecturerDetails id={lecturerId} />
       </dialog>
     </div>
   );
