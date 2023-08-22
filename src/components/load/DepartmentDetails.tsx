@@ -103,6 +103,7 @@ const DepartmentDetails = ({ id }: any) => {
         {" "}
         Details for {the_dept.department_name} department{" "}
       </p>
+        <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105">X</p>
       <table className="w-full border-2 border-b-gray-400">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
           <tr>
