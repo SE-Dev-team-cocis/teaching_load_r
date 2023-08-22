@@ -147,6 +147,9 @@ dialog::backdrop{
     min-height: 350px;
   overflow: hidden;
   }
+  .lecturer_dialog::backdrop{
+    background-color: rgba(0,0,0,0.3);
+  }
 
 
 

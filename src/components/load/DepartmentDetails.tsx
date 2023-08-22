@@ -142,7 +142,7 @@ const DepartmentDetails = ({ id }: any) => {
                 {data.load}
               </td>
               <td className="p-2 text-sm text-gray-700 text-center">
-                {data.status}
+                 {data.status}
               </td>
               <td className="p-2 text-sm text-gray-700 text-center">
                 <span
