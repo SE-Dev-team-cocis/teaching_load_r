@@ -37,13 +37,17 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
     }
   });
 
+  function addCourse(){
+    console.log("button clicked")
+  }
+
   return (
     <div className="lecturer_details">
      
       <p className="m-4 text-center text-2xl">
         Details for {lecturer?.firstName} {lecturer?.lastName}
       </p>
-       <button className="bg-green-700 text-white px-2 py-3 rounded outline-none my-2">
+       <button className="bg-green-700 text-white px-2 py-3 rounded outline-none my-2" onClicke={addCourse}>
         Add course
       </button>
       <table className="w-full border-2 border-b-gray-400">
