@@ -1,12 +1,14 @@
 import { all } from "axios";
-import {useRef} from "react"
+import { RefObject, forwardRef, useRef } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 
 type LecturerDetailsProps = {
   lectID: number;
+  // ref: RefObject<HTMLDialogElement>;
 };
 
-const LecturerDetails = forwardRef<HTMLDialogElement, LecturerDetailsProps>(({ lectID }, ref) => {
+const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
+  // console.log(ref.current);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
@@ -38,18 +40,25 @@ const LecturerDetails = forwardRef<HTMLDialogElement, LecturerDetailsProps>(({ l
     }
   });
 
-  function addCourse(){
-    console.log("button clicked")
+  function addCourse() {
+    console.log("button clicked");
   }
 
   return (
-   <div className="lecturer_details">
-     
+    <div className="lecturer_details">
       <p className="m-4 text-center text-2xl">
         Details for {lecturer?.firstName} {lecturer?.lastName}
       </p>
-      <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105" onClick={ref.curent?.closeModal()}>X</p>
-       <button className="bg-green-700 text-white px-4 py-2 rounded outline-none my-2" onClick={addCourse}>
+      <p
+        className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105"
+        // onClick={() => ref?.current?.close()}
+      >
+        X
+      </p>
+      <button
+        className="bg-green-700 text-white px-4 py-2 rounded outline-none my-2"
+        onClick={addCourse}
+      >
         Add course
       </button>
       <table className="w-full border-2 border-b-gray-400 rounded">
@@ -94,6 +103,6 @@ const LecturerDetails = forwardRef<HTMLDialogElement, LecturerDetailsProps>(({ l
       </table>
     </div>
   );
-});
+};
 
 export default LecturerDetails;

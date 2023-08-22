@@ -19,8 +19,6 @@ const DepartmentDetails = ({ id }: any) => {
     lecturerRef.current?.showModal();
   }
 
-
-
   let dept = id;
   const theDepartment: any = oldDepartments.filter((department) => {
     return department.id === dept;
@@ -79,18 +77,17 @@ const DepartmentDetails = ({ id }: any) => {
           }
         }),
 
-           status: lecturerLoads.map((load) => {
+        status: lecturerLoads.map((load) => {
           if (data?.id === load?.staff_id) {
-              if(load?.total <= 8){
-                return "Underload"
-              }else if(load?.total <= 12){
-                return "Minimum load"
-              
-              }else{
-              return "Extra load"
+            if (load?.total <= 8) {
+              return "Underload";
+            } else if (load?.total <= 12) {
+              return "Minimum load";
+            } else {
+              return "Extra load";
             }
-          }}),
-        
+          }
+        }),
       };
     })
     .filter((data) => {
@@ -103,7 +100,9 @@ const DepartmentDetails = ({ id }: any) => {
         {" "}
         Details for {the_dept.department_name} department{" "}
       </p>
-        <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105">X</p>
+      <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105">
+        X
+      </p>
       <table className="w-full border-2 border-b-gray-400">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
           <tr>
@@ -143,7 +142,7 @@ const DepartmentDetails = ({ id }: any) => {
                 {data.load}
               </td>
               <td className="p-2 text-sm text-gray-700 text-center">
-                 {data.status}
+                {data.status}
               </td>
               <td className="p-2 text-sm text-gray-700 text-center">
                 <span
@@ -161,7 +160,11 @@ const DepartmentDetails = ({ id }: any) => {
           ))}
         </tbody>
       </table>
-      <dialog className="lecturer_dialog outline-none rounded-md" ref={lecturerRef}>
+      <dialog
+        className="lecturer_dialog outline-none rounded-md"
+        ref={lecturerRef}
+      >
+        {/* <LecturerDetails lectID={lecturerId} ref={lecturerRef} /> */}
         <LecturerDetails lectID={lecturerId} />
       </dialog>
     </div>
