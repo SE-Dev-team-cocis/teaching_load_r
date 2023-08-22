@@ -160,7 +160,7 @@ const DepartmentDetails = ({ id }: any) => {
           ))}
         </tbody>
       </table>
-      <dialog className="lecturer_dialog outline-none" ref={lecturerRef}>
+      <dialog className="lecturer_dialog outline-none rounded-md" ref={lecturerRef}>
         <LecturerDetails lectID={lecturerId} />
       </dialog>
     </div>
