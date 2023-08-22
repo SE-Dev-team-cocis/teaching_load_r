@@ -42,7 +42,7 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
   }
 
   return (
-    <div className="lecturer_details">
+   <div className="lecturer_details">
      
       <p className="m-4 text-center text-2xl">
         Details for {lecturer?.firstName} {lecturer?.lastName}
