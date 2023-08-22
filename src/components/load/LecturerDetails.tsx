@@ -1,11 +1,12 @@
 import { all } from "axios";
+import {useRef} from "react"
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 
 type LecturerDetailsProps = {
   lectID: number;
 };
 
-const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
+const LecturerDetails = forwardRef<HTMLDialogElement, LecturerDetailsProps>(({ lectID }, ref) => {
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
@@ -47,7 +48,7 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
       <p className="m-4 text-center text-2xl">
         Details for {lecturer?.firstName} {lecturer?.lastName}
       </p>
-      <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105">X</p>
+      <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105" onClick={ref.curent?.closeModal()}>X</p>
        <button className="bg-green-700 text-white px-4 py-2 rounded outline-none my-2" onClick={addCourse}>
         Add course
       </button>
@@ -93,6 +94,6 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
       </table>
     </div>
   );
-};
+});
 
 export default LecturerDetails;
