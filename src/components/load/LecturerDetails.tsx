@@ -42,16 +42,16 @@ const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
   }
 
   return (
-    <div className="lecturer_details absolute">
+    <div className="lecturer_details">
      
       <p className="m-4 text-center text-2xl">
         Details for {lecturer?.firstName} {lecturer?.lastName}
       </p>
-      <p className="relative right-0 top-0 hover:bg-red-500 text-white rounded-full p-1">X</p>
+      <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105">X</p>
        <button className="bg-green-700 text-white px-4 py-2 rounded outline-none my-2" onClick={addCourse}>
         Add course
       </button>
-      <table className="w-full border-2 border-b-gray-400">
+      <table className="w-full border-2 border-b-gray-400 rounded">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
           <tr>
             <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
