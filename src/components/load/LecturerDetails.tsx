@@ -1,108 +1,108 @@
-import { all } from "axios";
-import { RefObject, forwardRef, useRef } from "react";
+import axios from "axios";
+import { Course } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
+import { useMemo, useState } from "react";
 
-type LecturerDetailsProps = {
-  lectID: number;
-  // ref: RefObject<HTMLDialogElement>;
-};
+const UnassignedCourses = () => {
+  const courses = useNewLoadStore21((state) => state.allCourses);
+  const [theCourses, setTheCourses] = useState<any>([]);
 
-const LecturerDetails = ({ lectID }: LecturerDetailsProps) => {
-  // console.log(ref.current);
-  const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
-  const allcourses = useNewLoadStore21((state) => state.allCourses);
-  const lecturers = useNewLoadStore21((state) => state.lecturers);
+  // console.log("Course names: ", courseNames)
 
-  const lecturerLoadDetails = lecturerLoad.filter(
-    (load) => load.staff_id === lectID
-  );
+  let data: any = [];
+  const fetchUnallocated = async () => {
+    try {
+      const url = "https://teaching-load-api.onrender.com/api/dashboard";
+      const response = await axios.get(url);
+      // console.log("Unallocated: ", response?.data.unallocated_courses);
+      const unallocatedCourses = response?.data.unallocated_courses;
+      setTheCourses(unallocatedCourses);
+      // console.log("Unallocated: ", unallocatedCourses);
 
-  // Personal details of the lecturer
-  const lecturer = lecturers.find((lecturer) => lecturer.id === lectID);
-
-  const assignedCourses = lecturerLoadDetails?.map((load: any) => {
-    return {
-      courses: JSON.parse(load.courses),
-    };
-  });
-
-  const theCoursesOnly = assignedCourses?.map((cs: any) => {
-    return cs.courses;
-  });
-
-  const courseDetails = allcourses?.filter((course) => {
-    if (theCoursesOnly[0]?.includes(course.course_name)) {
-      return {
-        course_name: course.course_name,
-        course_code: course.course_code,
-        CUs: course.course_cus,
-      };
+    } catch (error) {
+      console.error("Error: ", error);
     }
-  });
+  };
+  useMemo(()=> {
+    fetchUnallocated()
+  }, [])
 
-  function addCourse() {
-    console.log("button clicked");
-  }
+  // console.log("the courses: ", theCourses)
+
+  courses?.map((course: any, index: number) => {
+    if((theCourses?.includes(course.course_name))){
+      // console.log("Course: ", course)
+      data.push(course);
+
+    }
+    const courseId = course.id;
+    const courseName = course.course_name;
+    const courseCode = course.course_code;
+    const courseCus = course.course_cus;
+    // const courseObj = {
+    //   course_id: courseId,
+    //   course_name: courseName,
+    //   course_code: courseCode,
+    //   course_cus: courseCus
+    // }
+    // data.push(courseObj)
+  })
+
+    console.log("Data: ", data)
+
+
 
   return (
-    <div className="lecturer_details">
-      <p className="m-4 text-center text-2xl">
-        Details for {lecturer?.firstName} {lecturer?.lastName}
-      </p>
-      <p
-        className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105"
-        // onClick={() => ref?.current?.close()}
-      >
-        X
-      </p>
-      <button
-        className="bg-green-700 text-white px-4 py-2 rounded outline-none my-2"
-        onClick={addCourse}
-      >
-        Add course
-      </button>
-      <table className="w-full border-2 border-b-gray-400 rounded">
-        <thead className="bg-gray-50 bottom-2 border-gray-200">
-          <tr>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
-              No.
-            </th>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
-              Course name
-            </th>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
-              Course code
-            </th>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
-              Course Credit units
-            </th>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-400">
-          {courseDetails.map((load, index) => (
-            <tr key={index}>
-              <td className="p-2 text-sm text-gray-700 text-left">
-                {index + 1}
-              </td>
-              <td className="p-2 text-sm text-gray-700 text-left">
-                {load.course_name}
-              </td>
-              <td className="p-2 text-sm text-gray-700 text-center">
-                {load.course_code}
-              </td>
-              <td className="p-2 text-sm text-gray-700 text-center">
-                {load.course_cus}
-              </td>
-              <td className="p-2 text-sm text-gray-700 text-center">Delete</td>
+    <section className="flex justify-center items-center mt-10 rounded">
+      <div className=" bg-white" style={{ width: 1000 }}>
+        <p className="m-4 text-center text-2xl uppercase">Unassigned courses</p>
+        <table className="w-full border-2 border-b-gray-400">
+          <thead className="bg-gray-50 bottom-2 border-gray-200">
+            <tr>
+              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                No.
+              </th>
+              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                Name
+              </th>
+              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+                Code
+              </th>
+              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+                Credit units
+              </th>
+              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+                Action
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody className="divide-y divide-gray-400">
+            {data?.map((course: Course, index: number) => (
+              <tr key={index}>
+                <td className="p-2 text-sm text-gray-700 text-left">
+                  {index + 1}
+                </td>
+                <td className="p-2 text-sm text-gray-700 text-left">
+                  {course.course_name}
+                </td>
+                <td className="p-2 text-sm text-gray-700 text-center">
+                  {course.course_code}
+                </td>
+                <td className="p-2 text-sm text-gray-700 text-center">
+                  {course.course_cus}
+                </td>
+                <td className="p-2 text-sm text-gray-700 text-center">
+                  <button className="bg-green-400 text-white px-4 py-2 rounded">
+                    Assign
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 };
 
-export default LecturerDetails;
+export default UnassignedCourses;
