@@ -66,6 +66,14 @@ const DepartmentDetails = ({ id }: any) => {
 
   const allData = assignedDetails
     .map((data, index) => {
+      const loads = lecturerLoads.map((load) => {
+        if (data?.id === load?.staff_id) {
+          return load?.total;
+        }
+      })
+      const realLoads = loads.filter((load) => {
+        return load !== null;
+      })
       return {
         id: data?.id,
         name: data?.name,
@@ -75,6 +83,8 @@ const DepartmentDetails = ({ id }: any) => {
           if (data?.id === load?.staff_id) {
             return load?.total;
           }
+        }).filter((load) => {
+          return load !== undefined;
         }),
 
         status: lecturerLoads.map((load) => {
@@ -93,6 +103,9 @@ const DepartmentDetails = ({ id }: any) => {
     .filter((data) => {
       return data.department === the_dept.department_name;
     });
+
+
+    console.log("All data: ", allData)
 
   return (
     <div className="department_details">
@@ -128,7 +141,8 @@ const DepartmentDetails = ({ id }: any) => {
         </thead>
 
         <tbody className="divide-y divide-gray-400">
-          {allData?.map((data, index) => (
+          {allData?.map((data: any, index) => (
+            // {data.status}
             <tr key={index}>
               <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
               <td
@@ -141,8 +155,24 @@ const DepartmentDetails = ({ id }: any) => {
               <td className="p-2 text-sm text-gray-700 text-center">
                 {data.load}
               </td>
-              <td className="p-2 text-sm text-gray-700 text-center">
-                {data.status}
+
+              <td className="p-2 text-sm text-center">
+                {data?.load <= 8  ? (
+                  <span className="p-1.5 tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
+                    {data.status}
+                  </span>
+                ) : data?.load > 8 && data?.load <= 12 ? (
+                  <span className="p-1.5 tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50">
+                    {data.status}
+                  </span>
+                ) : (
+                  <span className="p-1.5 tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
+                    {data.status}
+                  </span>
+                )}
+                {/* <span className="p-1.5 tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
+                  {data.status}
+                </span> */}
               </td>
               <td className="p-2 text-sm text-gray-700 text-center">
                 <span
