@@ -1,13 +1,11 @@
 import axios from "axios";
 import { Course } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 const UnassignedCourses = () => {
   const courses = useNewLoadStore21((state) => state.allCourses);
-  const allCourses = courses?.map((course: Course) => {
-    return course;
-  });
+  const [theCourses, setTheCourses] = useState<any>([]);
 
   // console.log("Course names: ", courseNames)
 
@@ -18,34 +16,38 @@ const UnassignedCourses = () => {
       const response = await axios.get(url);
       // console.log("Unallocated: ", response?.data.unallocated_courses);
       const unallocatedCourses = response?.data.unallocated_courses;
-
-      for(let i = 0; i < unallocatedCourses.length; i++) {
-        if (allCourses[i].course_name === unallocatedCourses[i]) {
-          data.push(allCourses[i]);
-        } 
-      }
-
-      // const theData: any = courses?.map((course:Course, index: number) => {
-      //   if (course.course_name === unallocatedCourses[index]) {
-      //     data.push(courses[index]);
-      //   } else {
-      //     // data.push();
-      //     console.log("No match")
-      //   }
-      // });
-
-      // console.log("All courses: ", courseNames);
-
-      console.log("Unallocated courses: ", unallocatedCourses);
-      console.log("The data: ", data);
-
+      setTheCourses(unallocatedCourses);
+      // console.log("Unallocated: ", unallocatedCourses);
     } catch (error) {
       console.error("Error: ", error);
     }
   };
-  useMemo(()=> {
-    fetchUnallocated()
-  }, [])
+  useMemo(() => {
+    fetchUnallocated();
+  }, []);
+
+  // console.log("the courses: ", theCourses)
+
+  courses?.map((course: any, index: number) => {
+    if (theCourses?.includes(course.course_name)) {
+      // console.log("Course: ", course)
+      data.push(course);
+    }
+    const courseId = course.id;
+    const courseName = course.course_name;
+    const courseCode = course.course_code;
+    const courseCus = course.course_cus;
+    // const courseObj = {
+    //   course_id: courseId,
+    //   course_name: courseName,
+    //   course_code: courseCode,
+    //   course_cus: courseCus
+    // }
+    // data.push(courseObj)
+  });
+
+  console.log("Data: ", data);
+
   return (
     <section className="flex justify-center items-center mt-10 rounded">
       <div className=" bg-white" style={{ width: 1000 }}>
@@ -71,7 +73,7 @@ const UnassignedCourses = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-400">
-            {courses?.map((course: Course, index: number) => (
+            {data?.map((course: Course, index: number) => (
               <tr key={index}>
                 <td className="p-2 text-sm text-gray-700 text-left">
                   {index + 1}
