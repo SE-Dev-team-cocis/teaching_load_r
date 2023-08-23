@@ -27,7 +27,7 @@ const App = () => {
 
         <Route path="/settings" element={<Settings />} />
         <Route path="/semestercourses" element={<SemesterCourses />} />
-        <Route path="/trial" element={<UnassignedCourses />} />
+        <Route path="/trial" element={<UnassignedCourses id={10}/>} />
       </Route>
     </Routes>
   );
