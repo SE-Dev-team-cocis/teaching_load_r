@@ -15,7 +15,7 @@ const UnassignedCourses = ({ id }: any) => {
         return load;
       }
     });
-    // console.log("Selected one: ", selectedLecturer);
+  
     setSelectedLecturer(selectedLecturer);
   }
 
@@ -24,10 +24,9 @@ const UnassignedCourses = ({ id }: any) => {
     try {
       const url = "https://teaching-load-api.onrender.com/api/dashboard";
       const response = await axios.get(url);
-      // console.log("Unallocated: ", response?.data.unallocated_courses);
       const unallocatedCourses = response?.data.unallocated_courses;
       setTheCourses(unallocatedCourses);
-      // console.log("Unallocated: ", unallocatedCourses);
+  
     } catch (error) {
       console.error("Error: ", error);
     }
@@ -37,21 +36,11 @@ const UnassignedCourses = ({ id }: any) => {
     selectedOne();
   }, []);
 
-  // console.log("Selected lecturer", selectedLecturer)
-
   courses?.map((course: any, index: number) => {
     if (theCourses?.includes(course.course_name)) {
-      // console.log("Course: ", course)
       data.push(course);
     }
-    // const courseId = course.id;
-    // const courseName = course.course_name;
-    // const courseCode = course.course_code;
-    // const courseCus = course.course_cus;
-    // const staffId = course.staff_id;
   });
-
-  // console.log("Data: ", data);
 
   const handleAssign = async (courseName: string, courseCus: number) => {
     const data: any = selectedLecturer.map((load: Load) => {
@@ -67,7 +56,6 @@ const UnassignedCourses = ({ id }: any) => {
       staff_id: id,
     };
 
-    // console.log("Real data: ", data);
 
     try {
       const response = await axios.put(
@@ -82,9 +70,8 @@ const UnassignedCourses = ({ id }: any) => {
             "Content-Type": "application/json",
           },
         }
-      );
-
-      console.log("Response: ", response.data);
+      )
+     // const result = response.data.loads
     } catch (error) {
       console.error("Error: ", error);
     }
