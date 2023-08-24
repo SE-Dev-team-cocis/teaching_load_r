@@ -6,7 +6,7 @@ import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
-import { successNotification } from "./utilities/toastify/Toastify";
+import { successNotification, errorNotification } from "./utilities/toastify/Toastify";
 
 type AssignLoad = {
   courses: string;
@@ -98,6 +98,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     successNotification(response.data?.message); 
 
     }catch(error){
+      errorNotification(response.data.message)
       console.error(error)
     }
 
