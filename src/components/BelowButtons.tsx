@@ -99,7 +99,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     successNotification(response.data?.message); 
 
     }catch(error){
-      errorNotification(response.data.message)
+      errorNotification("Unable to assign load")
       console.error(error)
     }
 

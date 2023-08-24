@@ -173,8 +173,8 @@ const SemesterCourses = () => {
           type="button"
           onClick={handleSemesterCourses}
         >
-          {creating ? "Creating semester list" : "Create semester list"}
-          Create
+          {creating ? "Creating Semester list" : "Create Semester List"}
+       
         </button>
       </div>
     </div>
