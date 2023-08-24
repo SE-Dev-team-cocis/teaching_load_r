@@ -52,6 +52,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const myid: any = checkedLecturer?.id;
   const [assigning, setAssigning] = useState(false)
+  const [broadcasting, setBroadcasting] = useState(false)
 
   // Function to assign courses
   const assignCourses = async () => {
@@ -108,9 +109,11 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const user = useUserstore((state) => state.user);
   const broadcastLoad = async (id: number) => {
+    setBroadcasting(true)
     try {
       const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
       const response = await axios.put(url);
+      setBroadcasting(false)
       successNotification("The assigned load has been successfully broadcast");
       navigate("/teaching-load/central");
     } catch (error) {
@@ -153,7 +156,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           disabled={!broadcast}
           onClick={() => broadcastLoad(user.id)}
         >
-          Broadcast
+          {broadcasting ? "Broadcasting load...": "Broadcast"}
         </button>
       </div>
       <dialog data-modal className="rounded-lg px-4 py-5 my-subgroup">
