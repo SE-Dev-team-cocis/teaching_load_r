@@ -70,22 +70,24 @@ const DepartmentDetails = ({ id }: any) => {
         if (data?.id === load?.staff_id) {
           return load?.total;
         }
-      })
-      const realLoads = loads.filter((load) => {
+      });
+      const realLoads = loads?.filter((load) => {
         return load !== null;
-      })
+      });
       return {
         id: data?.id,
         name: data?.name,
         role: data?.role,
         department: data?.department,
-        load: lecturerLoads.map((load) => {
-          if (data?.id === load?.staff_id) {
-            return load?.total;
-          }
-        }).filter((load) => {
-          return load !== undefined;
-        }),
+        load: lecturerLoads
+          .map((load) => {
+            if (data?.id === load?.staff_id) {
+              return load?.total;
+            }
+          })
+          .filter((load) => {
+            return load !== undefined;
+          }),
 
         status: lecturerLoads.map((load) => {
           if (data?.id === load?.staff_id) {
@@ -104,8 +106,7 @@ const DepartmentDetails = ({ id }: any) => {
       return data.department === the_dept.department_name;
     });
 
-
-    console.log("All data: ", allData)
+  // console.log("All data: ", allData)
 
   return (
     <div className="department_details">
@@ -157,7 +158,7 @@ const DepartmentDetails = ({ id }: any) => {
               </td>
 
               <td className="p-2 text-sm text-center">
-                {data?.load <= 8  ? (
+                {data?.load <= 8 ? (
                   <span className="p-1.5 tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
                     {data.status}
                   </span>

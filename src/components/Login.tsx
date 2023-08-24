@@ -8,7 +8,10 @@ import MukLogo from "../assets/images/muk_logo.png";
 import LoginInput from "./utilities/form/LoginInput";
 import useUserstore from "../zustand/userStore";
 import { memo } from "react";
-import { successNotification, errorNotification } from "./utilities/toastify/Toastify";
+import {
+  successNotification,
+  errorNotification,
+} from "./utilities/toastify/Toastify";
 
 type InitialValues = {
   username: string;
@@ -18,7 +21,6 @@ const initialLoginValues: InitialValues = {
   username: "",
   password: "",
 };
-
 
 const Login = () => {
   const navigate = useNavigate();
@@ -76,7 +78,7 @@ const Login = () => {
           navigate("/teaching-load");
         }
       } catch (err) {
-        errorNotification(response.data.message);
+        errorNotification("Invalid login credentials. Try again!");
       }
     },
     validationSchema: LoginSchema,
