@@ -132,11 +132,11 @@ const Login = () => {
               <div className="flex justify-center items-center w-full">
                 {isSubmitting ? (
                   <button
-                    className="w-full text-white px-4 rounded py-2 bg-green-400 mt-2 "
+                    className="w-full text-white px-4 rounded py-2 bg-green-700 bg-opacity-80 mt-2 "
                     type="submit"
                     disabled
                   >
-                    Login
+                    Logging you in...
                   </button>
                 ) : (
                   <button
