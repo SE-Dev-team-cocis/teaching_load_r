@@ -50,13 +50,6 @@ const UnassignedCourses = ({ id }: any) => {
       };
     });
 
-    const realData: any = {
-      courses: JSON.stringify([...data[0].courses, courseName]),
-      CUs: [...data[0].CUs, +courseCus],
-      staff_id: id,
-    };
-
-
     try {
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
