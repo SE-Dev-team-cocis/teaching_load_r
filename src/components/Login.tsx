@@ -76,7 +76,7 @@ const Login = () => {
           navigate("/teaching-load");
         }
       } catch (err) {
-        errorNotification("503 | Bad Gateway");
+        errorNotification(response.data.message);
       }
     },
     validationSchema: LoginSchema,
