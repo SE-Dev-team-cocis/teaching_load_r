@@ -44,11 +44,11 @@ const UnassignedCourses = ({ id }: any) => {
       // console.log("Course: ", course)
       data.push(course);
     }
-    const courseId = course.id;
-    const courseName = course.course_name;
-    const courseCode = course.course_code;
-    const courseCus = course.course_cus;
-    const staffId = course.staff_id;
+    // const courseId = course.id;
+    // const courseName = course.course_name;
+    // const courseCode = course.course_code;
+    // const courseCus = course.course_cus;
+    // const staffId = course.staff_id;
   });
 
   // console.log("Data: ", data);
@@ -67,7 +67,7 @@ const UnassignedCourses = ({ id }: any) => {
       staff_id: id,
     };
 
-    console.log("Real data: ", data);
+    // console.log("Real data: ", data);
 
     try {
       const response = await axios.put(
