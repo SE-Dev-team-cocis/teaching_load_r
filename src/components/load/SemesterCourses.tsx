@@ -35,6 +35,8 @@ const SemesterCourses = () => {
     (state) => state.setCheckedCourses
   );
 
+  const [creating, setCreating] = useState(false)
+
   function handleCheckedCourses(id: number) {
     const updatedCourses: Course[] = allcourses.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
@@ -49,6 +51,7 @@ const SemesterCourses = () => {
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
   async function handleSemesterCourses() {
+   
     const data = checkedCourses.map((checked) => {
       return {
         staff_id: staff_id,
@@ -61,7 +64,7 @@ const SemesterCourses = () => {
 
     const url =
       "https://teaching-load-api.onrender.com/api/semesterlist/create";
-
+   setCreating(true)
     try {
       const response = await axios.post(
         url,
@@ -94,6 +97,7 @@ const SemesterCourses = () => {
           return { ...lecturer, isChecked: false };
         })
       );
+      setCreating(false)
       successNotification(response.data.message);
       navigate("/teaching-load/new");
     } catch (error) {
@@ -169,6 +173,7 @@ const SemesterCourses = () => {
           type="button"
           onClick={handleSemesterCourses}
         >
+          {creating ? "Creating semester list" : "Create semester list"}
           Create
         </button>
       </div>
