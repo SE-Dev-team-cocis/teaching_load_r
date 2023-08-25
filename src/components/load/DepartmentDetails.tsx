@@ -1,13 +1,10 @@
-import { useParams } from "react-router-dom";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Lecturer } from "../../zustand/api/apis";
 import { useRef, useState } from "react";
 import LecturerDetails from "./LecturerDetails";
 
 const DepartmentDetails = ({ id }: any) => {
-  const params = useParams();
   const lecturerRef = useRef<HTMLDialogElement>(null);
-
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
   const oldDepartments = useNewLoadStore21((state) => state.departments);
@@ -20,9 +17,7 @@ const DepartmentDetails = ({ id }: any) => {
   }
 
   let dept = id;
-  const theDepartment: any = oldDepartments.filter((department) => {
-    return department.id === dept;
-  });
+
   const the_dept = oldDepartments.find((department) => {
     return department.id === dept;
   });
@@ -71,9 +66,6 @@ const DepartmentDetails = ({ id }: any) => {
           return load?.total;
         }
       });
-      const realLoads = loads?.filter((load) => {
-        return load !== null;
-      });
       return {
         id: data?.id,
         name: data?.name,
@@ -106,7 +98,6 @@ const DepartmentDetails = ({ id }: any) => {
       return data.department === the_dept.department_name;
     });
 
-  // console.log("All data: ", allData)
 
   return (
     <div className="department_details">
@@ -143,7 +134,6 @@ const DepartmentDetails = ({ id }: any) => {
 
         <tbody className="divide-y divide-gray-400">
           {allData?.map((data: any, index) => (
-            // {data.status}
             <tr key={index}>
               <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
               <td
@@ -171,9 +161,6 @@ const DepartmentDetails = ({ id }: any) => {
                     {data.status}
                   </span>
                 )}
-                {/* <span className="p-1.5 tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
-                  {data.status}
-                </span> */}
               </td>
               <td className="p-2 text-sm text-gray-700 text-center">
                 <span
@@ -195,7 +182,6 @@ const DepartmentDetails = ({ id }: any) => {
         className="lecturer_dialog outline-none rounded-md"
         ref={lecturerRef}
       >
-        {/* <LecturerDetails lectID={lecturerId} ref={lecturerRef} /> */}
         <LecturerDetails lectID={lecturerId} />
       </dialog>
     </div>
