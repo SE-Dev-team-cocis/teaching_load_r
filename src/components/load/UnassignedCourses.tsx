@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 
 const UnassignedCourses = ({ id }: any) => {
   const courses = useNewLoadStore21((state) => state.allCourses);
+  const setLecturerLoad  useNewLoadStore21(state => state.setLecturerLoad)
   const [theCourses, setTheCourses] = useState<any>([]);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const [selectedLecturer, setSelectedLecturer] = useState<any>(null);
@@ -64,6 +65,8 @@ const UnassignedCourses = ({ id }: any) => {
           },
         }
       )
+      setLecturerLoad(response.data?.loads)
+      console.log("Load reassigned successfully")
      // const result = response.data.loads
     } catch (error) {
       console.error("Error: ", error);
