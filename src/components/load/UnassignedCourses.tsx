@@ -5,18 +5,22 @@ import { useMemo, useState } from "react";
 
 const UnassignedCourses = ({ id }: any) => {
   const courses = useNewLoadStore21((state) => state.allCourses);
-  const setLecturerLoad  useNewLoadStore21(state => state.setLecturerLoad)
+  const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const [theCourses, setTheCourses] = useState<any>([]);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const [selectedLecturer, setSelectedLecturer] = useState<any>(null);
 
+  // console.log("courses: ", lecturerLoad);
+
   function selectedOne() {
-    const selectedLecturer = lecturerLoad.filter((load: Load) => {
+    const selectedLecturer = lecturerLoad?.filter((load: Load) => {
       if (load.staff_id === id) {
         return load;
       }
     });
-  
+
+    // console.log("Selected one: ", selectedLecturer)
+
     setSelectedLecturer(selectedLecturer);
   }
 
@@ -25,17 +29,14 @@ const UnassignedCourses = ({ id }: any) => {
     try {
       const url = "https://teaching-load-api.onrender.com/api/dashboard";
       const response = await axios.get(url);
-      const unallocatedCourses = response?.data.unallocated_courses;
+      const unallocatedCourses = response?.data?.unallocated_courses;
       setTheCourses(unallocatedCourses);
-  
     } catch (error) {
       console.error("Error: ", error);
     }
   };
-  useMemo(() => {
-    fetchUnallocated();
-    selectedOne();
-  }, []);
+
+  // console.log("The courses: ", theCourses)
 
   courses?.map((course: any, index: number) => {
     if (theCourses?.includes(course.course_name)) {
@@ -44,7 +45,8 @@ const UnassignedCourses = ({ id }: any) => {
   });
 
   const handleAssign = async (courseName: string, courseCus: number) => {
-    const data: any = selectedLecturer.map((load: Load) => {
+    // console.log("selected lecturer: ", selectedLecturer);
+    const data: any = selectedLecturer?.map((load: Load) => {
       return {
         courses: JSON.parse(load.courses),
         CUs: load.CUs,
@@ -55,7 +57,7 @@ const UnassignedCourses = ({ id }: any) => {
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
         {
-          courses: JSON.stringify([...data[0].courses, courseName]),
+          courses: JSON.stringify([...data[0]?.courses, courseName]),
           CUs: [...data[0].CUs, +courseCus],
           staff_id: id,
         },
@@ -64,14 +66,31 @@ const UnassignedCourses = ({ id }: any) => {
             "Content-Type": "application/json",
           },
         }
-      )
-      setLecturerLoad(response.data?.loads)
-      console.log("Load reassigned successfully")
-     // const result = response.data.loads
+      );
+      const load = response.data?.load?.map((load: any) => {
+        return {
+          id: load.id,
+          staff_id: load.staff_id,
+          courses: JSON.parse(load.courses),
+          CUs: load.CUs,
+          assignee_id: load.assignee_id,
+          semester: load.semester,
+        };
+      });
+
+      console.log("Response data: ", load);
+      setLecturerLoad(load);
+      // console.log("Load reassigned successfully", response.data);
+      // // const result = response.data.loads
     } catch (error) {
       console.error("Error: ", error);
     }
   };
+  useMemo(() => {
+    fetchUnallocated();
+    selectedOne();
+    // console.log("Data: ", data);
+  }, []);
 
   return (
     <>
@@ -119,8 +138,10 @@ const UnassignedCourses = ({ id }: any) => {
                   <td className="p-2 text-sm text-gray-700 text-center">
                     <button
                       className="bg-green-400 text-white px-4 py-2 rounded"
-                      onClick={() =>
-                        handleAssign(course.course_name, course.course_cus)
+                      onClick={
+                        () =>
+                          handleAssign(course.course_name, course.course_cus)
+                        // console.log("button clicked", course.course_name, course.course_cus)
                       }
                     >
                       Assign
