@@ -10,6 +10,14 @@ type DepartmentDetailsProps = {
 
 const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const lecturerRef = useRef<HTMLDialogElement>(null);
+ 
+  const closeLecturerModal = () => {
+    lecturerRef.current?.close();
+  }
+  const showLecturerModal = () => {
+    lecturerRef.current?.showModal();
+  };
+
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
   const oldDepartments = useNewLoadStore21((state) => state.departments);
@@ -18,7 +26,8 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
 
   function toggleDetailsDialog(lect_id: any) {
     lect_id && lect_id !== undefined && setLecturerId(lect_id);
-    lecturerRef.current?.showModal();
+    // lecturerRef.current?.showModal();
+    showLecturerModal()
   }
 
   let dept = id;
@@ -110,8 +119,9 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
         {" "}
         Details for {the_dept.department_name} department{" "}
       </p>
-      <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105 cursor-pointer"
-      onClick={closeModal}
+      <p
+        className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105 cursor-pointer"
+        onClick={closeModal}
       >
         X
       </p>
@@ -145,7 +155,9 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
               <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
               <td
                 className="p-2 text-sm text-gray-700 cursor-pointer"
-                onClick={() => lecturerRef.current?.showModal()}
+                // onClick={() => lecturerRef.current?.showModal()}
+                // onClick={showLecturerModal}
+                onClick={()=>toggleDetailsDialog(data?.id)}
               >
                 {data.name}
               </td>
@@ -189,7 +201,7 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
         className="lecturer_dialog outline-none rounded-md"
         ref={lecturerRef}
       >
-        <LecturerDetails lectID={lecturerId} />
+        <LecturerDetails lectID={lecturerId} closeModal={closeLecturerModal} />
       </dialog>
     </div>
   );
