@@ -4,11 +4,20 @@ import DepartmentChart from "./DepartmentChart";
 import DepartmentDetails from "../load/DepartmentDetails";
 
 const Departments = ({ department, staff }: any) => {
-  const detailsRef = useRef<HTMLDialogElement>(null)
+  const detailsRef = useRef<HTMLDialogElement>(null);
+
+  const showModal = () => {
+    detailsRef.current?.showModal();
+  };
+
+  const closeModal = () => {
+    detailsRef.current?.close();
+  };
+
   const data = [
     department.min_load,
     department.extra_load,
-    department.under_load
+    department.under_load,
   ];
   const available =
     data[0] === 0 && data[1] === 0 && data[2] === 0 ? false : true;
@@ -51,9 +60,10 @@ const Departments = ({ department, staff }: any) => {
               <button
                 // to={`${department.department_id}`}
                 className="bg-green-700 px-3 py-1 text-white outline-none rounded"
-                onClick={() => {
-                  detailsRef.current?.showModal();
-                }}
+                // onClick={() => {
+                //   detailsRef.current?.showModal();
+                // }}
+                onClick={showModal}
               >
                 View details{" "}
               </button>
@@ -66,9 +76,12 @@ const Departments = ({ department, staff }: any) => {
             <DepartmentChart data={data} />
           </div>
 
-          <dialog className=" department_dialog mydialog rounded-md outline-none" ref={detailsRef}>
+          <dialog
+            className=" department_dialog mydialog rounded-md outline-none"
+            ref={detailsRef}
+          >
             {/* This is my modal */}
-            <DepartmentDetails id={department.department_id} />
+            <DepartmentDetails id={department.department_id} closeModal={closeModal} />
           </dialog>
         </div>
       ) : (
