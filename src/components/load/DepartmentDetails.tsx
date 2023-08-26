@@ -3,7 +3,12 @@ import { Lecturer } from "../../zustand/api/apis";
 import { useRef, useState } from "react";
 import LecturerDetails from "./LecturerDetails";
 
-const DepartmentDetails = ({ id }: any) => {
+type DepartmentDetailsProps = {
+  id: number;
+  closeModal: () => void;
+}
+
+const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const lecturerRef = useRef<HTMLDialogElement>(null);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
@@ -105,7 +110,9 @@ const DepartmentDetails = ({ id }: any) => {
         {" "}
         Details for {the_dept.department_name} department{" "}
       </p>
-      <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105">
+      <p className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105 cursor-pointer"
+      onClick={closeModal}
+      >
         X
       </p>
       <table className="w-full border-2 border-b-gray-400">
