@@ -55,7 +55,7 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
           </p>
           <p
             className=" bg-red-500 text-white text-center w-6 h-6 rounded-full absolute right-4 top-3 hover:scale-105 cursor-pointer"
-            // onClick={ref.curent?.closeModal()}
+           
             onClick={closeModal}
           >
             X
