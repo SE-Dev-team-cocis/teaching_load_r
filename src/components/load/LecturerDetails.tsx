@@ -1,5 +1,5 @@
 import { all } from "axios";
-import { forwardRef, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Link } from "react-router-dom";
 import UnassignedCourses from "./UnassignedCourses";
@@ -9,8 +9,7 @@ type LecturerDetailsProps = {
   closeModal: () => void;
 };
 
-const LecturerDetails = forwardRef<HTMLDialogElement, LecturerDetailsProps>(
-  ({ lectID, closeModal }, ref) => {
+const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
     const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
     const allcourses = useNewLoadStore21((state) => state.allCourses);
     const lecturers = useNewLoadStore21((state) => state.lecturers);
@@ -118,6 +117,6 @@ const LecturerDetails = forwardRef<HTMLDialogElement, LecturerDetailsProps>(
       </>
     );
   }
-);
+
 
 export default LecturerDetails;
