@@ -50,19 +50,12 @@ const Departments = ({ department, staff }: any) => {
               })}
             </div>
             <p>
-              {/* <Link to={`${department.department_name}`}>View details </Link> */}
-              {/* <Link
-                to={`${department.department_id}`}
-                className="bg-green-700 px-3 py-1 text-white"
-              >
-                View details{" "}
-              </Link> */}
+             
+         
               <button
                 // to={`${department.department_id}`}
                 className="bg-green-700 px-3 py-1 text-white outline-none rounded"
-                // onClick={() => {
-                //   detailsRef.current?.showModal();
-                // }}
+               
                 onClick={showModal}
               >
                 View details{" "}
