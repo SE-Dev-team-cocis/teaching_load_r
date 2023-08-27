@@ -25,8 +25,7 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const [lecturerId, setLecturerId] = useState<any>(0);
 
   function toggleDetailsDialog(lect_id: any) {
-    lect_id && lect_id !== undefined && setLecturerId(lect_id);
-    // lecturerRef.current?.showModal();
+    lect_id && lect_id !== undefined && setLecturerId(lect_id)
     showLecturerModal()
   }
 
@@ -155,8 +154,7 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
               <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
               <td
                 className="p-2 text-sm text-gray-700 cursor-pointer"
-                // onClick={() => lecturerRef.current?.showModal()}
-                // onClick={showLecturerModal}
+           
                 onClick={()=>toggleDetailsDialog(data?.id)}
               >
                 {data.name}
