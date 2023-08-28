@@ -4,9 +4,9 @@ import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { useMemo, useState } from "react";
 
 type UnassignedProps = {
-  id: number,
-  close: () => void
-}
+  id: number;
+  close: () => void;
+};
 
 const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   const courses = useNewLoadStore21((state) => state.allCourses);
@@ -15,18 +15,16 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const [selectedLecturer, setSelectedLecturer] = useState<any>(null);
 
-  // console.log("courses: ", lecturerLoad);
+  // console.log("Id: ", id);
 
   function selectedOne() {
-    const selectedLecturer = lecturerLoad?.filter((load: Load) => {
+    const theLecturer = lecturerLoad?.filter((load: Load) => {
       if (load.staff_id === id) {
         return load;
       }
     });
-
-    // console.log("Selected one: ", selectedLecturer)
-
-    setSelectedLecturer(selectedLecturer);
+    // console.log("Lecturer: ", theLecturer)
+    setSelectedLecturer(theLecturer);
   }
 
   let data: any = [];
@@ -49,8 +47,11 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
     }
   });
 
+  // console.log("Unassigned full course: ", data)
+
   const handleAssign = async (courseName: string, courseCus: number) => {
-    console.log("selected lecturer: ", selectedLecturer);
+    // console.log("selected lecturer: ", selectedLecturer);
+
     const data: any = selectedLecturer?.map((load: Load) => {
       return {
         courses: load.courses,
@@ -58,15 +59,20 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       };
     });
 
+    // console.log("Data: ", data)
 
     try {
-      const cCus = +courseCus
-      console.log("Type of cus", typeof cCus)
+      const theCourses = JSON.parse(data[0]?.courses);
+      const theRealCourses = JSON.stringify([...theCourses, courseName]);
+      const realCUs = [...data[0]?.CUs, +courseCus];
+
+      console.log("Real data: ", theRealCourses, realCUs);
+
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
         {
-          courses: JSON.stringify([...data[0]?.courses, courseName]),
-          CUs: [...data[0].CUs, cCus],
+          courses: theRealCourses,
+          CUs: realCUs,
           staff_id: id,
         },
         {
@@ -75,21 +81,21 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
           },
         }
       );
+
+      // console.log("Response: ", response.data)
       const load = response.data?.load?.map((load: any) => {
         return {
           id: load.id,
           staff_id: load.staff_id,
           courses: JSON.parse(load.courses),
-          CUs: load.CUs,
+          CUs: JSON.parse(load.CUs),
           assignee_id: load.assignee_id,
           semester: load.semester,
         };
       });
 
-      console.log("Response data: ", load);
+      // console.log("Response data: ", load);
       setLecturerLoad(load);
-      // console.log("Load reassigned successfully", response.data);
-      // // const result = response.data.loads
     } catch (error) {
       console.error("Error: ", error);
     }
@@ -108,9 +114,12 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
             Unassigned courses
           </p>
 
-          <p className="absolute w-5 h-5 rounded-full bg-red-500 text-white text-center cursor-pointer right-3 top-2"
-           onClick={close} 
-            >X</p>
+          <p
+            className="absolute w-5 h-5 rounded-full bg-red-500 text-white text-center cursor-pointer right-3 top-2"
+            onClick={close}
+          >
+            X
+          </p>
           <p>Lecturer id: {id}</p>
           <table className="w-full border-2 border-b-gray-400">
             <thead className="bg-gray-50 bottom-2 border-gray-200">
@@ -156,6 +165,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
                         // console.log("button clicked", course.course_name, course.course_cus)
                       }
                     >
+                      {/* Assign {course.course_cus} {course.course_name} */}
                       Assign
                     </button>
                   </td>

@@ -9,6 +9,9 @@ const LoadSummary = () => {
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
 
+
+  // console.log("Lecturer load: ", lecturerLoad)
+
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
 

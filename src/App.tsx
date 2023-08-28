@@ -8,6 +8,8 @@ import Layout from "./components/Layout";
 import CentralDashboard from "./components/CentralDashboard";
 import SemesterCourses from "./components/load/SemesterCourses";
 import UnassignedCourses from "./components/load/UnassignedCourses";
+import AdminLayout from "./components/backend/AdminLayout";
+import AdminHome from "./components/backend/AdminHome";
 
 const App = () => {
   return (
@@ -18,9 +20,12 @@ const App = () => {
         <Route path="/teaching-load" element={<Home />} />
         <Route path="/teaching-load/new" element={<HomeAssign />} />
         <Route path="/teaching-load/central" element={<CentralDashboard />} />
-          <Route path="/settings" element={<Settings />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/semestercourses" element={<SemesterCourses />} />
-        <Route path="/trial" element={<UnassignedCourses id={1}/>} />
+        {/* <Route path="/trial" element={<UnassignedCourses id={1}/>} /> */}
+      </Route>
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<AdminHome />} />
       </Route>
     </Routes>
   );

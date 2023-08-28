@@ -15,6 +15,7 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
     const lecturers = useNewLoadStore21((state) => state.lecturers);
     const unassignedRef = useRef<HTMLDialogElement>(null);
 
+
     function showUnassigned(){
       unassignedRef?.current?.showModal()
     }
@@ -33,7 +34,7 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
 
     const assignedCourses = lecturerLoadDetails?.map((load: any) => {
       const courses = load.courses;
-      console.log("Courses: ", courses)
+      // console.log("Courses: ", courses)
       return {
         courses: load.courses,
       };
@@ -119,9 +120,10 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
               ))}
             </tbody>
           </table>
+          {/* <p>Hello table</p> */}
         </div>
         <dialog ref={unassignedRef}>
-          <UnassignedCourses id={10} close={closeUnassigned}/>
+          <UnassignedCourses id={1} close={closeUnassigned}/>
         </dialog>
       </>
     );

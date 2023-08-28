@@ -1,43 +1,53 @@
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { Lecturer } from "../../zustand/api/apis";
+import { Lecturer, Load } from "../../zustand/api/apis";
 import { useRef, useState } from "react";
 import LecturerDetails from "./LecturerDetails";
 
 type DepartmentDetailsProps = {
   id: number;
   closeModal: () => void;
-}
+};
 
 const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const lecturerRef = useRef<HTMLDialogElement>(null);
- 
+
+  console.log("Department id: ", id)
+
   const closeLecturerModal = () => {
     lecturerRef.current?.close();
-  }
+  };
   const showLecturerModal = () => {
     lecturerRef.current?.showModal();
   };
 
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
+
   const lecturers = useNewLoadStore21((state) => state.lecturers);
   const oldDepartments = useNewLoadStore21((state) => state.departments);
 
   const [lecturerId, setLecturerId] = useState<any>(0);
 
   function toggleDetailsDialog(lect_id: any) {
-    lect_id && lect_id !== undefined && setLecturerId(lect_id)
-    showLecturerModal()
+    lect_id && lect_id !== undefined && setLecturerId(lect_id);
+    showLecturerModal();
   }
 
   let dept = id;
 
-  const the_dept = oldDepartments.find((department) => {
+  // const the_dept = oldDepartments.find((department) => {
+  //   return department.id === dept;
+  // });
+
+  const the_dept = oldDepartments.find((department: any) => {
     return department.id === dept;
-  });
+  })
+
+  // console.log("the departments: ", oldDepartments);
+
   const staffIds = lecturers.map((lecturer: Lecturer) => {
     return lecturer.id;
   });
-  const assignedLecturers = lecturerLoad.filter((load) => {
+  const assignedLecturers = lecturerLoad?.filter((load) => {
     return load.staff_id in staffIds;
   });
   const assignedIds = assignedLecturers.map((lecturer) => {
@@ -61,18 +71,18 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
     return name !== null;
   });
 
-  const lecturerLoads = lecturerLoad?.map((load) => {
+  const lecturerLoads = lecturerLoad?.map((load: Load) => {
     if (assignedIds.includes(load.staff_id)) {
-      const total = JSON.parse(load.CUs);
-      // console.log("Total: ", total)
       return {
-        total: total?.reduce((a: number, b: number) => a + b, 0),
+        total: load?.CUs?.reduce((a: number, b: number) => a + b, 0),
         staff_id: load.staff_id,
       };
     } else {
       return null;
     }
   });
+
+  // console.log("Lecturer loads: ", lecturerLoads)
 
   const allData = assignedDetails
     .map((data, index) => {
@@ -96,23 +106,22 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
             return load !== undefined;
           }),
 
-        status: lecturerLoads.map((load) => {
-          if (data?.id === load?.staff_id) {
-            if (load?.total <= 8) {
-              return "Underload";
-            } else if (load?.total <= 12) {
-              return "Minimum load";
-            } else {
-              return "Extra load";
-            }
-          }
-        }),
+        // status: lecturerLoads?.map((load) => {
+        //   if (data?.id === load?.staff_id) {
+        //     if (load?.total <= 8) {
+        //       return "Underload";
+        //     } else if (load?.total <= 12) {
+        //       return "Minimum load";
+        //     } else {
+        //       return "Extra load";
+        //     }
+        //   }
+        // }),
       };
     })
     .filter((data) => {
       return data.department === the_dept.department_name;
     });
-
 
   return (
     <div className="department_details">
@@ -156,8 +165,7 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
               <td className="p-2 text-sm text-gray-700 pl-2 ">{index + 1}</td>
               <td
                 className="p-2 text-sm text-gray-700 cursor-pointer"
-           
-                onClick={()=>toggleDetailsDialog(data?.id)}
+                onClick={() => toggleDetailsDialog(data?.id)}
               >
                 {data.name}
               </td>
@@ -169,15 +177,18 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
               <td className="p-2 text-sm text-center">
                 {data?.load <= 8 ? (
                   <span className="p-1.5 tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
-                    {data.status}
+                    {/* {data.status} */}
+                    Underload
                   </span>
                 ) : data?.load > 8 && data?.load <= 12 ? (
                   <span className="p-1.5 tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50">
-                    {data.status}
+                    {/* {data.status} */}
+                    Minumun load
                   </span>
                 ) : (
                   <span className="p-1.5 tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
-                    {data.status}
+                    {/* {data.status} */}
+                    Extra load
                   </span>
                 )}
               </td>

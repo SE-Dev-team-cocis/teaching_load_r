@@ -3,7 +3,12 @@ import { useRef } from "react";
 import DepartmentChart from "./DepartmentChart";
 import DepartmentDetails from "../load/DepartmentDetails";
 
-const Departments = ({ department, staff }: any) => {
+
+type DepartmentsProps= {
+  department: any,
+  staff: any
+}
+const Departments = ({ department, staff }: DepartmentsProps) => {
   const detailsRef = useRef<HTMLDialogElement>(null);
 
   const showModal = () => {
