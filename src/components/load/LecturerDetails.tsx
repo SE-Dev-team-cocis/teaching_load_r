@@ -123,7 +123,7 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
           {/* <p>Hello table</p> */}
         </div>
         <dialog ref={unassignedRef}>
-          <UnassignedCourses id={1} close={closeUnassigned}/>
+          <UnassignedCourses id={lectID} close={closeUnassigned}/>
         </dialog>
       </>
     );

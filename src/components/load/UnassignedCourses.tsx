@@ -49,31 +49,44 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
 
   // console.log("Unassigned full course: ", data)
 
-  const handleAssign = async (courseName: string, courseCus: number) => {
+  const handleAssign = async (
+    courseName: string,
+    courseCus: number,
+    staffId: number
+  ) => {
     // console.log("selected lecturer: ", selectedLecturer);
 
     const data: any = selectedLecturer?.map((load: Load) => {
       return {
-        courses: load.courses,
-        CUs: load.CUs,
+        courses: load?.courses,
+        CUs: load?.CUs,
       };
     });
 
-    // console.log("Data: ", data)
+    console.log("courses: ", data[0]?.courses);
+
+    const theData = data[0];
+    const theCus: any[] = theData?.CUs;
+    const realCUs = [...theCus, +courseCus];
+    console.log("The real Cus: ", realCUs)
+
+    const theCourses: any[] = theData?.courses;
+    // console.log("Initial courses: ", typeof theCourses);
+    const theRealCourses = JSON.stringify([...theCourses, courseName]);
+    const theRealCUs = JSON.stringify(realCUs);
+
+    // console.log("Data: ", theRealCourses, theRealCUs);
+
+    // console.log("Data: ", JSON.parse(theData?.courses));
 
     try {
-      const theCourses = JSON.parse(data[0]?.courses);
-      const theRealCourses = JSON.stringify([...theCourses, courseName]);
-      const realCUs = [...data[0]?.CUs, +courseCus];
-
-      // console.log("Real data: ", theRealCourses, realCUs);
 
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
         {
           courses: theRealCourses,
-          CUs: realCUs,
-          staff_id: id,
+          CUs: theRealCUs,
+          staff_id: staffId,
         },
         {
           headers: {
@@ -82,12 +95,13 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
         }
       );
 
+      const theData = response.data?.load;
+
       // console.log("Response: ", response.data)
-      const load = response.data?.load?.map((load: any) => {
+      const load = theData?.map((load: any) => {
         return {
           id: load.id,
           staff_id: load.staff_id,
-          // courses: JSON.parse(load.courses),
           courses: load.courses,
 
           CUs: load.CUs,
@@ -164,7 +178,11 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
                       className="bg-green-400 text-white px-4 py-2 rounded"
                       onClick={
                         () =>
-                          handleAssign(course.course_name, course.course_cus)
+                          handleAssign(
+                            course.course_name,
+                            course.course_cus,
+                            id
+                          )
                         // console.log("button clicked", course.course_name, course.course_cus)
                       }
                     >
