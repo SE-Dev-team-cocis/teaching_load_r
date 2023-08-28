@@ -14,6 +14,11 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
     const allcourses = useNewLoadStore21((state) => state.allCourses);
     const lecturers = useNewLoadStore21((state) => state.lecturers);
     const unassignedRef = useRef<HTMLDialogElement>(null);
+
+    function showUnassigned(){
+      unassignedRef?.current?.showModal()
+    }
+  
     const [lecturerId, setLecturerId] = useState(null);
 
     const lecturerLoadDetails = lecturerLoad.filter(
@@ -110,10 +115,9 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
             </tbody>
           </table>
         </div>
-        {/* <dialog ref={unassignedRef}>
+        <dialog ref={unassignedRef}>
           <UnassignedCourses id={10} />
-        </dialog> */}
-        ;
+        </dialog>
       </>
     );
   }
