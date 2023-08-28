@@ -100,10 +100,14 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   return (
     <>
       <section className="flex justify-center items-center mt-10 rounded">
-        <div className=" bg-white" style={{ width: 1000 }}>
+        <div className=" bg-white relative" style={{ width: 1000 }}>
           <p className="m-4 text-center text-2xl uppercase">
             Unassigned courses
           </p>
+
+          <p className="absolute w-5 h-5 rounded-full bg-red-500 text-white right-3 top-2"
+           onClick={close} 
+            >X</p>
           <p>Lecturer id: {id}</p>
           <table className="w-full border-2 border-b-gray-400">
             <thead className="bg-gray-50 bottom-2 border-gray-200">
