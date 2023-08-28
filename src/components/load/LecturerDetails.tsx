@@ -18,6 +18,9 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
     function showUnassigned(){
       unassignedRef?.current?.showModal()
     }
+    function closeUnassigned(){
+      unassignedRef?.current?.close()
+    }
   
     const [lecturerId, setLecturerId] = useState(null);
 
@@ -116,7 +119,7 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
           </table>
         </div>
         <dialog ref={unassignedRef}>
-          <UnassignedCourses id={10} />
+          <UnassignedCourses id={10} close={closeUnassigned}/>
         </dialog>
       </>
     );
