@@ -3,7 +3,12 @@ import { Course, Load } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { useMemo, useState } from "react";
 
-const UnassignedCourses = ({ id }: any) => {
+type UnassignedProps = {
+  id: number,
+  close: () => void
+}
+
+const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   const courses = useNewLoadStore21((state) => state.allCourses);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const [theCourses, setTheCourses] = useState<any>([]);
