@@ -32,8 +32,10 @@ const LecturerDetails = ({ lectID, closeModal }:LecturerDetailsProps ) => {
     const lecturer = lecturers.find((lecturer) => lecturer.id === lectID);
 
     const assignedCourses = lecturerLoadDetails?.map((load: any) => {
+      const courses = load.courses;
+      console.log("Courses: ", courses)
       return {
-        courses: JSON.parse(load.courses),
+        courses: load.courses,
       };
     });
 

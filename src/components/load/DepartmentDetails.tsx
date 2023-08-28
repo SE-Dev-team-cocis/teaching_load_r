@@ -61,10 +61,12 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
     return name !== null;
   });
 
-  const lecturerLoads = lecturerLoad.map((load) => {
+  const lecturerLoads = lecturerLoad?.map((load) => {
     if (assignedIds.includes(load.staff_id)) {
+      const total = JSON.parse(load.CUs);
+      // console.log("Total: ", total)
       return {
-        total: load.CUs.reduce((a: number, b: number) => a + b, 0),
+        total: total?.reduce((a: number, b: number) => a + b, 0),
         staff_id: load.staff_id,
       };
     } else {

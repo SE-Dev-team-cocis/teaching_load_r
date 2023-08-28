@@ -50,20 +50,23 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   });
 
   const handleAssign = async (courseName: string, courseCus: number) => {
-    // console.log("selected lecturer: ", selectedLecturer);
+    console.log("selected lecturer: ", selectedLecturer);
     const data: any = selectedLecturer?.map((load: Load) => {
       return {
-        courses: JSON.parse(load.courses),
+        courses: load.courses,
         CUs: load.CUs,
       };
     });
 
+
     try {
+      const cCus = +courseCus
+      console.log("Type of cus", typeof cCus)
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
         {
           courses: JSON.stringify([...data[0]?.courses, courseName]),
-          CUs: [...data[0].CUs, +courseCus],
+          CUs: [...data[0].CUs, cCus],
           staff_id: id,
         },
         {
@@ -105,7 +108,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
             Unassigned courses
           </p>
 
-          <p className="absolute w-5 h-5 rounded-full bg-red-500 text-white right-3 top-2"
+          <p className="absolute w-5 h-5 rounded-full bg-red-500 text-white text-center cursor-pointer right-3 top-2"
            onClick={close} 
             >X</p>
           <p>Lecturer id: {id}</p>

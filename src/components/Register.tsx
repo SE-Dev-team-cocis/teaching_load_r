@@ -163,8 +163,8 @@ const Register = () => {
                   type="select"
                   name="department"
                   label="Department"
-                  // options={departmentOptions}
-                  options={departments.map((dept: any) => dept.name)}
+                  options={departmentOptions}
+                  // options={departments.map((dept: any) => dept.name)}
                   handleBlur={handleBlur}
                   handleChange={handleChange}
                   errors={errors}
