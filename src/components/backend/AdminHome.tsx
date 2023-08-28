@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { User } from "../../zustand/api/apis";
+import { Lecturer, User } from "../../zustand/api/apis";
 import axios from "axios";
 
 const AdminHome = () => {
@@ -25,21 +25,20 @@ const AdminHome = () => {
   }, [])
   
   return (
-  <div>
-    <p>Admin home page</p>
+  <div className="p-4">
         <table className="w-full border-2 border-b-gray-400 rounded">
             <thead className="bg-gray-50 bottom-2 border-gray-200">
               <tr>
-                <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                <th className="w-10 p-2 text-sm font-semibold tracking-wide text-left">
                   No.
                 </th>
-                <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+                <th className=" w-20 p-2 text-sm font-semibold tracking-wide text-left">
                   Name
                 </th>
-                <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+                <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
                  Role
                 </th>
-                <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+                <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
                  Department
                 </th>
 {/*                 <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
@@ -48,38 +47,25 @@ const AdminHome = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-400">
-              <tr>
-                <td>1</td>
-                <td>Loor Inho</td>
-                <td>Lecturer</td>
-                <td>Networks</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Pixy Dusty</td>
-                <td>Dean</td>
-                <td>Computer Science</td>
-              </tr>
-              
-{/*               {courseDetails.map((load, index) => (
-                <tr key={index}>
+              {lecturers.map((lecturer: any, index) => (
+                <tr key={index} className="hover:bg-green-400 hover:bg-opacity-20">
                   <td className="p-2 text-sm text-gray-700 text-left">
                     {index + 1}
                   </td>
                   <td className="p-2 text-sm text-gray-700 text-left">
-                    {load.course_name}
+                    {lecturer.firstName} {lecturer.lastName}
                   </td>
-                  <td className="p-2 text-sm text-gray-700 text-center">
-                    {load.course_code}
+                  <td className="p-2 text-sm text-gray-700 text-left">
+                    {lecturer.role}
                   </td>
-                  <td className="p-2 text-sm text-gray-700 text-center">
-                    {load.course_cus}
+                  <td className="p-2 text-sm text-gray-700 text-left">
+                    {lecturer.department}
                   </td>
-                  <td className="p-2 text-sm text-gray-700 text-center">
+                  {/* <td className="p-2 text-sm text-gray-700 text-center">
                     Delete
-                  </td>
+                  </td> */}
                 </tr>
-              ))} */}
+              ))}
             </tbody>
           </table>
   </div>);

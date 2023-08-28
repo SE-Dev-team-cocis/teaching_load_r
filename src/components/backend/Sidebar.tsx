@@ -38,14 +38,14 @@ const Sidebar = () => {
       <div className="sidebar_links ">
         <NavLink
           end
-          to={"/teaching-load"}
+          to={"/admin"}
           // className={({ isActive }) => (isActive ? "active" : "")}
         //   onClick={() => setOpen(false)}
         >
           <div className="link_item ">
             <p className="flex items-center mt-1 py-1 px-5">
               <BsHouse className="mr-2" />
-              <span>Home</span>
+              <span>Staff</span>
             </p>
           </div>
         </NavLink>
