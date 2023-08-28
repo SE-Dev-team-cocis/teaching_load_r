@@ -10,6 +10,8 @@ import { successNotification, errorNotification } from "./utilities/toastify/Toa
 
 type AssignLoad = {
   courses: string;
+  // courses: any;
+
   staff_id: number;
   CUs: string;
   assignee_id: number;
@@ -65,10 +67,15 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     // Object which stores the post data
     const data: AssignLoad = {
       courses: JSON.stringify(courseNames),
+      // courses: courseNames,
+
       staff_id: myid,
       CUs: JSON.stringify(courseCreditUnits),
       assignee_id: id,
     };
+
+
+    console.log("Assigned load: ", data)
 
 
     const url = "https://teaching-load-api.onrender.com/api/assign";
@@ -81,6 +88,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
       },
     });
+
+    console.log("Response: ", response.data)
     setAssigning(false)
     setLecturerLoad(response.data?.assignments?.assignments);
     setCheckedLecturers([]);

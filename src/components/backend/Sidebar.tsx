@@ -17,11 +17,11 @@ const Sidebar = () => {
   const user = useUserstore((state) => state.user);
   const [open, setOpen] = useState(false);
 
-//   useMemo(() => {
-//     if (route === "/teaching-load/new") {
-//       setOpen(true);
-//     }
-//   }, [route]);
+  //   useMemo(() => {
+  //     if (route === "/teaching-load/new") {
+  //       setOpen(true);
+  //     }
+  //   }, [route]);
 
   return (
     <div className="bg-white h-screen rounded-sm pt-5 sidebar">
@@ -38,9 +38,24 @@ const Sidebar = () => {
       <div className="sidebar_links ">
         <NavLink
           end
-          to={"/admin"}
+          to={"/teaching-load"}
+
           // className={({ isActive }) => (isActive ? "active" : "")}
-        //   onClick={() => setOpen(false)}
+          //   onClick={() => setOpen(false)}
+        >
+          <div className="link_item ">
+            <p className="flex items-center mt-1 py-1 px-5">
+              <BsHouse className="mr-2" />
+              <span>Home</span>
+            </p>
+          </div>
+        </NavLink>
+        <NavLink
+          end
+          to={"/admin"}
+
+          // className={({ isActive }) => (isActive ? "active" : "")}
+          //   onClick={() => setOpen(false)}
         >
           <div className="link_item ">
             <p className="flex items-center mt-1 py-1 px-5">

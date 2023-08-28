@@ -66,7 +66,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       const theRealCourses = JSON.stringify([...theCourses, courseName]);
       const realCUs = [...data[0]?.CUs, +courseCus];
 
-      console.log("Real data: ", theRealCourses, realCUs);
+      // console.log("Real data: ", theRealCourses, realCUs);
 
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
@@ -87,8 +87,10 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
         return {
           id: load.id,
           staff_id: load.staff_id,
-          courses: JSON.parse(load.courses),
-          CUs: JSON.parse(load.CUs),
+          // courses: JSON.parse(load.courses),
+          courses: load.courses,
+
+          CUs: load.CUs,
           assignee_id: load.assignee_id,
           semester: load.semester,
         };
@@ -96,6 +98,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
 
       // console.log("Response data: ", load);
       setLecturerLoad(load);
+      close();
     } catch (error) {
       console.error("Error: ", error);
     }
