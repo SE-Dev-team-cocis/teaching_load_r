@@ -14,6 +14,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   const [theCourses, setTheCourses] = useState<any>([]);
 
   const reassignLecturer = useNewLoadStore21((state) => state.reassignLecturer);
+  const setReassignLecturer = useNewLoadStore21(state => state.setReassignLecturer)
 
   // console.log("Reassign lecturer details: ", reassignLecturer);
   // const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
@@ -125,6 +126,8 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
 
       // console.log("Response data: ", load);
       setLecturerLoad(load);
+      setReassignLecturer([])
+      
       close();
     } catch (error) {
       console.error("Error: ", error);

@@ -11,6 +11,7 @@ type DepartmentsProps= {
 const Departments = ({ department, staff }: DepartmentsProps) => {
   const detailsRef = useRef<HTMLDialogElement>(null);
 
+  // console.log("Staff: ", staff)
   const showModal = () => {
     detailsRef.current?.showModal();
   };
@@ -24,6 +25,8 @@ const Departments = ({ department, staff }: DepartmentsProps) => {
     department.extra_load,
     department.under_load,
   ];
+
+  // console.log("Data: ", data)
   const available =
     data[0] === 0 && data[1] === 0 && data[2] === 0 ? false : true;
 

@@ -3,9 +3,11 @@ import { Course, Department, Lecturer, SemesterList, fetchCourses, fetchDepartme
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
+import { fetchCentralDashboardData } from "../functions/Functions";
 
 
 export default function Home() {
+
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const setCourses = useNewLoadStore21((state) => state.setCourses);
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
@@ -90,7 +92,8 @@ export default function Home() {
     setDepartments(depts)
     setSemesterList(semList);
   }, [loads, myCourses, myLecturers, semList, depts]);
-
+  
+  fetchCentralDashboardData()
   // console.log("Loads: ", loads);
 
   if (isLoading) {

@@ -42,6 +42,45 @@ export type LecturerLoad = {
   assignee_id: number;
 };
 
+// Types for the central dashboard
+export type DepartmentLoad = {
+  department_id: number;
+  department_name: string;
+  min_load: number;
+  extra_load: number;
+  under_load: number;
+};
+
+export type Staff = {
+  department: string;
+  staff: string;
+  sum: number;
+};
+export type TotalStaff = number;
+export type UnallocatedCourses = string[];
+export type OverallTotalLoad = {
+  min_load: number;
+  extra_load: number;
+  under_load: number;
+};
+
+export type CourseSummary = {
+  all_courses: number;
+  assigned_courses: number;
+};
+
+export type CentralDashboard = {
+  count?: number;
+  staff: Staff[];
+  totalStaff: TotalStaff;
+  collegeLoad: OverallTotalLoad;
+  departmentLoad: DepartmentLoad[];
+  courseSummary: CourseSummary;
+  unAllocatedCourses: UnallocatedCourses;
+};
+
+// End of central dashboard types
+
 type StoreType = {
   checkedLecturers: CheckedLecturer[];
   setCheckedLecturers: (lecturers: CheckedLecturer[]) => void;
@@ -53,6 +92,7 @@ type StoreType = {
   lecturerLoad: any[]; // For the specific lecturer load
   departments: any[];
   reassignLecturer: any; // for the lecturer to reassign
+  centralDashboard: any; // for the central dashboard
 
   setCheckedCourses: (courses: CheckedCourses[]) => void;
   setCourses: (courses: Courses[]) => void;
@@ -62,6 +102,8 @@ type StoreType = {
   setLecturerLoad: (_load: any[]) => void;
   setDepartments: (_department: any[]) => void;
   setReassignLecturer: (_lecturer: any) => void;
+
+  setCentralDashboard: (_dashboard: any) => void;
 };
 const useNewLoadStore21 = create<StoreType>()(
   persist(
@@ -75,6 +117,7 @@ const useNewLoadStore21 = create<StoreType>()(
       lecturerLoad: [],
       departments: [],
       reassignLecturer: {},
+      centralDashboard: {},
       setCourses: (courses: Courses[]) => {
         set({ allCourses: courses });
       },
@@ -111,11 +154,15 @@ const useNewLoadStore21 = create<StoreType>()(
         set({
           departments: _department,
         });
-      }, 
+      },
       setReassignLecturer: (_lecturer: any) => {
-          set({
-            reassignLecturer: _lecturer,
-          })
+        set({
+          reassignLecturer: _lecturer,
+        });
+      },
+      setCentralDashboard: (dashboard: any) => {
+        set({ centralDashboard: dashboard,
+        });
       },
     }),
     {

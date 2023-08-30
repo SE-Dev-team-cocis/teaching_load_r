@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { successNotification, errorNotification } from "./utilities/toastify/Toastify";
+import { fetchCentralDashboardData } from "../functions/Functions";
 
 type AssignLoad = {
   courses: string;
@@ -23,11 +24,11 @@ type ButtonProps = {
 
 const BelowButtons = ({ broadcast }: ButtonProps) => {
   const navigate = useNavigate();
-  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient();
   const { id } = useUserstore((state) => state.user);
 
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
-  const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
+  // const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const semesterList = useNewLoadStore21((state) => state.semesterList);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
 
