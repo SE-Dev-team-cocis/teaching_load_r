@@ -49,6 +49,7 @@ export default function Home() {
     queryFn: fetchLoad,
   });
 
+
   // Fetchign semester list
   const {
     data: semesterList,
@@ -89,6 +90,8 @@ export default function Home() {
     setDepartments(depts)
     setSemesterList(semList);
   }, [loads, myCourses, myLecturers, semList, depts]);
+
+  // console.log("Loads: ", loads);
 
   if (isLoading) {
     return (

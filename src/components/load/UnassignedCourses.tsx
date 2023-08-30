@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Course, Load } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type UnassignedProps = {
   id: number;
@@ -12,20 +12,28 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   const courses = useNewLoadStore21((state) => state.allCourses);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const [theCourses, setTheCourses] = useState<any>([]);
-  const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
-  const [selectedLecturer, setSelectedLecturer] = useState<any>(null);
 
-  // console.log("Id: ", id);
+  const reassignLecturer = useNewLoadStore21((state) => state.reassignLecturer);
 
+  // console.log("Reassign lecturer details: ", reassignLecturer);
+  // const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
+  // const [selectedLecturer, setSelectedLecturer] = useState<any>(null);
+  // const [foundLecturer, setFoundLecturer] = useState();
+
+  // const setReassignLecturer =  useNewLoadStore21((state) => state.setReassignLecturer)
+
+  // console.log("Lecturer id: ", id);
+  
+  // console.log("Found lecturer: ", thefoundLecturer);
   function selectedOne() {
-    const theLecturer = lecturerLoad?.filter((load: Load) => {
-      if (load.staff_id === id) {
-        return load;
-      }
-    });
+    // const thefoundLecturer = lecturerLoad.find((load:any) => load.staff_id === id)
     // console.log("Lecturer: ", theLecturer)
-    setSelectedLecturer(theLecturer);
+    // setSelectedLecturer(theLecturer);
+    // setReassignLecturer(thefoundLecturer);
+
   }
+
+  // console.log("Selected lecturer", selectedLecturer)
 
   let data: any = [];
   const fetchUnallocated = async () => {
@@ -56,28 +64,33 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   ) => {
     // console.log("selected lecturer: ", selectedLecturer);
 
-    const data: any = selectedLecturer?.map((load: Load) => {
+    const data: any = reassignLecturer?.map((load: Load) => {
       return {
-        courses: load?.courses,
+        courses: JSON.parse(load?.courses),
         CUs: load?.CUs,
       };
     });
 
-    console.log("courses: ", data[0]?.courses);
+    // console.log("courses: ", data[0]?.courses);
+    // console.log("cus: ", data[0]?.CUs);
+
 
     const theData = data[0];
     const theCus: any[] = theData?.CUs;
-    const realCUs = [...theCus, +courseCus];
-    console.log("The real Cus: ", realCUs)
-
+    const realCUs: any[] = [...theCus, +courseCus];
+    // console.log("The real Cus: ", realCUs)
+    
+    
     const theCourses: any[] = theData?.courses;
     // console.log("Initial courses: ", typeof theCourses);
     const theRealCourses = JSON.stringify([...theCourses, courseName]);
+    // console.log("The real courses: ", theRealCourses);
     const theRealCUs = JSON.stringify(realCUs);
 
-    // console.log("Data: ", theRealCourses, theRealCUs);
 
-    // console.log("Data: ", JSON.parse(theData?.courses));
+    // console.log(theRealCourses, theRealCUs)
+
+
 
     try {
 
@@ -120,8 +133,11 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   useMemo(() => {
     fetchUnallocated();
     selectedOne();
-    // console.log("Data: ", data);
+    // setFoundLecturer(thefoundLecturer)
+    // setReassignLecturer(thefoundLecturer);
+
   }, []);
+  // console.log("Found lecturer: ", foundLecturer);
 
   return (
     <>

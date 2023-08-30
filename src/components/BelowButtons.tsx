@@ -75,7 +75,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     };
 
 
-    console.log("Assigned load: ", data)
+    // console.log("Assigned load: ", data)
 
 
     const url = "https://teaching-load-api.onrender.com/api/assign";
@@ -89,7 +89,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       },
     });
 
-    console.log("Response: ", response.data)
+    // console.log("Response: ", response.data)
     setAssigning(false)
     setLecturerLoad(response.data?.assignments?.assignments);
     setCheckedLecturers([]);

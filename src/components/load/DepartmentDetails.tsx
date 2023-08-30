@@ -11,7 +11,7 @@ type DepartmentDetailsProps = {
 const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const lecturerRef = useRef<HTMLDialogElement>(null);
 
-  console.log("Department id: ", id)
+  // console.log("Department id: ", id)
 
   const closeLecturerModal = () => {
     lecturerRef.current?.close();

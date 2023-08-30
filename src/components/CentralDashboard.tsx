@@ -28,6 +28,8 @@ const CentralDashboard = () => {
       setCollegeLoad(response?.data?.overall_total_load);
       setDepartmentLoad(response?.data?.department_load);
       setCourseSummary(response.data?.course_summary)
+
+      // console.log("Department load: ", departmentLoad)
     } catch (error) {
       console.error(error);
     }
