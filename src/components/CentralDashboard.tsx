@@ -17,8 +17,9 @@ const CentralDashboard = () => {
       const url = "https://teaching-load-api.onrender.com/api/dashboard";
       const response = await axios.get(url);
       // console.log(response.data)
-      if (response.data?.count === 0) {
-        setCount(1);
+      const loadCount = response.data?.count;
+      if (loadCount === 0) {
+        setCount(loadCount);
         return <p>{response.data.message}</p>;
       }
       setStaff(response.data?.staff);
@@ -37,7 +38,7 @@ const CentralDashboard = () => {
   }, []);
   return (
     <>
-      {count === 1 ? (
+      {count >0 ? (
         <p className="text-center mt-10 text-2xl">
           There is currently no broadcast load{" "}
         </p>
