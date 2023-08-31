@@ -92,9 +92,9 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
         };
       });
 
-      // console.log("Response data: ", load);
       setLecturerLoad(load);
       setReassignLecturer([])
+      //TODO: Resetting the central dashboard data
       
       close();
     } catch (error) {
@@ -103,7 +103,6 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   };
   useMemo(() => {
     fetchUnallocated();
-    selectedOne();
   }, []);
 
   return (
