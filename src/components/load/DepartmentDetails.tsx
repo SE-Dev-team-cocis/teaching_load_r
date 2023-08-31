@@ -11,8 +11,6 @@ type DepartmentDetailsProps = {
 const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const lecturerRef = useRef<HTMLDialogElement>(null);
 
-  // console.log("Department id: ", id)
-
   const closeLecturerModal = () => {
     lecturerRef.current?.close();
   };
@@ -42,7 +40,6 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
     return department.id === dept;
   })
 
-  // console.log("the departments: ", oldDepartments);
 
   const staffIds = lecturers.map((lecturer: Lecturer) => {
     return lecturer.id;
@@ -106,17 +103,6 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
             return load !== undefined;
           }),
 
-        // status: lecturerLoads?.map((load) => {
-        //   if (data?.id === load?.staff_id) {
-        //     if (load?.total <= 8) {
-        //       return "Underload";
-        //     } else if (load?.total <= 12) {
-        //       return "Minimum load";
-        //     } else {
-        //       return "Extra load";
-        //     }
-        //   }
-        // }),
       };
     })
     .filter((data) => {
