@@ -16,26 +16,6 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   const reassignLecturer = useNewLoadStore21((state) => state.reassignLecturer);
   const setReassignLecturer = useNewLoadStore21(state => state.setReassignLecturer)
 
-  // console.log("Reassign lecturer details: ", reassignLecturer);
-  // const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
-  // const [selectedLecturer, setSelectedLecturer] = useState<any>(null);
-  // const [foundLecturer, setFoundLecturer] = useState();
-
-  // const setReassignLecturer =  useNewLoadStore21((state) => state.setReassignLecturer)
-
-  // console.log("Lecturer id: ", id);
-  
-  // console.log("Found lecturer: ", thefoundLecturer);
-  function selectedOne() {
-    // const thefoundLecturer = lecturerLoad.find((load:any) => load.staff_id === id)
-    // console.log("Lecturer: ", theLecturer)
-    // setSelectedLecturer(theLecturer);
-    // setReassignLecturer(thefoundLecturer);
-
-  }
-
-  // console.log("Selected lecturer", selectedLecturer)
-
   let data: any = [];
   const fetchUnallocated = async () => {
     try {
@@ -72,26 +52,14 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       };
     });
 
-    // console.log("courses: ", data[0]?.courses);
-    // console.log("cus: ", data[0]?.CUs);
-
-
     const theData = data[0];
     const theCus: any[] = theData?.CUs;
     const realCUs: any[] = [...theCus, +courseCus];
-    // console.log("The real Cus: ", realCUs)
     
     
     const theCourses: any[] = theData?.courses;
-    // console.log("Initial courses: ", typeof theCourses);
     const theRealCourses = JSON.stringify([...theCourses, courseName]);
-    // console.log("The real courses: ", theRealCourses);
     const theRealCUs = JSON.stringify(realCUs);
-
-
-    // console.log(theRealCourses, theRealCUs)
-
-
 
     try {
 
@@ -136,11 +104,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   useMemo(() => {
     fetchUnallocated();
     selectedOne();
-    // setFoundLecturer(thefoundLecturer)
-    // setReassignLecturer(thefoundLecturer);
-
   }, []);
-  // console.log("Found lecturer: ", foundLecturer);
 
   return (
     <>
@@ -202,10 +166,9 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
                             course.course_cus,
                             id
                           )
-                        // console.log("button clicked", course.course_name, course.course_cus)
+                      
                       }
                     >
-                      {/* Assign {course.course_cus} {course.course_name} */}
                       Assign
                     </button>
                   </td>
