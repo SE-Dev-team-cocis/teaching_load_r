@@ -14,10 +14,13 @@ export default function HomeAssign() {
   const { id } = useUserstore((state) => state.user);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
-  const [deleting, setDeleting] = useState(false)
+  const setCentralDashboard = useNewLoadStore21(
+    (state) => state.setCentralDashboard
+  );
+  const [deleting, setDeleting] = useState(false);
 
   const deleteAllLoad = async () => {
-    setDeleting(true)
+    setDeleting(true);
     const assignee_id: number = id;
     const semester: number = 1;
 
@@ -29,10 +32,13 @@ export default function HomeAssign() {
     try {
       const url = `https://teaching-load-api.onrender.com/api/delete`;
       const response = await axios.delete(url, { data });
-      setLecturerLoad(response.data?.assignments.assignments);
-      setDeleting(false)
+
+      // console.log("Response: ", response.data);
+      setLecturerLoad(response.data?.assignments?.assignments);
+      setCentralDashboard(response.data?.others);
+      setDeleting(false);
       modalRef.current?.close(); // closing the dialog box
-      successNotification(response.data.message)
+      successNotification(response.data.message);
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +74,11 @@ export default function HomeAssign() {
 
         <BelowButtons broadcast={broadcast} />
 
-        <dialog data-modal className="rounded-lg p-5 outline-none mydialog" ref={modalRef}>
+        <dialog
+          data-modal
+          className="rounded-lg p-5 outline-none mydialog"
+          ref={modalRef}
+        >
           <div className="confirm">
             <div className=" text-lg mb-3">
               Are you sure you want to delete all the load <br /> you assigned
@@ -87,7 +97,7 @@ export default function HomeAssign() {
                 onClick={() => deleteAllLoad()}
                 disabled={deleting}
               >
-                {deleting ? "Deleting load...": "Yes"}
+                {deleting ? "Deleting load..." : "Yes"}
                 {/* Yes */}
               </button>
               <button

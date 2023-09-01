@@ -8,7 +8,9 @@ import { successNotification } from "../utilities/toastify/Toastify";
 const LoadSummary = () => {
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
-
+  const setCentralDashboard = useNewLoadStore21(
+    (state) => state.setCentralDashboard
+  );
 
   // console.log("Lecturer load: ", lecturerLoad)
 
@@ -46,7 +48,8 @@ const LoadSummary = () => {
       const response = await axios.delete(url, { data });
       if (response.status === 200) {
         successNotification("Load deleted successfully");
-       
+        // console.log("Response: ", response.data);
+        setCentralDashboard(response.data?.others)
         setLecturerLoad(response.data?.assignments.assignments);
       }
     } catch (error) {

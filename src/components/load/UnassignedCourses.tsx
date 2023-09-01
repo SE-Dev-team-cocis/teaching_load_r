@@ -14,7 +14,12 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   const [theCourses, setTheCourses] = useState<any>([]);
 
   const reassignLecturer = useNewLoadStore21((state) => state.reassignLecturer);
-  const setReassignLecturer = useNewLoadStore21(state => state.setReassignLecturer)
+  const setReassignLecturer = useNewLoadStore21(
+    (state) => state.setReassignLecturer
+  );
+  const setCentralDashboard = useNewLoadStore21(
+    (state) => state.setCentralDashboard
+  );
 
   let data: any = [];
   const fetchUnallocated = async () => {
@@ -55,14 +60,12 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
     const theData = data[0];
     const theCus: any[] = theData?.CUs;
     const realCUs: any[] = [...theCus, +courseCus];
-    
-    
+
     const theCourses: any[] = theData?.courses;
     const theRealCourses = JSON.stringify([...theCourses, courseName]);
     const theRealCUs = JSON.stringify(realCUs);
 
     try {
-
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
         {
@@ -77,7 +80,10 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
         }
       );
 
+      // console.log("Reponse: ", response.data);
+
       const theData = response.data?.load;
+      const centralDashboardData = response.data?.others;
 
       // console.log("Response: ", response.data)
       const load = theData?.map((load: any) => {
@@ -93,9 +99,11 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       });
 
       setLecturerLoad(load);
-      setReassignLecturer([])
+      setReassignLecturer([]);
+      setCentralDashboard(centralDashboardData);
+
       //TODO: Resetting the central dashboard data
-      
+
       close();
     } catch (error) {
       console.error("Error: ", error);
@@ -158,14 +166,8 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
                   <td className="p-2 text-sm text-gray-700 text-center">
                     <button
                       className="bg-green-400 text-white px-4 py-2 rounded"
-                      onClick={
-                        () =>
-                          handleAssign(
-                            course.course_name,
-                            course.course_cus,
-                            id
-                          )
-                      
+                      onClick={() =>
+                        handleAssign(course.course_name, course.course_cus, id)
                       }
                     >
                       Assign

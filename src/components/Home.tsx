@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Course, Department, Lecturer, SemesterList, fetchCourses, fetchDepartments, fetchLecturers, fetchLoad, fetchSemesterList } from "../zustand/api/apis";
+import { Course, Department, Lecturer, SemesterList, fetchCentralDashboardDataNew, fetchCourses, fetchDepartments, fetchLecturers, fetchLoad, fetchSemesterList } from "../zustand/api/apis";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
@@ -13,6 +13,8 @@ export default function Home() {
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const setDepartments = useNewLoadStore21((state) => state.setDepartments);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
+  const setCentralDashboard = useNewLoadStore21((state) => state.setCentralDashboard);
+
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
@@ -82,6 +84,14 @@ export default function Home() {
     depts = departments;
   }
 
+  const {data: central} = useQuery({
+    queryKey: ["central"],
+    queryFn: fetchCentralDashboardDataNew
+  })
+
+
+  console.log("Central dashboard: ", central)
+
   useMemo(() => {
     setLecturerLoad(loads);
     setCourses(myCourses);
@@ -91,9 +101,11 @@ export default function Home() {
     setCheckedLecturers([]);
     setDepartments(depts)
     setSemesterList(semList);
-  }, [loads, myCourses, myLecturers, semList, depts]);
+    setCentralDashboard(central)
+    
+    // fetchCentralDashboardData()
+  }, [loads, myCourses, myLecturers, semList, depts, central]);
   
-  fetchCentralDashboardData()
   // console.log("Loads: ", loads);
 
   if (isLoading) {

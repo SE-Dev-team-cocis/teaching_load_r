@@ -17,9 +17,9 @@ const TopCharts = () => {
       {
         label: "Lecturer's progress",
         data: [
-          centralDashboard?.overall_total_load.min_load,
-          centralDashboard?.overall_total_load.under_load,
-          centralDashboard?.overall_total_load.extra_load
+          centralDashboard?.overall_total_load?.min_load,
+          centralDashboard?.overall_total_load?.under_load,
+          centralDashboard?.overall_total_load?.extra_load
 
           // collegeLoad?.min_load,
           // collegeLoad?.under_load,

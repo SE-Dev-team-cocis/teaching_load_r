@@ -73,13 +73,12 @@ type LoginData = {
   password: string;
 };
 
-
 export type Department = {
   id: number;
   department: string;
   department_code: string;
-  college_id: number
-}
+  college_id: number;
+};
 
 export const fetchLecturers = async () => {
   const url = "https://teaching-load-api.onrender.com/api/getStaff";
@@ -89,8 +88,7 @@ export const fetchLecturers = async () => {
       "Content-Type": "application/json",
       // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
     },
-
-  }, );
+  });
   const mydata = response.data.staff;
   const data: Lecturer[] = mydata.map((lecturer: Lecturer) => {
     return {
@@ -126,7 +124,7 @@ export const fetchLoad = async () => {
       CUs: load.CUs,
       assignee_id: load.assignee_id,
       staffName: {},
-      department_id: load.department_id
+      department_id: load.department_id,
     };
   });
 
@@ -176,7 +174,7 @@ export const fetchSemesterList = async () => {
       course_name: _course.course?.course_name,
       isChecked: false,
       subgroups: _course.course?.subgroups,
-      course: _course.course
+      course: _course.course,
     };
   });
 
@@ -221,14 +219,37 @@ export const fetchDepartments = async () => {
   });
   const departments = response.data?.departments;
 
-  const depts: Department[] =  departments?.map((department: Department) => {
+  const depts: Department[] = departments?.map((department: Department) => {
     return {
       id: department.id,
       department_name: department.department,
       department_code: department.department_code,
-      college: department.college_id
+      college: department.college_id,
     };
-  })
+  });
 
   return depts;
-}
+};
+
+export const fetchCentralDashboardDataNew = async () => {
+  const url = "https://teaching-load-api.onrender.com/api/dashboard";
+
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+      // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+    },
+  });
+  const data = response.data;
+
+  // const depts: Department[] = departments?.map((department: Department) => {
+  //   return {
+  //     id: department.id,
+  //     department_name: department.department,
+  //     department_code: department.department_code,
+  //     college: department.college_id,
+  //   };
+  // });
+
+  return data;
+};
