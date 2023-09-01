@@ -1,5 +1,4 @@
 import LoadSummary from "./load/LoadSummary";
-import { useQuery } from "@tanstack/react-query";
 import Lecturers from "./load/Lecturers";
 import Courses from "./load/Courses";
 import BelowButtons from "./BelowButtons";
@@ -32,8 +31,6 @@ export default function HomeAssign() {
     try {
       const url = `https://teaching-load-api.onrender.com/api/delete`;
       const response = await axios.delete(url, { data });
-
-      // console.log("Response: ", response.data);
       setLecturerLoad(response.data?.assignments?.assignments);
       setCentralDashboard(response.data?.others);
       setDeleting(false);
@@ -54,12 +51,7 @@ export default function HomeAssign() {
             <button
               className="btn mb-3 mr-4 hover:bg-red-600 outline-none hover:text-white px-5 py-2 border-2 border-red-400 rounded disabled:opacity-30 disabled:bg-red-600 disabled:text-white"
               disabled={lecturerLoad?.length === 0}
-              onClick={() => {
-                // const modal = document.querySelector(
-                //   ".mydialog"
-                // ) as HTMLDialogElement;
-                modalRef.current?.showModal();
-              }}
+              onClick={() => modalRef.current?.showModal()}
             >
               Cancel
             </button>
@@ -93,12 +85,11 @@ export default function HomeAssign() {
 
             <div className="flex justify-around items-center gap-5">
               <button
-                className="w-full text-white px-4 rounded py-2 bg-red-600 mt-2 hover:scale-95 outline-none"
+                className="w-full text-white px-4 rounded py-2 bg-red-600 mt-2 hover:scale-95 outline-none disabled:bg-opacity-60"
                 onClick={() => deleteAllLoad()}
                 disabled={deleting}
               >
                 {deleting ? "Deleting load..." : "Yes"}
-                {/* Yes */}
               </button>
               <button
                 className="w-full text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"

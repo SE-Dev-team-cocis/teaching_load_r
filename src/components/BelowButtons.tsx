@@ -137,7 +137,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         <button
           className="text-green-700 px-4 rounded py-2 border-2 border-green-700 hover:bg-green-700 hover:text-white mt-2 hover:scale-95 disabled:opacity-50"
           type="button"
-          // disabled={checkedCourses?.length === 0}
           disabled={checkedCourses?.length === 0}
           onClick={() => {
             const modal = document.querySelector(
@@ -154,7 +153,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           onClick={() => assignCourses()}
           disabled={
             checkedCourses?.length === 0 || checkedLecturer === undefined
-            // checkedSemesterList?.length === 0 || checkedLecturers?.length === 0
           }
         >
           {assigning ? "Assigning load..." : "Assign"}

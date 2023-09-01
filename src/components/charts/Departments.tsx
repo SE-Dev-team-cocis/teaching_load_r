@@ -1,17 +1,15 @@
-import { Link } from "react-router-dom";
+
 import { useRef } from "react";
 import DepartmentChart from "./DepartmentChart";
 import DepartmentDetails from "../load/DepartmentDetails";
 
-
-type DepartmentsProps= {
-  department: any,
-  staff: any
-}
+type DepartmentsProps = {
+  department: any;
+  staff: any;
+};
 const Departments = ({ department, staff }: DepartmentsProps) => {
   const detailsRef = useRef<HTMLDialogElement>(null);
 
-  // console.log("Staff: ", staff)
   const showModal = () => {
     detailsRef.current?.showModal();
   };
@@ -26,7 +24,7 @@ const Departments = ({ department, staff }: DepartmentsProps) => {
     department.under_load,
   ];
 
-  // console.log("Data: ", data)
+
   const available =
     data[0] === 0 && data[1] === 0 && data[2] === 0 ? false : true;
 
@@ -58,18 +56,13 @@ const Departments = ({ department, staff }: DepartmentsProps) => {
               })}
             </div>
             <p>
-             
-         
               <button
-                // to={`${department.department_id}`}
                 className="bg-green-700 px-3 py-1 text-white outline-none rounded"
-               
                 onClick={showModal}
               >
                 View details{" "}
               </button>
             </p>
-            {/* </dialog> */}
           </div>
 
           <div className="chart mt-2 text-center below-chart">
@@ -81,8 +74,10 @@ const Departments = ({ department, staff }: DepartmentsProps) => {
             className=" department_dialog mydialog rounded-md outline-none"
             ref={detailsRef}
           >
-            {/* This is my modal */}
-            <DepartmentDetails id={department.department_id} closeModal={closeModal} />
+            <DepartmentDetails
+              id={department.department_id}
+              closeModal={closeModal}
+            />
           </dialog>
         </div>
       ) : (

@@ -3,8 +3,6 @@ import { Course, Department, Lecturer, SemesterList, fetchCentralDashboardDataNe
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
-import { fetchCentralDashboardData } from "../functions/Functions";
-
 
 export default function Home() {
 
@@ -48,7 +46,7 @@ export default function Home() {
   }
 
   // Fetching all load
-  const { data: loads, isSuccess: loadedLoads } = useQuery({
+  const { data: loads } = useQuery({
     queryKey: ["load"],
     queryFn: fetchLoad,
   });
@@ -57,7 +55,6 @@ export default function Home() {
   // Fetchign semester list
   const {
     data: semesterList,
-    isSuccess: loadedSemesterList,
     isLoading,
   } = useQuery({
     queryKey: ["semesterlist"],
@@ -90,8 +87,6 @@ export default function Home() {
   })
 
 
-  console.log("Central dashboard: ", central)
-
   useMemo(() => {
     setLecturerLoad(loads);
     setCourses(myCourses);
@@ -106,7 +101,6 @@ export default function Home() {
     // fetchCentralDashboardData()
   }, [loads, myCourses, myLecturers, semList, depts, central]);
   
-  // console.log("Loads: ", loads);
 
   if (isLoading) {
     return (

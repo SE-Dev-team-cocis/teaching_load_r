@@ -1,14 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import {  useState } from "react";
 import Departments from "./charts/Departments";
 import TopCharts from "./charts/TopCharts";
-import axios from "axios";
+
 import useNewLoadStore21 from "../zustand/newLoadStore2";
-import { fetchCentralDashboardData } from "../functions/Functions";
+
 
 const CentralDashboard = () => {
-  const setCentralDashboard = useNewLoadStore21(
-    (state) => state.setCentralDashboard
-  );
+ 
   const centralDashboard = useNewLoadStore21(state => state.centralDashboard)
   const [message, setMessage] = useState()
   

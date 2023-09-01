@@ -1,7 +1,7 @@
 import { BsTrash } from "react-icons/bs";
 import axios from "axios";
 import useUserstore from "../../zustand/userStore";
-import { Load, fetchLoad } from "../../zustand/api/apis";
+import { Load} from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { successNotification } from "../utilities/toastify/Toastify";
 
@@ -12,7 +12,6 @@ const LoadSummary = () => {
     (state) => state.setCentralDashboard
   );
 
-  // console.log("Lecturer load: ", lecturerLoad)
 
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
@@ -48,7 +47,6 @@ const LoadSummary = () => {
       const response = await axios.delete(url, { data });
       if (response.status === 200) {
         successNotification("Load deleted successfully");
-        // console.log("Response: ", response.data);
         setCentralDashboard(response.data?.others)
         setLecturerLoad(response.data?.assignments.assignments);
       }
