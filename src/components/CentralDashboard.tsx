@@ -1,26 +1,34 @@
-import {  useState } from "react";
+import { useState } from "react";
 import Departments from "./charts/Departments";
 import TopCharts from "./charts/TopCharts";
 
 import useNewLoadStore21 from "../zustand/newLoadStore2";
-
+import { Link } from "react-router-dom";
 
 const CentralDashboard = () => {
- 
-  const centralDashboard = useNewLoadStore21(state => state.centralDashboard)
-  const [message, setMessage] = useState()
-  
+  const centralDashboard = useNewLoadStore21((state) => state.centralDashboard);
+  const [message, setMessage] = useState();
 
-  if(centralDashboard.count){
-    console.log("We have count")
-    setMessage(centralDashboard?.message)
+  if (centralDashboard.count) {
+    console.log("We have count");
+    setMessage(centralDashboard?.message);
     // return <p>{centralDashboard.message}</p>
   }
   return (
     <>
       <p>
         {centralDashboard?.count === 0 ? (
-          <p>{centralDashboard.message}</p>
+          <section className="flex flex-col items-center">
+            <p className="text-center mt-11 text-2xl">
+              {centralDashboard.message}
+            </p>
+
+            <p className="">
+              <button className="bg-green-700 text-white px-4 py-2 rounded-md mt-3 hover:scale-105 duration-100">
+                <Link to="/teaching-load/new">Create Load</Link>
+              </button>
+            </p>
+          </section>
         ) : (
           <div>
             <TopCharts />
@@ -39,7 +47,6 @@ const CentralDashboard = () => {
           </div>
         )}
       </p>
-    
     </>
   );
 };
