@@ -24,7 +24,6 @@ const LecturerDetails = ({ lectID, closeModal }: LecturerDetailsProps) => {
     (load) => load.staff_id === lectID
   );
 
-  // console.log("Selected Lecturer load details: ", lecturerLoadDetails);
 
   function showUnassigned() {
     setReassignLecturer(lecturerLoadDetails);
@@ -77,7 +76,6 @@ const LecturerDetails = ({ lectID, closeModal }: LecturerDetailsProps) => {
         </p>
         <button
           className="bg-green-700 text-white px-4 py-2 rounded outline-none my-2"
-          // onClick={addCourse}
           onClick={showUnassigned}
         >
           Add course
@@ -124,7 +122,6 @@ const LecturerDetails = ({ lectID, closeModal }: LecturerDetailsProps) => {
             ))}
           </tbody>
         </table>
-        {/* <p>Hello table</p> */}
       </div>
       <dialog ref={unassignedRef}>
         <UnassignedCourses id={lectID} close={closeUnassigned} />
