@@ -6,7 +6,10 @@ import useUserstore from "../zustand/userStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
-import { successNotification, errorNotification } from "./utilities/toastify/Toastify";
+import {
+  successNotification,
+  errorNotification,
+} from "./utilities/toastify/Toastify";
 import { fetchCentralDashboardData } from "../functions/Functions";
 
 type AssignLoad = {
@@ -32,8 +35,13 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const semesterList = useNewLoadStore21((state) => state.semesterList);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
 
+  // Central dashboard
+  const setCentralDashboard = useNewLoadStore21(
+    (state) => state.setCentralDashboard
+  );
+
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
-  
+
   const setCheckedLecturers = useNewLoadStore21(
     (state) => state.setCheckedLecturers
   );
@@ -54,12 +62,11 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   );
 
   const myid: any = checkedLecturer?.id;
-  const [assigning, setAssigning] = useState(false)
-  const [broadcasting, setBroadcasting] = useState(false)
+  const [assigning, setAssigning] = useState(false);
+  const [broadcasting, setBroadcasting] = useState(false);
 
   // Function to assign courses
   const assignCourses = async () => {
-
     checkedCourses.forEach((course) => {
       courseNames.push(course.course_name);
       courseCreditUnits.push(+course.course_cus); // convert to number by adding a + sign
@@ -75,55 +82,52 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       assignee_id: id,
     };
 
-
     // console.log("Assigned load: ", data)
 
-
     const url = "https://teaching-load-api.onrender.com/api/assign";
-    try{
-      
-    setAssigning(true)
-    const response = await axios.post(url, data, {
-      headers: {
-        "Content-Type": "application/json",
-        // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
-      },
-    });
+    try {
+      setAssigning(true);
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+          // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
+        },
+      });
 
-    // console.log("Response: ", response.data)
-    setAssigning(false)
-    setLecturerLoad(response.data?.assignments?.assignments);
-    setCheckedLecturers([]);
-    setCheckedCourses([]);
-    setSemesterList(
-      semesterList.map((course: Course) => {
-        return { ...course, isChecked: false };
-      })
-    );
-    setLecturers(
-      lecturers.map((lecturer: Lecturer) => {
-        return { ...lecturer, isChecked: false };
-      })
-    );
+      // console.log("Response: ", response.data)
+      setAssigning(false);
+      setLecturerLoad(response.data?.assignments?.assignments);
+      setCheckedLecturers([]);
+      setCheckedCourses([]);
+      setSemesterList(
+        semesterList.map((course: Course) => {
+          return { ...course, isChecked: false };
+        })
+      );
+      setLecturers(
+        lecturers.map((lecturer: Lecturer) => {
+          return { ...lecturer, isChecked: false };
+        })
+      );
 
-    successNotification(response.data?.message); 
-
-    }catch(error){
-      errorNotification("Unable to assign load")
-      console.error(error)
+      successNotification(response.data?.message);
+    } catch (error) {
+      errorNotification("Unable to assign load");
+      console.error(error);
     }
 
     // mutate(data); // call the mutation function which will update the assigned load table
   };
 
-
   const user = useUserstore((state) => state.user);
   const broadcastLoad = async (id: number) => {
-    setBroadcasting(true)
+    setBroadcasting(true);
     try {
       const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
       const response = await axios.put(url);
-      setBroadcasting(false)
+
+      setCentralDashboard(response.data?.others)
+      setBroadcasting(false);
       successNotification("The assigned load has been successfully broadcast");
       navigate("/teaching-load/central");
     } catch (error) {
@@ -164,7 +168,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           disabled={!broadcast}
           onClick={() => broadcastLoad(user.id)}
         >
-          {broadcasting ? "Broadcasting load...": "Broadcast"}
+          {broadcasting ? "Broadcasting load..." : "Broadcast"}
         </button>
       </div>
       <dialog data-modal className="rounded-lg px-4 py-5 my-subgroup">
