@@ -4,8 +4,13 @@ import useUserstore from "../../zustand/userStore";
 import { Load} from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { successNotification } from "../utilities/toastify/Toastify";
+import { useRef, useState } from "react";
 
 const LoadSummary = () => {
+  const deleteLoadRef = useRef<HTMLDialogElement>(null)
+  const [deleting, setDeleting] = useState(false);
+  const [deleteId, setDeleteId] = useState(0)
+ 
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const setCentralDashboard = useNewLoadStore21(
@@ -44,16 +49,27 @@ const LoadSummary = () => {
 
     try {
       const url = "https://teaching-load-api.onrender.com/api/deleteload";
+      setDeleting(true)
       const response = await axios.delete(url, { data });
       if (response.status === 200) {
+        setDeleting(false)
         successNotification("Load deleted successfully");
         setCentralDashboard(response.data?.others)
         setLecturerLoad(response.data?.assignments.assignments);
+        closeModal()
       }
     } catch (error) {
       console.error("Error: ", error);
     }
   };
+
+  function showModal(loadId: number){
+    setDeleteId(loadId)
+    deleteLoadRef.current?.showModal()
+  }
+   function closeModal() {
+     deleteLoadRef.current?.close();
+   }
 
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg mr-2 ">
@@ -99,7 +115,8 @@ const LoadSummary = () => {
                           </span>
                           <BsTrash
                             className="text-red-400 cursor-pointer"
-                            onClick={() => deleteLoad(id, load.id)}
+                            // onClick={() => deleteLoad(id, load.id)}
+                            onClick={() => showModal(load.id)}
                           />
                         </div>
                       ) : load.total < 10 ? (
@@ -109,7 +126,8 @@ const LoadSummary = () => {
                           </span>
                           <BsTrash
                             className="text-red-400 cursor-pointer"
-                            onClick={() => deleteLoad(id, load.id)}
+                            // onClick={() => deleteLoad(id, load.id)}
+                            onClick={() => showModal(load.id)}
                           />
                         </div>
                       ) : (
@@ -117,7 +135,8 @@ const LoadSummary = () => {
                           <span className="text-green-700">{load.total}</span>
                           <BsTrash
                             className="text-red-400 cursor-pointer ml-5"
-                            onClick={() => deleteLoad(id, load.id)}
+                            // onClick={() => deleteLoad(id, load.id)}
+                            onClick={() => showModal(load.id)}
                           />
                         </div>
                       )}
@@ -129,6 +148,53 @@ const LoadSummary = () => {
           </>
         )}
       </div>
+
+      <dialog
+        data-modal
+        className="rounded-lg p-5 outline-none mydialog"
+        ref={deleteLoadRef}
+      >
+        <div className="confirm">
+          <div className=" text-lg mb-3">
+            <p className="font-semibold text-2xl mt-4">
+              Are you sure you want to delete this teaching load?
+            </p>
+            <p>
+              Deleting this information will mean that the allocated Teaching{" "}
+              <br />
+              Load will be deleted.
+              <br />
+              <span className="underline">Are you sure?</span>
+            </p>
+            {/* <br />
+            <br /> */}
+            {/* <span className="block mt-2">
+              <span className="text-lg font-semibold"> Note:</span> This process{" "}
+              <span className="underline">cannot</span> be reversed once you{" "}
+              <br />
+              agree to delete
+            </span> */}
+          </div>
+
+          <div className="flex justify-center items-center gap-5">
+            <button
+              className="w-full text-white px-4 rounded py-2 bg-red-600 mt-2 hover:scale-95 outline-none disabled:bg-opacity-60"
+              onClick={() => deleteLoad(id, deleteId)}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting load..." : "Yes"}
+            </button>
+            <button
+              className="w-full text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"
+              onClick={() => {
+                deleteLoadRef.current?.close();
+              }}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
