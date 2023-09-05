@@ -106,6 +106,7 @@ const SemesterCourses = () => {
   }
 
   const [filterText, setFilterText] = useState("");
+  // console.log("Filter text: ", filterText)
   return (
     <div
       style={{ width: "800px" }}
@@ -148,8 +149,8 @@ const SemesterCourses = () => {
           ?.filter((courseUnit: any) => {
             return filterText.toLowerCase() === ""
               ? courseUnit
-              : courseUnit.course_name.toLowerCase().includes(filterText) ||
-                  courseUnit.course_code.toLowerCase().includes(filterText);
+              : courseUnit.course_name.toLowerCase().includes(filterText.toLowerCase()) ||
+                  courseUnit.course_code.toLowerCase().includes(filterText.toLowerCase());
           })
           .map((course: Course, index: number) => (
             <div key={index} className="grid grid-cols-12 gap-3">
