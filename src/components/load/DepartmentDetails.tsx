@@ -2,6 +2,7 @@ import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Lecturer, Load } from "../../zustand/api/apis";
 import { useRef, useState } from "react";
 import LecturerDetails from "./LecturerDetails";
+import UnassignedCourses from "./UnassignedCourses";
 
 type DepartmentDetailsProps = {
   id: number;
@@ -10,6 +11,12 @@ type DepartmentDetailsProps = {
 
 const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const lecturerRef = useRef<HTMLDialogElement>(null);
+  const lecturerRef2 = useRef<HTMLDialogElement>(null);
+
+   function closeLecturerModal2() {
+     lecturerRef2?.current?.close();
+   }
+
 
   const closeLecturerModal = () => {
     lecturerRef.current?.close();
@@ -185,7 +192,10 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
                 >
                   View
                 </span>
-                <span className="ml-2 mr-2 text-green-700 cursor-pointer px-3">
+                <span
+                  className="ml-2 mr-2 text-green-700 cursor-pointer px-3"
+                  onClick={() => lecturerRef2.current?.showModal()}
+                >
                   Edit
                 </span>
                 <span className="text-red-500 cursor-pointer">Delete</span>
@@ -198,7 +208,21 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
         className="lecturer_dialog outline-none rounded-md"
         ref={lecturerRef}
       >
-        <LecturerDetails lectID={lecturerId} closeModal={closeLecturerModal} />
+        <LecturerDetails
+          lectID={lecturerId}
+          closeModal={closeLecturerModal}
+          edit={false}
+        />
+      </dialog>
+      <dialog
+        ref={lecturerRef2}
+        className="lecturer_dialog outline-none rounded-md"
+      >
+        <LecturerDetails
+          lectID={lecturerId}
+          closeModal={closeLecturerModal2}
+          edit={true}
+        />
       </dialog>
     </div>
   );

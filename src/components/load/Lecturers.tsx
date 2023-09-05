@@ -10,7 +10,7 @@ type LecturersProps = {
 // const Lecturers = ({ lecturers }: LecturersProps) => {
 const Lecturers = () => {
   const userDepartment = useUserstore((state) => state.user.department);
-  console.log("User department: ", userDepartment)
+  // console.log("User department: ", userDepartment)
 
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
@@ -72,9 +72,10 @@ const Lecturers = () => {
       />
 
       <div className="list">
-        {allLecturers?.filter((lecturer) => {
+        {/* {allLecturers?.filter((lecturer) => {
             return lecturer.department === userDepartment;
-        })
+        }) */}
+        {allLecturers
           .filter((lecturer) => {
             return filterText.toLowerCase() === ""
               ? lecturer

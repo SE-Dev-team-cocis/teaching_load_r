@@ -7,9 +7,10 @@ import UnassignedCourses from "./UnassignedCourses";
 type LecturerDetailsProps = {
   lectID: number;
   closeModal: () => void;
+  edit?: boolean
 };
 
-const LecturerDetails = ({ lectID, closeModal }: LecturerDetailsProps) => {
+const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => {
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
@@ -74,12 +75,15 @@ const LecturerDetails = ({ lectID, closeModal }: LecturerDetailsProps) => {
         >
           X
         </p>
-        <button
-          className="bg-green-700 text-white px-4 py-2 rounded outline-none my-2"
-          onClick={showUnassigned}
-        >
-          Add course
-        </button>
+        {edit && (
+          <button
+            className="bg-green-700 text-white px-4 py-2 rounded outline-none my-2"
+            onClick={showUnassigned}
+          >
+            Add course
+          </button>
+        )}
+
         <table className="w-full border-2 border-b-gray-400 rounded">
           <thead className="bg-gray-50 bottom-2 border-gray-200">
             <tr>
@@ -95,9 +99,9 @@ const LecturerDetails = ({ lectID, closeModal }: LecturerDetailsProps) => {
               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
                 Course Credit units
               </th>
-              <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+              {/* <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
                 Action
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-400">
@@ -115,15 +119,15 @@ const LecturerDetails = ({ lectID, closeModal }: LecturerDetailsProps) => {
                 <td className="p-2 text-sm text-gray-700 text-center">
                   {load.course_cus}
                 </td>
-                <td className="p-2 text-sm text-gray-700 text-center">
+                {/* <td className="p-2 text-sm text-red-700 text-center">
                   Delete
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <dialog ref={unassignedRef}>
+      <dialog ref={unassignedRef} className="unassigned_dialog rounded-md">
         <UnassignedCourses id={lectID} close={closeUnassigned} />
       </dialog>
     </>

@@ -85,7 +85,7 @@ input.input-error, select.input-error{
 }
 
 dialog::backdrop{
-  background-color: rgba(0,0,0,0.8) ;
+  background-color: rgba(0,0,0,0.7) ;
 }
 
 .my-modal{
@@ -148,6 +148,16 @@ dialog::backdrop{
   overflow: hidden;
   }
   .lecturer_dialog::backdrop{
+    background-color: rgba(0,0,0,0.3);
+  }
+
+
+  .unassigned_dialog{
+    width: 850px;
+    min-height: 500px;
+  }
+
+  .unassigned_dialog::backdrop{
     background-color: rgba(0,0,0,0.3);
   }
 

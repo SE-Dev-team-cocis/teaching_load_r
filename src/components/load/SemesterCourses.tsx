@@ -35,7 +35,7 @@ const SemesterCourses = () => {
     (state) => state.setCheckedCourses
   );
 
-  const [creating, setCreating] = useState(false)
+  const [creating, setCreating] = useState(false);
 
   function handleCheckedCourses(id: number) {
     const updatedCourses: Course[] = allcourses.map((course: Course) =>
@@ -51,7 +51,6 @@ const SemesterCourses = () => {
     setCheckedCourses(checkedOnes); // Setting only the checked courses
   }
   async function handleSemesterCourses() {
-   
     const data = checkedCourses.map((checked) => {
       return {
         staff_id: staff_id,
@@ -64,7 +63,7 @@ const SemesterCourses = () => {
 
     const url =
       "https://teaching-load-api.onrender.com/api/semesterlist/create";
-   setCreating(true)
+    setCreating(true);
     try {
       const response = await axios.post(
         url,
@@ -97,7 +96,7 @@ const SemesterCourses = () => {
           return { ...lecturer, isChecked: false };
         })
       );
-      setCreating(false)
+      setCreating(false);
       successNotification(response.data.message);
       navigate("/teaching-load/new");
     } catch (error) {
@@ -149,8 +148,12 @@ const SemesterCourses = () => {
           ?.filter((courseUnit: any) => {
             return filterText.toLowerCase() === ""
               ? courseUnit
-              : courseUnit.course_name.toLowerCase().includes(filterText.toLowerCase()) ||
-                  courseUnit.course_code.toLowerCase().includes(filterText.toLowerCase());
+              : courseUnit.course_name
+                  .toLowerCase()
+                  .includes(filterText.toLowerCase()) ||
+                  courseUnit.course_code
+                    .toLowerCase()
+                    .includes(filterText.toLowerCase());
           })
           .map((course: Course, index: number) => (
             <div key={index} className="grid grid-cols-12 gap-3">
@@ -175,7 +178,6 @@ const SemesterCourses = () => {
           onClick={handleSemesterCourses}
         >
           {creating ? "Creating Semester list" : "Create Semester List"}
-       
         </button>
       </div>
     </div>
