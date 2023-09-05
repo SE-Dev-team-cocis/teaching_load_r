@@ -17,12 +17,16 @@ const TopCharts = () => {
         data: [
           centralDashboard?.overall_total_load?.min_load,
           centralDashboard?.overall_total_load?.under_load,
-          centralDashboard?.overall_total_load?.extra_load
-
-    
+          centralDashboard?.overall_total_load?.extra_load,
         ],
         fill: true,
-        backgroundColor: ["#ffff33", "#ff0000", "#2d862d"],
+        // backgroundColor: ["#ffff33", "#ff0000", "#2d862d"],
+        backgroundColor: [
+          "rgba(254, 240, 138, 1)",
+          "rgba(220, 38, 38,1)",
+        
+          "rgb(21, 128, 61)",
+        ],
       },
     ],
   };
@@ -36,10 +40,13 @@ const TopCharts = () => {
           // courseSummary.allocated_courses,
           // courseSummary.all_courses - courseSummary.allocated_courses,
           centralDashboard.course_summary.allocated_courses,
-          centralDashboard.course_summary.all_courses - centralDashboard.course_summary.allocated_courses,
+          centralDashboard.course_summary.all_courses -
+            centralDashboard.course_summary.allocated_courses,
         ],
         fill: true,
-        backgroundColor: ["#2d862d", "#ff0000"],
+
+        // backgroundColor: ["#2d862d", "#ff0000"],
+        backgroundColor: ["rgb(21, 128, 61)", "rgba(220, 38, 38,1)"],
       },
     ],
   };
