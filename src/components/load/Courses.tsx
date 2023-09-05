@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import useUserstore from "../../zustand/userStore";
+// import useUserstore from "../../zustand/userStore";
 import { Link } from "react-router-dom";
 
 type Subgroup = {
@@ -20,24 +20,26 @@ type Course = {
   subgroups?: Subgroup[];
 };
 
-type CourseProps = {
-  courses: Course[];
-};
+// type CourseProps = {
+//   courses: Course[];
+// };
 
 const Courses = () => {
-  const user = useUserstore((state) => state.user);
+  // const userDepartment = useUserstore((state) => state.user.department);
+
+  // console.log("user: ", userDepartment);
 
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
-  const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
-  const allCourses = useNewLoadStore21((state) => state.allCourses);
+  // const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
+  // const allCourses = useNewLoadStore21((state) => state.allCourses);
 
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const semesterList = useNewLoadStore21((state) => state.semesterList);
-  const setCheckedSemesterList = useNewLoadStore21(
-    (state) => state.setCheckedSemesterList
-  );
+  // const setCheckedSemesterList = useNewLoadStore21(
+  //   (state) => state.setCheckedSemesterList
+  // );
 
   function handleCheckedCourses(id: number) {
     const updatedCourses: Course[] = semesterList.map((course: Course) =>

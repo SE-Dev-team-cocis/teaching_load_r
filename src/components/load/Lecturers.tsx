@@ -1,6 +1,7 @@
 import { ChangeEvent, useState, useMemo, memo } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Lecturer } from "../../zustand/api/apis";
+import useUserstore from "../../zustand/userStore";
 
 type LecturersProps = {
   lecturers: Lecturer[];
@@ -8,6 +9,9 @@ type LecturersProps = {
 
 // const Lecturers = ({ lecturers }: LecturersProps) => {
 const Lecturers = () => {
+  const userDepartment = useUserstore((state) => state.user.department);
+  console.log("User department: ", userDepartment)
+
   const setLecturers = useNewLoadStore21((state) => state.setLecturers);
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const setCheckedLecturers = useNewLoadStore21(
@@ -68,8 +72,10 @@ const Lecturers = () => {
       />
 
       <div className="list">
-        {allLecturers
-          ?.filter((lecturer) => {
+        {allLecturers?.filter((lecturer) => {
+            return lecturer.department === userDepartment;
+        })
+          .filter((lecturer) => {
             return filterText.toLowerCase() === ""
               ? lecturer
               : lecturer.firstName.toLowerCase().includes(filterText) ||
