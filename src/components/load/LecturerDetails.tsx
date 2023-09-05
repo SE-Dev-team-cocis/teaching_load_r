@@ -19,7 +19,7 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
   );
   const unassignedRef = useRef<HTMLDialogElement>(null);
 
-  const [lecturerId, setLecturerId] = useState(null);
+  // const [lecturerId, setLecturerId] = useState(null);
 
   const lecturerLoadDetails = lecturerLoad.filter(
     (load) => load.staff_id === lectID
@@ -66,7 +66,7 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
   return (
     <>
       <div className="lecturer_details">
-        <p className="m-4 text-center text-2xl">
+        <p className="mt-2 text-center text-3xl">
           Details for {lecturer?.firstName} {lecturer?.lastName}
         </p>
         <p
@@ -84,7 +84,7 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
           </button>
         )}
 
-        <table className="w-full border-2 border-b-gray-400 rounded">
+        <table className="w-full border-2 border-b-gray-400 rounded ">
           <thead className="bg-gray-50 bottom-2 border-gray-200">
             <tr>
               <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">

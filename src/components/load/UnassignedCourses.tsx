@@ -115,21 +115,23 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
 
   return (
     <>
-      <section className="flex justify-center items-center mt-10 rounded">
+      {/* <section className="flex justify-center items-center mt-10 rounded"> */}
+      <section>
+
         {/* <div className=" bg-white relative" style={{ width: 1000 }}> */}
         <div className=" bg-white relative" >
 
-          <p className="m-4 text-center text-2xl uppercase">
+          <p className="m-4 text-center text-3xl uppercase">
             Unassigned courses
           </p>
 
           <p
-            className="absolute w-5 h-5 rounded-full bg-red-500 text-white text-center cursor-pointer right-3 top-2"
+            className="absolute w-6 h-6 rounded-full bg-red-500 text-white text-center cursor-pointer right-3 -top-2"
             onClick={close}
           >
             X
           </p>
-          <p>Lecturer id: {id}</p>
+          {/* <p>Lecturer id: {id}</p> */}
           <table className="w-full border-2 border-b-gray-400">
             <thead className="bg-gray-50 bottom-2 border-gray-200">
               <tr>
