@@ -71,13 +71,14 @@ const Lecturers = () => {
         }
       />
 
-      {/* {allLecturers */}
-
+    
       <div className="list">
-        {allLecturers
+        {/* {allLecturers
           ?.filter((lecturer) => {
             return lecturer.department === userDepartment;
-          })
+          }) */}
+            {allLecturers
+
           .filter((lecturer) => {
             return filterText.toLowerCase() === ""
               ? lecturer

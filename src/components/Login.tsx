@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import MukLogo from "../assets/images/muk_logo.png";
 
@@ -12,6 +12,7 @@ import {
   successNotification,
   errorNotification,
 } from "./utilities/toastify/Toastify";
+import usePasswordToggle from "../hooks/usePasswordToggle";
 
 type InitialValues = {
   username: string;
@@ -23,6 +24,8 @@ const initialLoginValues: InitialValues = {
 };
 
 const Login = () => {
+  // const [inputType] = usePasswordToggle();
+  // console.log("input type: ", inputType)
   const navigate = useNavigate();
   const setUser = useUserstore((state) => state.setUser);
 
@@ -123,6 +126,7 @@ const Login = () => {
                   label="Password"
                   name="password"
                   type="password"
+                  // type={inputType}
                   touched={touched}
                   errors={errors}
                   placeholder="Please enter your password name.."

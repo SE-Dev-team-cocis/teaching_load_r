@@ -26,12 +26,13 @@ const Register = () => {
   const navigate = useNavigate();
   const customId: string = "Register";
   const [departments, setDepartments] = useState<any>([]);
+  const [registering, setRegistering] = useState(false)
 
   async function fetchDepts() {
     try {
       const url = "https://teaching-load-api.onrender.com/api/department";
       const response = await axios.get(url);
-      console.log(response.data?.departments);
+      // console.log(response.data?.departments);
       // setDepartments(response.data?.departments);
       const depts = response.data?.departments.map((dep: any) => {
         return {
@@ -78,6 +79,7 @@ const Register = () => {
       onSubmit: async (values) => {
         const url = "https://teaching-load-api.onrender.com/api/register";
         try {
+          setRegistering(true)
           const response = await axios.post(url, values, {
             headers: {
               "Content-Type": "application/json",
@@ -94,6 +96,7 @@ const Register = () => {
             successNotification("You have registered successfully");
             setUser(response.data.user);
             navigate("/teaching-load");
+            setRegistering(false)
           }
           if (response.data.register !== true) {
             errorNotification(
@@ -207,10 +210,12 @@ const Register = () => {
 
             <div className="flex justify-center items-center w-full">
               <button
-                className="w-full text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95"
+                className="w-full text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:bg-opacity-70"
                 type="submit"
+                disabled={registering}
               >
-                Register
+                {registering ? "Registering account...": "Register"}
+                {/* Register */}
               </button>
             </div>
           </form>
