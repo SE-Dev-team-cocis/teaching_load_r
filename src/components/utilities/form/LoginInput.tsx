@@ -1,5 +1,5 @@
 import { FormikTouched, FormikErrors } from "formik";
-import usePasswordToggle from "../../../hooks/usePasswordToggle";
+// import usePasswordToggle from "../../../hooks/usePasswordToggle";
 import { BsEye, BsEyeSlash, BsSlash } from "react-icons/bs";
 import { useState } from "react";
 
@@ -30,28 +30,19 @@ const LoginInput = ({
   touched,
   errors,
 }: LoginInputPops) => {
-  // const [inputType, Icon] = usePasswordToggle();
+
   const [visible, setVisible] = useState<boolean>(true)
   const [inputType, setInputType] = useState<string>("password")
-  // let inputType;
 
-  // visible ? inputType === "text" : inputType === "password"
 
   function handleToggle(){
     setVisible(prev => !prev)
     if(visible){
-      // setVisible(true)
       setInputType("text")
     }else{
-      // setVisible(false)
       setInputType("password")
     }
-
-    // console.log("Visible: ", visible)
-    // console.log("Input type: ", inputType)
   }
-
-  // function togglePassword() {}
 
   return (
     <div>

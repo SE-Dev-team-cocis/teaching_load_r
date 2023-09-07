@@ -24,8 +24,6 @@ const initialLoginValues: InitialValues = {
 };
 
 const Login = () => {
-  // const [inputType] = usePasswordToggle();
-  // console.log("input type: ", inputType)
   const navigate = useNavigate();
   const setUser = useUserstore((state) => state.setUser);
 

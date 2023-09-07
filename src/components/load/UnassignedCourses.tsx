@@ -9,6 +9,7 @@ type UnassignedProps = {
 };
 
 const UnassignedCourses = ({ id, close }: UnassignedProps) => {
+  const [assigning, setAssigning] = useState(false);
   const courses = useNewLoadStore21((state) => state.allCourses);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const [theCourses, setTheCourses] = useState<any>([]);
@@ -66,6 +67,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
     const theRealCUs = JSON.stringify(realCUs);
 
     try {
+      setAssigning(true);
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
         {
@@ -102,6 +104,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       setReassignLecturer([]);
       setCentralDashboard(centralDashboardData);
 
+      setAssigning(false);
       //TODO: Resetting the central dashboard data
 
       close();
@@ -117,10 +120,8 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
     <>
       {/* <section className="flex justify-center items-center mt-10 rounded"> */}
       <section>
-
         {/* <div className=" bg-white relative" style={{ width: 1000 }}> */}
-        <div className=" bg-white relative" >
-
+        <div className=" bg-white relative">
           <p className="m-4 text-center text-3xl uppercase">
             Unassigned courses
           </p>
@@ -169,11 +170,13 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
                   </td>
                   <td className="p-2 text-sm text-gray-700 text-center">
                     <button
-                      className="bg-green-400 text-white px-4 py-2 rounded"
+                      className="hover:bg-green-700 text-green-700 hover:text-white border-2 border-green-700 px-4 py-2 rounded duration-200"
                       onClick={() =>
                         handleAssign(course.course_name, course.course_cus, id)
                       }
+                      disabled={assigning}
                     >
+                      {/* {assigning ? "Assigning..." : "Assign"} */}
                       Assign
                     </button>
                   </td>
