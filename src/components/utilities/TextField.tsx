@@ -147,7 +147,7 @@ const TextField = ({
                 onClick={() => handleToggle(inputName)}
               >
                 {/* <Icon /> */}
-                {visible ? (
+                {visible2 ? (
                   <BsEye style={{ width: 20, height: 20 }} />
                 ) : (
                   <BsEyeSlash style={{ width: 20, height: 20 }} />
