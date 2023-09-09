@@ -93,30 +93,73 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
         },
       });
+      const status = response.data.status;
+      console.log("Status: ", status);
 
-      // console.log("Response: ", response.data)
-      setAssigning(false);
-      setLecturerLoad(response.data?.assignments?.assignments);
-      setCheckedLecturers([]);
-      setCheckedCourses([]);
-      setSemesterList(
-        semesterList.map((course: Course) => {
-          return { ...course, isChecked: false };
-        })
-      );
-      setLecturers(
-        lecturers.map((lecturer: Lecturer) => {
-          return { ...lecturer, isChecked: false };
-        })
-      );
+      if (!status) {
+        errorNotification(response.data?.message);
+        // console.log("Response on already assigned: ", response.data.load.assignments);
+        setLecturerLoad(response.data?.load?.assignments);
+        reset();
+      }
 
-      successNotification(response.data?.message);
+      const load = response;
+
+      console.log("Data: ", response.data)  
+      // console.log("When true: ", response.data?.assignments?.assignments)
+      // setLecturerLoad(response.data?.assignments?.assignments);
+      reset();
+      // successNotification(response.data?.message);
+
+
+
+      // if (response.data?.status === false) {
+      //   errorNotification(response.data.essage);
+      //   console.log("Response on already assigned: ", response.data);
+      //   setLecturerLoad(response.data?.load?.assignments);
+      //   reset();
+
+      //   return;
+      // } else {
+      //   reset();
+      //   setLecturerLoad(response.data?.assignments?.assignments);
+      //   successNotification(response.data?.message);
+      // }
+
+      // setCheckedLecturers([]);
+      // setCheckedCourses([]);
+      // setSemesterList(
+      //   semesterList.map((course: Course) => {
+      //     return { ...course, isChecked: false };
+      //   })
+      // );
+      // setLecturers(
+      //   lecturers.map((lecturer: Lecturer) => {
+      //     return { ...lecturer, isChecked: false };
+      //   })
+      // );
     } catch (error) {
       errorNotification("Unable to assign load");
       console.error(error);
     }
 
     // mutate(data); // call the mutation function which will update the assigned load table
+  };
+
+  const reset = () => {
+    setAssigning(false);
+    setCheckedLecturers([]);
+    setCheckedCourses([]);
+    setSemesterList(
+      semesterList.map((course: Course) => {
+        return { ...course, isChecked: false };
+      })
+    );
+    setLecturers(
+      lecturers.map((lecturer: Lecturer) => {
+        return { ...lecturer, isChecked: false };
+      })
+    );
   };
 
   const user = useUserstore((state) => state.user);
@@ -126,7 +169,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
       const response = await axios.put(url);
 
-      setCentralDashboard(response.data?.others)
+      setCentralDashboard(response.data?.others);
       setBroadcasting(false);
       successNotification("The assigned load has been successfully broadcast");
       navigate("/teaching-load/central");

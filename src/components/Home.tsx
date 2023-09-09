@@ -51,6 +51,7 @@ export default function Home() {
     queryFn: fetchLoad,
   });
 
+  // console.log("Load: ", loads)
 
   // Fetchign semester list
   const {

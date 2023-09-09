@@ -74,6 +74,8 @@ const SemesterCourses = () => {
           },
         }
       );
+
+      // console.log("Response: ", response.data)
       // console.log(response.data?.semesterlist);
       const mylist = response.data?.semesterlist;
       let theArray: any[] = [];
