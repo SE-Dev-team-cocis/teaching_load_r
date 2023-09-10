@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import MukLogo from "../../assets/images/muk_logo.png";
 import Form from "./Form";
+// import { useAppSelector } from "../../store/hooks";
 
 const Login = () => {
+
+  // const user = useAppSelector(state => state.user.user)
+
+  // console.log("user: ", user)
   return (
     <div className="login_form border-2 border-green-700 bg-white rounded-lg p-5 ">
       <header className="flex justify-center items-center flex-col">

@@ -11,12 +11,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { errorNotification, successNotification } from "../../utils/Toastify";
 import useUserstore from "../../zustand/userStore";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setUser } from "../user/userSlice";
 
 const Form = () => {
     const navigate = useNavigate()
     const [visible, setVisible] = useState<boolean>(true);
   const [inputType, setInputType] = useState<string>("password");
-    const setUser = useUserstore((state) => state.setUser);
+    const setUser1 = useUserstore((state) => state.setUser);
+
+    const dispatch = useAppDispatch(); // for redux toolkit
 
     const loggedOut = localStorage.getItem("logged_out");
 
@@ -31,7 +35,7 @@ const Form = () => {
 
 
   const handleLogin = async (data: LoginSchemaType) => {
-    console.log("Data: ", data);
+    // console.log("Data: ", data);
 
      const url = "https://teaching-load-api.onrender.com/api/login";
 
@@ -51,7 +55,10 @@ const Form = () => {
        }
        if (response.data.login === true) {
          successNotification("You have logged in successfully");
-         setUser(response.data.user); // setting the user using zustand
+         setUser1(response.data.user); // setting the user using zustand
+         dispatch(setUser(response.data.user))
+
+        //  console.log("Login response: ", response.data.user)
          localStorage.setItem(
            "access_token",
            JSON.stringify(response.data.access_token)

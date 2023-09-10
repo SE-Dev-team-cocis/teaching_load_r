@@ -6,25 +6,24 @@ import {
   BsChevronDown,
   BsPlusCircle,
   BsCardChecklist,
-  
 } from "react-icons/bs";
 import { RxDashboard } from "react-icons/rx";
 import Image from "../../assets/images/person_holder.png";
-import useUserstore from "../../zustand/userStore";
 import { useEffect, useMemo, useState } from "react";
 
+import { useAppSelector } from "../../store/hooks";
+
 const Sidebar = () => {
+  const user = useAppSelector((state) => state.user.user);
   const route = window.location.pathname;
-  const user = useUserstore((state) => state.user);
+  // const user = useUserstore((state) => state.user);
   const [open, setOpen] = useState(false);
 
   useMemo(() => {
     if (route === "/teaching-load/new") {
       setOpen(true);
     }
- }, [route])
-
-
+  }, [route]);
 
   return (
     <div className="bg-white h-screen rounded-sm pt-5 sidebar">

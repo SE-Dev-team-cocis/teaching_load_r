@@ -2,10 +2,15 @@ import MukLogo from "../assets/images/muk_logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import useUserstore from "../zustand/userStore";
 import { BsEscape } from "react-icons/bs";
+import { useAppSelector } from "../store/hooks";
 
 const NavBar = () => {
+
+  const user = useAppSelector(state=> state.user.user)
+
+  // console.log("My user: ", myUser)
   const navigate = useNavigate();
-  const user = useUserstore((state) => state.user);
+  // const user = useUserstore((state) => state.user);
 
   function handleDelete() {
     localStorage.clear();
