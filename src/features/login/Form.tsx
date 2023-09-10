@@ -60,8 +60,8 @@ const Form = () => {
         );
         navigate("/teaching-load");
       }
-    } catch (err) {
-      errorNotification("Cannot connect to the server. Try again later!");
+    } catch (error: any) {
+      errorNotification(error.response);
     }
   };
 

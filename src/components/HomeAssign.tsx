@@ -10,10 +10,10 @@ import { successNotification } from "./utilities/toastify/Toastify";
 import { useAppSelector } from "../store/hooks";
 
 export default function HomeAssign() {
-  const staff = useAppSelector((state) => state.staff.staff);
+  const courses = useAppSelector((state) => state.courses.course);
   const userId = useAppSelector((state) => state.user.user.id);
 
-  // console.log("RTL staff: ", staff);
+  console.log("RTL courses: ", courses);
 
   const modalRef = useRef<HTMLDialogElement>(null);
 

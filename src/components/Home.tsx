@@ -6,6 +6,7 @@ import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useAppDispatch } from "../store/hooks";
 import { setLoad } from "../features/load/loadSlice";
 import { setStaff } from "../features/load/staff/staffSlice";
+import { setNewCourses } from "../features/courses/courseSlice";
 
 export default function Home() {
 
@@ -13,9 +14,9 @@ export default function Home() {
   const dispatch = useAppDispatch()
 
 
-  const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
-  const setCourses = useNewLoadStore21((state) => state.setCourses);
-  const setLecturers = useNewLoadStore21((state) => state.setLecturers);
+  const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad); //done
+  const setCourses = useNewLoadStore21((state) => state.setCourses); //done
+  const setLecturers = useNewLoadStore21((state) => state.setLecturers); //done
   const setDepartments = useNewLoadStore21((state) => state.setDepartments);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const setCentralDashboard = useNewLoadStore21((state) => state.setCentralDashboard);
@@ -40,7 +41,8 @@ export default function Home() {
   if (loadedCourses) {
     myCourses = courses;
   }
-
+  
+  console.log("courses: ", myCourses)
   // Fetching lecturers
   const { data: lecturers, isSuccess: loadedLecturers } = useQuery({
     queryKey: ["lecturers"],
@@ -51,7 +53,6 @@ export default function Home() {
   if (loadedLecturers) {
     myLecturers = lecturers;
   }
-  console.log("lecturers: ", myLecturers)
 
   // Fetching all load
   const { data: loads } = useQuery({
@@ -98,14 +99,16 @@ export default function Home() {
   useMemo(() => {
     setLecturerLoad(loads);
 
+    //RTK
     dispatch(setLoad(loads))
     dispatch(setStaff(myLecturers));
+    dispatch(setNewCourses(myCourses))
 
-    setCourses(myCourses);
-    setLecturers(myLecturers);
+    setCourses(myCourses); //done
+    setLecturers(myLecturers); //done
     setCheckedCourses([]);
     setCheckedSemesterList([]);
-    setCheckedLecturers([]);
+    setCheckedLecturers([]); //done
     setDepartments(depts)
     setSemesterList(semList);
     setCentralDashboard(central)

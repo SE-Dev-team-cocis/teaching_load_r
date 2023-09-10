@@ -5,6 +5,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { successNotification } from "../utilities/toastify/Toastify";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setNewCourses } from "../../features/courses/courseSlice";
 
 type Course = {
   id: number;
@@ -15,19 +17,21 @@ type Course = {
 };
 
 const SemesterCourses = () => {
-  const navigate = useNavigate();
-  const user = useUserstore((state) => state.user);
-  const staff_id = user.id;
+  //RTK
+  const myUserID = useAppSelector((state) => state.user.user.id);
+  const courses = useAppSelector((state) => state.courses.course);
+  const dispatch = useAppDispatch();
 
-  const allcourses = useNewLoadStore21((state) => state.allCourses);
-  const lecturers = useNewLoadStore21((state) => state.lecturers);
+
+  // console.log("RTK courses: ", courses)
+
+  const navigate = useNavigate();
+  // const user = useUserstore((state) => state.user);
+  // const staff_id = user.id;
 
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
-  const setLecturers = useNewLoadStore21((state) => state.setLecturers);
-  const setCheckedLecturers = useNewLoadStore21(
-    (state) => state.setCheckedLecturers
-  );
+
 
   const setCourses = useNewLoadStore21((state) => state.setCourses);
 
@@ -38,11 +42,13 @@ const SemesterCourses = () => {
   const [creating, setCreating] = useState(false);
 
   function handleCheckedCourses(id: number) {
-    const updatedCourses: Course[] = allcourses.map((course: Course) =>
+    // const updatedCourses: Course[] = allcourses.map((course: Course) =>
+    const updatedCourses: Course[] = courses.map((course: Course) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
 
     setCourses(updatedCourses);
+    dispatch(setNewCourses(updatedCourses));
 
     const checkedOnes: Course[] = updatedCourses.filter((course) => {
       return course.isChecked === true;
@@ -53,7 +59,9 @@ const SemesterCourses = () => {
   async function handleSemesterCourses() {
     const data = checkedCourses.map((checked) => {
       return {
-        staff_id: staff_id,
+        // staff_id: staff_id,
+        staff_id: myUserID,
+
         course_id: checked.id,
         semester: 1,
       };
@@ -75,8 +83,6 @@ const SemesterCourses = () => {
         }
       );
 
-      // console.log("Response: ", response.data)
-      // console.log(response.data?.semesterlist);
       const mylist = response.data?.semesterlist;
       let theArray: any[] = [];
       const newlist: any[] = mylist?.map((item: any) => {
@@ -85,18 +91,17 @@ const SemesterCourses = () => {
 
       setSemesterList(theArray);
       setCheckedCourses([]);
-      setCheckedLecturers([]);
 
       // setCourses(allcourses)
-      setCourses(
-        allcourses.map((course: Course) => {
-          return { ...course, isChecked: false };
-        })
-      );
-      setLecturers(
-        lecturers.map((lecturer: any) => {
-          return { ...lecturer, isChecked: false };
-        })
+      // setCourses(
+      //   allcourses.map((course: Course) => {
+
+      dispatch(
+        setNewCourses(
+          courses.map((course: Course) => {
+            return { ...course, isChecked: false };
+          })
+        )
       );
       setCreating(false);
       successNotification(response.data.message);
@@ -146,7 +151,8 @@ const SemesterCourses = () => {
       </div>
 
       <div className="course_list">
-        {allcourses
+        {/* {allcourses */}
+        {courses
           ?.filter((courseUnit: any) => {
             return filterText.toLowerCase() === ""
               ? courseUnit
