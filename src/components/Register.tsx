@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import MukLogo from "../assets/images/muk_logo.png";
 import TextField from "./utilities/TextField";
 
-import { RegisterationSchema } from "./YupSchemas/schema";
+// import { RegisterationSchema } from "./YupSchemas/schema";
 import useUserstore from "../zustand/userStore";
 import {
   successNotification,
@@ -108,7 +108,7 @@ const Register = () => {
           errorNotification("Invalid credentials");
         }
       },
-      validationSchema: RegisterationSchema,
+      // validationSchema: RegisterationSchema,
     });
   return (
     <div className="register_form border-2 border-green-700 rounded-lg px-5">
