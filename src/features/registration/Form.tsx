@@ -6,8 +6,13 @@ import {
   RegistrationSchemaType,
 } from "../../components/zod/schemas/Schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAppDispatch } from "../../store/hooks";
+import { errorNotification, successNotification } from "../../utils/Toastify";
+import { setUser } from "../user/userSlice";
+import { useState } from "react";
 
 const Form = () => {
+  const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -16,6 +21,7 @@ const Form = () => {
     resolver: zodResolver(RegistrationSchema),
   });
 
+  const [message, setMessage] = useState<string>("")
   const navigate = useNavigate();
 
   const departmentOptions: string[] = [
@@ -24,8 +30,50 @@ const Form = () => {
     "Computer Science",
   ];
 
-  const handleRegistration = (data: RegistrationSchemaType) => {
+  const handleRegistration =  async (data: RegistrationSchemaType) => {
     console.log("Data: ", data);
+      const url = "https://teaching-load-api.onrender.com/api/register";
+      try {
+        // setRegistering(true);
+        const response = await axios.post(
+          url,
+          { password_confirmation : data.confirmPassword, ...data},
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+      // console.log("Response: ", response.data)
+      // setMessage(response.data?.message)
+
+        if (response.data.register === true) {
+          localStorage.clear();
+
+          localStorage.setItem(
+            "token",
+            JSON.stringify(response.data.access_token)
+          );
+          successNotification("You have registered successfully");
+          dispatch(setUser(response.data?.user));
+          navigate("/teaching-load");
+          // setRegistering(false);
+        }
+        if (response.data.register !== true) {
+          setMessage(response.data.message)
+          errorNotification(
+            response.data.message + ". If you are this user, Login instead"
+          );
+          return;
+        }
+      } catch (err) {
+        
+        errorNotification(message);
+        // console.error(err)
+      }
+ 
+ 
   };
 
 //   console.log("Errors: ", errors);
