@@ -3,8 +3,15 @@ import { Course, Department, Lecturer, SemesterList, fetchCentralDashboardDataNe
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
+import { useAppDispatch } from "../store/hooks";
+import { setLoad } from "../features/load/loadSlice";
+import { setStaff } from "../features/load/staff/staffSlice";
 
 export default function Home() {
+
+  //RTK
+  const dispatch = useAppDispatch()
+
 
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const setCourses = useNewLoadStore21((state) => state.setCourses);
@@ -44,6 +51,7 @@ export default function Home() {
   if (loadedLecturers) {
     myLecturers = lecturers;
   }
+  console.log("lecturers: ", myLecturers)
 
   // Fetching all load
   const { data: loads } = useQuery({
@@ -51,7 +59,6 @@ export default function Home() {
     queryFn: fetchLoad,
   });
 
-  console.log("Load: ", loads)
 
   // Fetchign semester list
   const {
@@ -90,6 +97,10 @@ export default function Home() {
 
   useMemo(() => {
     setLecturerLoad(loads);
+
+    dispatch(setLoad(loads))
+    dispatch(setStaff(myLecturers));
+
     setCourses(myCourses);
     setLecturers(myLecturers);
     setCheckedCourses([]);

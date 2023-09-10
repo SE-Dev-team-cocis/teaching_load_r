@@ -7,10 +7,17 @@ import axios from "axios";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useRef, useState } from "react";
 import { successNotification } from "./utilities/toastify/Toastify";
+import { useAppSelector } from "../store/hooks";
 
 export default function HomeAssign() {
+  const staff = useAppSelector((state) => state.staff.staff);
+  const userId = useAppSelector((state) => state.user.user.id);
+
+  // console.log("RTL staff: ", staff);
+
   const modalRef = useRef<HTMLDialogElement>(null);
-  const { id } = useUserstore((state) => state.user);
+
+  // const { id } = useUserstore((state) => state.user);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const setCentralDashboard = useNewLoadStore21(
@@ -20,7 +27,9 @@ export default function HomeAssign() {
 
   const deleteAllLoad = async () => {
     setDeleting(true);
-    const assignee_id: number = id;
+    // const assignee_id: number = id;
+    const assignee_id: number = userId;
+
     const semester: number = 1;
 
     const data = {

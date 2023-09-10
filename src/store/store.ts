@@ -1,5 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import UserReducer from "../features/user/userSlice"
+import LoadSlice from "../features/load/loadSlice";
+import StaffSlice from "../features/load/staff/staffSlice";
 import storage from "redux-persist/lib/storage";
 import {persistReducer, FLUSH, PERSIST, PAUSE, REGISTER, REHYDRATE, PURGE} from 'redux-persist'
 
@@ -13,6 +15,8 @@ const persistConfiguration = {
 
 const reducer = combineReducers({
      user: UserReducer,
+     load: LoadSlice,
+     staff: StaffSlice,
 })
 
 const persistedReducer = persistReducer(persistConfiguration, reducer)

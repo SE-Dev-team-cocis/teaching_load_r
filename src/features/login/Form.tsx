@@ -1,29 +1,25 @@
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { BsEye, BsEyeSlash, BsSlash } from "react-icons/bs";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-import {
-    LoginSchema,
-    LoginSchemaType,
-} from "../../components/zod/schemas/Schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { errorNotification, successNotification } from "../../utils/Toastify";
 import useUserstore from "../../zustand/userStore";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUser } from "../user/userSlice";
+import { LoginSchema, LoginSchemaType } from "../zod/schemas/Schemas";
 
 const Form = () => {
-    const navigate = useNavigate()
-    const [visible, setVisible] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const [visible, setVisible] = useState<boolean>(true);
   const [inputType, setInputType] = useState<string>("password");
-    const setUser1 = useUserstore((state) => state.setUser);
+  const setUser1 = useUserstore((state) => state.setUser);
 
-    const dispatch = useAppDispatch(); // for redux toolkit
+  const dispatch = useAppDispatch(); // for redux toolkit
 
-    const loggedOut = localStorage.getItem("logged_out");
-
+  const loggedOut = localStorage.getItem("logged_out");
 
   const {
     register,
@@ -33,57 +29,52 @@ const Form = () => {
     resolver: zodResolver(LoginSchema),
   });
 
-
   const handleLogin = async (data: LoginSchemaType) => {
     // console.log("Data: ", data);
 
-     const url = "https://teaching-load-api.onrender.com/api/login";
+    const url = "https://teaching-load-api.onrender.com/api/login";
 
-     try {
-       const response = await axios.post(
-         url,
-        data,
-         {
-           headers: {
-             "Content-Type": "application/json",
-           },
-         }
-       );
-       if (response.data.login === false) {
-         errorNotification(response.data.message);
-         return;
-       }
-       if (response.data.login === true) {
-         successNotification("You have logged in successfully");
-         setUser1(response.data.user); // setting the user using zustand
-         dispatch(setUser(response.data.user))
+    try {
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.data.login === false) {
+        errorNotification(response.data.message);
+        return;
+      }
+      if (response.data.login === true) {
+        successNotification("You have logged in successfully");
+        setUser1(response.data.user); // setting the user using zustand
+        dispatch(setUser(response.data.user));
 
         //  console.log("Login response: ", response.data.user)
-         localStorage.setItem(
-           "access_token",
-           JSON.stringify(response.data.access_token)
-         );
-         localStorage.setItem(
-           "loggedd_in", // setting the logged_in using zustand
-           JSON.stringify(response.data.login)
-         );
-         navigate("/teaching-load");
-       }
-     } catch (err) {
-       errorNotification("Invalid login credentials. Try again!");
-     }
+        localStorage.setItem(
+          "access_token",
+          JSON.stringify(response.data.access_token)
+        );
+        localStorage.setItem(
+          "loggedd_in", // setting the logged_in using zustand
+          JSON.stringify(response.data.login)
+        );
+        navigate("/teaching-load");
+      }
+    } catch (err) {
+      errorNotification("Cannot connect to the server. Try again later!");
+    }
   };
 
-  function handleToggle(){
-      setVisible((prev) => !prev);
-      if (visible) {
-        setInputType("text");
-      } else {
-        setInputType("password");
-      }
+  function handleToggle() {
+    setVisible((prev) => !prev);
+    if (visible) {
+      setInputType("text");
+    } else {
+      setInputType("password");
+    }
   }
 
-    // console.log("Errors: ", errors);
+  // console.log("Errors: ", errors);
 
   return (
     <form className="" onSubmit={handleSubmit(handleLogin)}>
