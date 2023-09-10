@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
-import Register from "./components/Register";
+// import Register from "./components/Register";
 import Home from "./components/Home";
 import Settings from "./components/Settings";
 import HomeAssign from "./components/HomeAssign";
@@ -10,12 +10,15 @@ import SemesterCourses from "./components/load/SemesterCourses";
 import UnassignedCourses from "./components/load/UnassignedCourses";
 import AdminLayout from "./components/backend/AdminLayout";
 import AdminHome from "./components/backend/AdminHome";
+import Register from "./features/registration/Register";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      {/* <Route path="/register" element={<Register />} /> */}
+      <Route path="/register" element={<Register/>} />
+
       <Route element={<Layout />}>
         <Route path="/teaching-load" element={<Home />} />
         <Route path="/teaching-load/new" element={<HomeAssign />} />
