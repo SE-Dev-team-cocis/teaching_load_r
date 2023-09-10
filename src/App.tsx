@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "./components/Login";
+// import Login from "./components/Login";
 // import Register from "./components/Register";
 import Home from "./components/Home";
 import Settings from "./components/Settings";
@@ -11,13 +11,15 @@ import UnassignedCourses from "./components/load/UnassignedCourses";
 import AdminLayout from "./components/backend/AdminLayout";
 import AdminHome from "./components/backend/AdminHome";
 import Register from "./features/registration/Register";
+import Login from "./features/login/Login";
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      {/* <Route path="/" element={<Login />} /> */}
       {/* <Route path="/register" element={<Register />} /> */}
-      <Route path="/register" element={<Register/>} />
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route element={<Layout />}>
         <Route path="/teaching-load" element={<Home />} />
