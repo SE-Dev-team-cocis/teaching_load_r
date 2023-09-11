@@ -86,6 +86,7 @@ const Form = () => {
         <input
           type="text"
           {...register("email")}
+          placeholder="Enter your university email address"
           className={`border-2 rounded-md p-2 outline-none w-full focus:ring-1 ${
             errors.email?.message
               ? "border-red-500 focus:ring-red-700"
@@ -103,6 +104,7 @@ const Form = () => {
         <input
           type={inputType}
           {...register("password")}
+          placeholder="Enter your password"
           className={`border-2 rounded-md p-2 outline-none w-full focus:ring-1 ${
             errors.password?.message
               ? "border-red-500 focus:ring-red-700"

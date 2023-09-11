@@ -61,13 +61,13 @@ const SemesterCourses = () => {
       return {
         // staff_id: staff_id,
         staff_id: myUserID,
-
         course_id: checked.id,
         semester: 1,
       };
     });
 
     // console.log("Data: ", data);
+    // 
 
     const url =
       "https://teaching-load-api.onrender.com/api/semesterlist/create";

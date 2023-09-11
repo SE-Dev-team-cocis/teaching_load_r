@@ -18,11 +18,13 @@ export type CourseType = {
 
 
 type InitialStateType = {
-    course: CourseType[]
+    course: CourseType[],
+    semList: CourseType[]
 }
 
 const initialState: InitialStateType = {
-    course: []
+    course: [],
+    semList: []
 }
 export const courseSlice = createSlice({
     name: "courses",
@@ -31,6 +33,10 @@ export const courseSlice = createSlice({
         setNewCourses: (state, action:PayloadAction<CourseType[]> ) =>{
             const data = action.payload
             state.course = data
+        },
+        setNewSemesterList: (state, action:PayloadAction<CourseType[]> ) =>{
+            const data = action.payload
+            state.semList = data
         }
     }
 })
@@ -38,5 +44,5 @@ export const courseSlice = createSlice({
 
 // console.log("User: ", userSlice)
 
-export const { setNewCourses } = courseSlice.actions
+export const { setNewCourses, setNewSemesterList } = courseSlice.actions
 export default courseSlice.reducer

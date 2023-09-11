@@ -6,7 +6,7 @@ import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useAppDispatch } from "../store/hooks";
 import { setLoad } from "../features/load/loadSlice";
 import { setStaff } from "../features/load/staff/staffSlice";
-import { setNewCourses } from "../features/courses/courseSlice";
+import { setNewCourses, setNewSemesterList } from "../features/courses/courseSlice";
 
 export default function Home() {
 
@@ -42,7 +42,6 @@ export default function Home() {
     myCourses = courses;
   }
   
-  console.log("courses: ", myCourses)
   // Fetching lecturers
   const { data: lecturers, isSuccess: loadedLecturers } = useQuery({
     queryKey: ["lecturers"],
@@ -74,17 +73,18 @@ export default function Home() {
   if (loadedLecturers) {
     semList = semesterList;
   }
-
+  console.log("semester list: ", semList)
+  
   // Fetching departments
   const {
     data: departments,
     isSuccess: loadedDepartments,
-
+    
   } = useQuery({
     queryKey: ["departments"],
     queryFn: fetchDepartments,
   });
-
+  
   let depts: Department[] = [];
   if (loadedDepartments) {
     depts = departments;
@@ -103,6 +103,7 @@ export default function Home() {
     dispatch(setLoad(loads))
     dispatch(setStaff(myLecturers));
     dispatch(setNewCourses(myCourses))
+    dispatch(setNewSemesterList(semList))
 
     setCourses(myCourses); //done
     setLecturers(myLecturers); //done

@@ -3,6 +3,11 @@ import { ChangeEvent } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 // import useUserstore from "../../zustand/userStore";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+  CourseType,
+  setNewSemesterList,
+} from "../../features/courses/courseSlice";
 
 type Subgroup = {
   id: number;
@@ -25,31 +30,29 @@ type Course = {
 // };
 
 const Courses = () => {
-  // const userDepartment = useUserstore((state) => state.user.department);
-
-  // console.log("user: ", userDepartment);
+  //RTK
+  const dispatch = useAppDispatch();
+  const semList = useAppSelector((state) => state.courses.semList);
+  console.log("RTK semester list: ", semList);
 
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
-  // const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
-  // const allCourses = useNewLoadStore21((state) => state.allCourses);
 
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const semesterList = useNewLoadStore21((state) => state.semesterList);
-  // const setCheckedSemesterList = useNewLoadStore21(
-  //   (state) => state.setCheckedSemesterList
-  // );
 
   function handleCheckedCourses(id: number) {
-    const updatedCourses: Course[] = semesterList.map((course: Course) =>
+    // const updatedCourses: Course[] = semesterList.map((course: Course) =>
+    const updatedCourses: CourseType[] = semList.map((course: CourseType) =>
       course.id === id ? { ...course, isChecked: !course.isChecked } : course
     );
 
-    // setSemesterList(updatedCourses);
-    setSemesterList(updatedCourses);
+    dispatch(setNewSemesterList(updatedCourses));
 
-    const checkedOnes = updatedCourses.filter((course: Course) => {
+    setSemesterList(updatedCourses);
+    // const checkedOnes = updatedCourses.filter((course: Course) => {
+    const checkedOnes = updatedCourses.filter((course: CourseType) => {
       return course.isChecked === true;
     });
 
@@ -59,7 +62,8 @@ const Courses = () => {
   return (
     <div className="card p-3 bg-white ml-3 rounded-lg ">
       <p className="text-xl font-semibold">Courses</p>
-      {semesterList.length > 1 ? (
+      {/* {semesterList.length > 1 ? ( */}
+      {semList.length > 1 ? (
         <>
           <input
             type="text"
@@ -85,15 +89,19 @@ const Courses = () => {
         ""
       )}
       <div className="list">
-        {/* {allCourses */}
-        {semesterList.length > 1 ? (
-          semesterList
+        {/*     
+            {semesterList.length > 1 ? (
+        semesterList */}
+        {semList.length > 1 ? (
+          semList
+
             ?.filter((courseUnit: any) => {
               return filterText.toLowerCase() === ""
                 ? courseUnit
                 : courseUnit.course_name.toLowerCase().includes(filterText);
             })
-            .map((courseUnit: Course, index: number) => (
+            // .map((courseUnit: Course, index: number) => (
+            .map((courseUnit: CourseType, index: number) => (
               <div key={index} className="flex flex-col">
                 <div>
                   <input
@@ -117,7 +125,7 @@ const Courses = () => {
                             type="checkbox"
                             className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
                             name="subgroups[]"
-                            checked={group.isChecked}
+                            // checked={group?.isChecked}
                             value={group.id}
                             // onChange={() => handleCheckedCourses(courseUnit.id)}
                           />
