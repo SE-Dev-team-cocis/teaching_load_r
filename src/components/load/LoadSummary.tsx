@@ -5,8 +5,19 @@ import { Load} from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { successNotification } from "../utilities/toastify/Toastify";
 import { useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setLoad } from "../../features/load/loadSlice";
 
 const LoadSummary = () => {
+  //RTK
+  const rtKLoad = useAppSelector(state => state.load.load)
+  const staff = useAppSelector((state) => state.staff.staff);
+  const dispatch = useAppDispatch()
+
+
+  console.log("RTK load: ", rtKLoad)
+
+
   const deleteLoadRef = useRef<HTMLDialogElement>(null)
   const [deleting, setDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState(0)
@@ -21,14 +32,17 @@ const LoadSummary = () => {
   const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
 
-  const newtotalLoad = lecturerLoad?.map((load: Load) => {
+  // const newtotalLoad = lecturerLoad?.map((load: Load) => {
+  const newtotalLoad = rtKLoad?.map((load: Load) => {
     return {
       total: load.CUs.reduce((a: number, b: number) => a + b, 0),
       // total: load.total,
 
       id: load.id,
       staffId: load.staff_id,
-      staffName: allLecturers?.find((lecturer) => {
+      // staffName: allLecturers?.find((lecturer) => {
+      staffName: staff?.find((lecturer) => {
+
         if (lecturer.id === load.staff_id) {
           return `${lecturer.firstName} ${lecturer.lastName}`;
         }
@@ -56,6 +70,10 @@ const LoadSummary = () => {
         successNotification("Load deleted successfully");
         setCentralDashboard(response.data?.others)
         setLecturerLoad(response.data?.assignments.assignments);
+        
+        //RTK
+        dispatch(setLoad(response.data?.assignments.assignments));
+
         closeModal()
       }
     } catch (error) {

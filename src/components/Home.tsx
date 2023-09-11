@@ -1,25 +1,40 @@
 import { Link } from "react-router-dom";
-import { Course, Department, Lecturer, SemesterList, fetchCentralDashboardDataNew, fetchCourses, fetchDepartments, fetchLecturers, fetchLoad, fetchSemesterList } from "../zustand/api/apis";
+import {
+  Course,
+  Department,
+  Lecturer,
+  SemesterList,
+  fetchCentralDashboardDataNew,
+  fetchCourses,
+  fetchDepartments,
+  fetchLecturers,
+  fetchLoad,
+  fetchSemesterList,
+} from "../zustand/api/apis";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useAppDispatch } from "../store/hooks";
 import { setLoad } from "../features/load/loadSlice";
 import { setStaff } from "../features/load/staff/staffSlice";
-import { setNewCourses, setNewSemesterList } from "../features/courses/courseSlice";
+import {
+  SemesterListType,
+  setNewCourses,
+  setNewSemesterList,
+} from "../features/courses/courseSlice";
 
 export default function Home() {
-
   //RTK
-  const dispatch = useAppDispatch()
-
+  const dispatch = useAppDispatch();
 
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad); //done
   const setCourses = useNewLoadStore21((state) => state.setCourses); //done
   const setLecturers = useNewLoadStore21((state) => state.setLecturers); //done
   const setDepartments = useNewLoadStore21((state) => state.setDepartments);
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
-  const setCentralDashboard = useNewLoadStore21((state) => state.setCentralDashboard);
+  const setCentralDashboard = useNewLoadStore21(
+    (state) => state.setCentralDashboard
+  );
 
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
@@ -41,7 +56,7 @@ export default function Home() {
   if (loadedCourses) {
     myCourses = courses;
   }
-  
+
   // Fetching lecturers
   const { data: lecturers, isSuccess: loadedLecturers } = useQuery({
     queryKey: ["lecturers"],
@@ -59,64 +74,56 @@ export default function Home() {
     queryFn: fetchLoad,
   });
 
-
   // Fetchign semester list
-  const {
-    data: semesterList,
-    isLoading,
-  } = useQuery({
+  const { data: semesterList, isLoading } = useQuery({
     queryKey: ["semesterlist"],
     queryFn: fetchSemesterList,
   });
 
-  let semList: SemesterList[] = [];
+  // let semList: SemesterList[] = [];
+  let semList: SemesterListType[] = [];
+
   if (loadedLecturers) {
     semList = semesterList;
   }
-  console.log("semester list: ", semList)
-  
+  // console.log("semester list: ", semList)
+
   // Fetching departments
-  const {
-    data: departments,
-    isSuccess: loadedDepartments,
-    
-  } = useQuery({
+  const { data: departments, isSuccess: loadedDepartments } = useQuery({
     queryKey: ["departments"],
     queryFn: fetchDepartments,
   });
-  
+
   let depts: Department[] = [];
   if (loadedDepartments) {
     depts = departments;
   }
 
-  const {data: central} = useQuery({
+  const { data: central } = useQuery({
     queryKey: ["central"],
-    queryFn: fetchCentralDashboardDataNew
-  })
-
+    queryFn: fetchCentralDashboardDataNew,
+  });
 
   useMemo(() => {
     setLecturerLoad(loads);
 
     //RTK
-    dispatch(setLoad(loads))
+    dispatch(setLoad(loads));
     dispatch(setStaff(myLecturers));
-    dispatch(setNewCourses(myCourses))
-    dispatch(setNewSemesterList(semList))
+    dispatch(setNewCourses(myCourses));
+    dispatch(setNewSemesterList(semList));
 
     setCourses(myCourses); //done
     setLecturers(myLecturers); //done
     setCheckedCourses([]);
     setCheckedSemesterList([]);
     setCheckedLecturers([]); //done
-    setDepartments(depts)
+    setDepartments(depts);
     setSemesterList(semList);
-    setCentralDashboard(central)
-    
+    setCentralDashboard(central);
+
     // fetchCentralDashboardData()
   }, [loads, myCourses, myLecturers, semList, depts, central]);
-  
 
   if (isLoading) {
     return (

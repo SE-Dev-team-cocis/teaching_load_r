@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { successNotification } from "../utilities/toastify/Toastify";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setNewCourses } from "../../features/courses/courseSlice";
+import { setNewCourses, setNewSemesterList } from "../../features/courses/courseSlice";
 
 type Course = {
   id: number;
@@ -89,6 +89,8 @@ const SemesterCourses = () => {
         theArray.push(item.course);
       });
 
+      // console.log("Semester list response: ", mylist);
+
       setSemesterList(theArray);
       setCheckedCourses([]);
 
@@ -99,6 +101,14 @@ const SemesterCourses = () => {
       dispatch(
         setNewCourses(
           courses.map((course: Course) => {
+            return { ...course, isChecked: false };
+          })
+        )
+      );
+
+      dispatch(
+        setNewSemesterList(
+          mylist.map((course: Course) => {
             return { ...course, isChecked: false };
           })
         )

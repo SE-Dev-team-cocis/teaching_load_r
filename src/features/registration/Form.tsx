@@ -3,20 +3,22 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "../../store/hooks";
 import { errorNotification, successNotification } from "../../utils/Toastify";
 import { setUser } from "../user/userSlice";
 import { useState } from "react";
-import { RegistrationSchema, RegistrationSchemaType } from "../zod/schemas/Schemas";
+import {
+  RegistrationSchema,
+  RegistrationSchemaType,
+} from "../zod/schemas/Schemas";
 
 const Form = () => {
   const navigate = useNavigate();
   //RTK
   const dispatch = useAppDispatch();
 
-  // React hook form 
+  // React hook form
   const {
     register,
     handleSubmit,
@@ -25,34 +27,31 @@ const Form = () => {
     resolver: zodResolver(RegistrationSchema),
   });
 
-  
-
   // showing password
-    const [visible, setVisible] = useState<boolean>(true);
-    const [inputType, setInputType] = useState<string>("password");
-    const [visible1, setVisible1] = useState<boolean>(true);
-    const [inputType1, setInputType1] = useState<string>("password");
+  const [visible, setVisible] = useState<boolean>(true);
+  const [inputType, setInputType] = useState<string>("password");
+  const [visible1, setVisible1] = useState<boolean>(true);
+  const [inputType1, setInputType1] = useState<string>("password");
 
-    function handleToggle() { 
-      setVisible((prev) => !prev);
-      if ((visible && inputType === "password")) {
-        setInputType("text");
-      } else {
-        // setVisible((prev) => !prev);
-        setInputType("password");
-      }
+  function handleToggle() {
+    setVisible((prev) => !prev);
+    if (visible && inputType === "password") {
+      setInputType("text");
+    } else {
+      // setVisible((prev) => !prev);
+      setInputType("password");
     }
+  }
 
-    function handleToggle1() {
-      setVisible1((prev) => !prev);
-      if (visible1 && inputType1 === "password") {
-        setInputType1("text");
-      } else {
-        // setVisible((prev) => !prev);
-        setInputType1("password");
-      }
+  function handleToggle1() {
+    setVisible1((prev) => !prev);
+    if (visible1 && inputType1 === "password") {
+      setInputType1("text");
+    } else {
+      // setVisible((prev) => !prev);
+      setInputType1("password");
     }
-
+  }
 
   const departmentOptions: string[] = [
     "Networks",
@@ -74,18 +73,6 @@ const Form = () => {
         }
       );
 
-      if (response.data.register === true) {
-        localStorage.clear();
-
-        localStorage.setItem(
-          "token",
-          JSON.stringify(response.data.access_token)
-        );
-        successNotification("You have registered successfully");
-        dispatch(setUser(response.data?.user));
-        navigate("/teaching-load");
-        // setRegistering(false);
-      }
       if (response.data.register !== true) {
         // setMessage(response.data.message);
         errorNotification(
@@ -93,8 +80,17 @@ const Form = () => {
         );
         return;
       }
+      // if (response.data.register === true) {
+      localStorage.clear();
+
+      localStorage.setItem("token", JSON.stringify(response.data.access_token));
+      successNotification("You have registered successfully");
+      dispatch(setUser(response.data?.user));
+      navigate("/teaching-load");
+      // setRegistering(false);
+      // }
     } catch (err) {
-          errorNotification("Cannot connect to the server. Try again later!");
+      errorNotification("Cannot connect to the server. Try again later!");
 
       // console.error(err)
     }

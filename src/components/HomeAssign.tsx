@@ -13,7 +13,7 @@ export default function HomeAssign() {
   const courses = useAppSelector((state) => state.courses.course);
   const userId = useAppSelector((state) => state.user.user.id);
 
-  console.log("RTL courses: ", courses);
+  // console.log("RTL courses: ", courses);
 
   const modalRef = useRef<HTMLDialogElement>(null);
 

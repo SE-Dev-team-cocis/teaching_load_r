@@ -16,7 +16,7 @@ const Lecturers = () => {
   const staff = useAppSelector(state => state.staff.staff)
   const dispatch = useAppDispatch()
 
-console.log("RTK staff", staff)
+// console.log("RTK staff", staff)
 
 
 

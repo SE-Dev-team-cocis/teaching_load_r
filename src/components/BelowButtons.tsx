@@ -11,6 +11,13 @@ import {
   errorNotification,
 } from "./utilities/toastify/Toastify";
 import { fetchCentralDashboardData } from "../functions/Functions";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setLoad } from "../features/load/loadSlice";
+import {
+  SemesterListType,
+  setNewSemesterList,
+} from "../features/courses/courseSlice";
+import { StaffType, setStaff } from "../features/load/staff/staffSlice";
 
 type AssignLoad = {
   courses: string;
@@ -26,6 +33,13 @@ type ButtonProps = {
 };
 
 const BelowButtons = ({ broadcast }: ButtonProps) => {
+  // RTK
+  const dispatch = useAppDispatch();
+  const semList = useAppSelector((state) => state.courses.semList);
+  const staff = useAppSelector((state) => state.staff.staff);
+
+  console.log("RTK sem list in assign: ", semList);
+
   const navigate = useNavigate();
   // const queryClient = new QueryClient();
   const { id } = useUserstore((state) => state.user);
@@ -61,28 +75,52 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     lect.isChecked === true ? lect.id : null
   );
 
+  //RTK refactoring
+  const newCheckedStaff = staff?.find((lect) =>
+    lect.isChecked === true ? lect.id : null
+  );
+
+  const newCheckedCourses = semList
+    .map((course: SemesterListType) => {
+      if (course.isChecked === true) {
+        return course;
+      }
+    })
+    .filter((course) => course !== undefined);
+
+  // console.log("New checked staff: ", newCheckedStaff);
+  // console.log("New checked courses: ", newCheckedCourses);
+
   const myid: any = checkedLecturer?.id;
+
+  const lecturerId: any = newCheckedStaff?.id;
+
   const [assigning, setAssigning] = useState(false);
   const [broadcasting, setBroadcasting] = useState(false);
 
   // Function to assign courses
   const assignCourses = async () => {
-    checkedCourses.forEach((course) => {
-      courseNames.push(course.course_name);
-      courseCreditUnits.push(+course.course_cus); // convert to number by adding a + sign
+    // checkedCourses.forEach((course) => {
+    //   courseNames.push(course.course_name);
+    //   courseCreditUnits.push(+course.course_cus); // convert to number by adding a + sign
+    // });
+
+    newCheckedCourses?.forEach((course: any) => {
+      courseNames.push(course.course.course_name);
+      courseCreditUnits.push(+course.course.course_cus); // convert to number by adding a + sign
     });
 
     // Object which stores the post data
     const data: AssignLoad = {
       courses: JSON.stringify(courseNames),
-      // courses: courseNames,
+      // staff_id: myid,
+      staff_id: lecturerId,
 
-      staff_id: myid,
       CUs: JSON.stringify(courseCreditUnits),
       assignee_id: id,
     };
 
-    // console.log("Assigned load: ", data)
+    // console.log("Assigned load: ", data);
 
     const url = "https://teaching-load-api.onrender.com/api/assign";
     try {
@@ -94,52 +132,36 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
         },
       });
       const status = response.data.status;
-      console.log("Status: ", status);
+      // // console.log("Status: ", status);
 
-      if (!status) {
+    console.log("Response: ", response.data);
+
+
+      if (status === false) {
         errorNotification(response.data?.message);
         // console.log("Response on already assigned: ", response.data.load.assignments);
-        setLecturerLoad(response.data?.load?.assignments);
+        // setLecturerLoad(response.data?.load?.assignments);
+        setLecturerLoad(response.data?.assignments?.assignments);
+
+        dispatch(setLoad(response.data.assignments?.assignments));
         reset();
+        return
       }
 
-      const load = response;
+      // const load = response;
+      dispatch(setLoad(response.data.assignments?.assignments));
+      // console.log("Data: ", response.data);
 
-      console.log("Data: ", response.data)  
       // console.log("When true: ", response.data?.assignments?.assignments)
       // setLecturerLoad(response.data?.assignments?.assignments);
+      successNotification(response.data?.message);
       reset();
-      // successNotification(response.data?.message);
 
-
-
-      // if (response.data?.status === false) {
-      //   errorNotification(response.data.essage);
-      //   console.log("Response on already assigned: ", response.data);
-      //   setLecturerLoad(response.data?.load?.assignments);
-      //   reset();
-
-      //   return;
-      // } else {
-      //   reset();
-      //   setLecturerLoad(response.data?.assignments?.assignments);
-      //   successNotification(response.data?.message);
-      // }
-
-      // setCheckedLecturers([]);
-      // setCheckedCourses([]);
-      // setSemesterList(
-      //   semesterList.map((course: Course) => {
-      //     return { ...course, isChecked: false };
-      //   })
-      // );
-      // setLecturers(
-      //   lecturers.map((lecturer: Lecturer) => {
-      //     return { ...lecturer, isChecked: false };
-      //   })
-      // );
     } catch (error) {
+      setAssigning(false)
       errorNotification("Unable to assign load");
+      // errorNotification(error.response);
+
       console.error(error);
     }
 
@@ -159,6 +181,22 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       lecturers.map((lecturer: Lecturer) => {
         return { ...lecturer, isChecked: false };
       })
+    );
+
+    //RTK
+    dispatch(
+      setStaff(
+        staff.map((lecturer: StaffType) => {
+          return { ...lecturer, isChecked: false };
+        })
+      )
+    );
+    dispatch(
+      setNewSemesterList(
+        semList.map((semesterList: SemesterListType) => {
+          return { ...semesterList, isChecked: false };
+        })
+      )
     );
   };
 
@@ -195,17 +233,17 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           New Subgroup
         </button>
         <button
-          className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-50 disabled:hover:scale-100"
+          className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-80 disabled:hover:scale-100"
           type="button"
           onClick={() => assignCourses()}
           disabled={
-            checkedCourses?.length === 0 || checkedLecturer === undefined
+            (checkedCourses?.length === 0 || checkedLecturer === undefined) && assigning
           }
         >
           {assigning ? "Assigning load..." : "Assign"}
         </button>
         <button
-          className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-50"
+          className="text-white px-4 rounded py-2 bg-green-700 mt-2 hover:scale-95 disabled:opacity-80"
           type="button"
           // disabled={broadcast === false ? true : true}
           disabled={!broadcast}

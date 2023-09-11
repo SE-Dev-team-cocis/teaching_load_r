@@ -16,10 +16,20 @@ export type CourseType = {
   subgroups?: Subgroup[];
 };
 
+export type SemesterListType = {
+    course: CourseType,
+    course_id: number,
+    id: number,
+    semester: number,
+    staff_id: number,
+    isChecked: boolean
+};
+
+
 
 type InitialStateType = {
     course: CourseType[],
-    semList: CourseType[]
+    semList: SemesterListType[]
 }
 
 const initialState: InitialStateType = {
@@ -34,7 +44,7 @@ export const courseSlice = createSlice({
             const data = action.payload
             state.course = data
         },
-        setNewSemesterList: (state, action:PayloadAction<CourseType[]> ) =>{
+        setNewSemesterList: (state, action:PayloadAction<SemesterListType[]> ) =>{
             const data = action.payload
             state.semList = data
         }

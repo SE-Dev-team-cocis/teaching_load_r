@@ -33,19 +33,25 @@ const Courses = () => {
   //RTK
   const dispatch = useAppDispatch();
   const semList = useAppSelector((state) => state.courses.semList);
-  console.log("RTK semester list: ", semList);
+
+  // const newSemList = semList
+  // console.log("RTK semester list: ", semList);
 
   const setCheckedCourses = useNewLoadStore21(
     (state) => state.setCheckedCourses
   );
+
 
   const setSemesterList = useNewLoadStore21((state) => state.setSemesterList);
   const semesterList = useNewLoadStore21((state) => state.semesterList);
 
   function handleCheckedCourses(id: number) {
     // const updatedCourses: Course[] = semesterList.map((course: Course) =>
-    const updatedCourses: CourseType[] = semList.map((course: CourseType) =>
-      course.id === id ? { ...course, isChecked: !course.isChecked } : course
+    // const updatedCourses: CourseType[] = semList.map((course: CourseType) =>
+    const updatedCourses = semList.map((course: any) =>
+      // course.id === id ? { ...course, isChecked: !course.isChecked } : course
+      course.course.id === id ? { ...course, isChecked: !course.isChecked } : course
+
     );
 
     dispatch(setNewSemesterList(updatedCourses));
@@ -101,7 +107,7 @@ const Courses = () => {
                 : courseUnit.course_name.toLowerCase().includes(filterText);
             })
             // .map((courseUnit: Course, index: number) => (
-            .map((courseUnit: CourseType, index: number) => (
+            .map((courseUnit: any, index: number) => (
               <div key={index} className="flex flex-col">
                 <div>
                   <input
@@ -109,17 +115,24 @@ const Courses = () => {
                     className="mr-3 ml-2 h-4 w-4 text-green-700 border-2 focus:bg-green-700 focus:ring-green-700 rounded"
                     name="courseUnits[]"
                     checked={courseUnit.isChecked}
-                    value={courseUnit.id}
-                    onChange={() => handleCheckedCourses(courseUnit.id)}
+                    // value={courseUnit.id}
+                    // onChange={() => handleCheckedCourses(courseUnit.id)}
+                    value={courseUnit.course.id}
+                    onChange={() => handleCheckedCourses(courseUnit.course.id)}
                   />
-                  {courseUnit.course_name}
+                  {/* {courseUnit.course_name} */}
+                  {courseUnit.course.course_name}
                 </div>
-                {courseUnit.subgroups?.length === 0 ? (
+                {/* {courseUnit.subgroups?.length === 0 ? ( */}
+                {courseUnit.course.subgroups?.length === 0 ? (
+
                   ""
                 ) : (
                   <>
                     <div className="ml-5 flex flex-col">
-                      {courseUnit.subgroups?.map((group) => (
+                      {/* {courseUnit.subgroups?.map((group: any) => ( */}
+                      {courseUnit.course.subgroups?.map((group: any) => (
+
                         <div key={group.id} className="font-sm">
                           <input
                             type="checkbox"

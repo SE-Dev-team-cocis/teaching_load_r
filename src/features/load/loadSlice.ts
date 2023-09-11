@@ -43,7 +43,7 @@ export const loadSlice = createSlice({
 })
 
 
-// console.log("User: ", loadSlice)
+// console.log("RTK load 1: ", loadSlice)
 
 export const { setLoad } = loadSlice.actions
 export default loadSlice.reducer
