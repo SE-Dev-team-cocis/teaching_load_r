@@ -4,12 +4,18 @@ import TopCharts from "./charts/TopCharts";
 
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../store/hooks";
 
 const CentralDashboard = () => {
+
+  const centralDashboardData = useAppSelector((state) => state.dashboard.allData);
+
+  console.log("RTK central dashboard data: ", centralDashboardData)
+
   const centralDashboard = useNewLoadStore21((state) => state.centralDashboard);
   const [message, setMessage] = useState();
 
-  if (centralDashboard.count) {
+  if (centralDashboard?.count) {
     console.log("We have count");
     setMessage(centralDashboard?.message);
     // return <p>{centralDashboard.message}</p>

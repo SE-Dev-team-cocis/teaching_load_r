@@ -1,8 +1,9 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import UserReducer from "../features/user/userSlice"
-import LoadSlice from "../features/load/loadSlice";
-import StaffSlice from "../features/load/staff/staffSlice";
-import CourseSlice from "../features/courses/courseSlice";
+import LoadReducer from "../features/load/loadSlice";
+import StaffReducer from "../features/load/staff/staffSlice";
+import CourseReducer from "../features/courses/courseSlice";
+import  CentralDashboardReducer  from "../features/dashboard/dashboardSlice";
 import storage from "redux-persist/lib/storage";
 import {persistReducer, FLUSH, PERSIST, PAUSE, REGISTER, REHYDRATE, PURGE} from 'redux-persist'
 
@@ -16,9 +17,10 @@ const persistConfiguration = {
 
 const reducer = combineReducers({
      user: UserReducer,
-     load: LoadSlice,
-     staff: StaffSlice,
-     courses: CourseSlice
+     load: LoadReducer,
+     staff: StaffReducer,
+     courses: CourseReducer,
+     dashboard: CentralDashboardReducer
 })
 
 const persistedReducer = persistReducer(persistConfiguration, reducer)

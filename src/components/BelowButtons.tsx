@@ -18,6 +18,7 @@ import {
   setNewSemesterList,
 } from "../features/courses/courseSlice";
 import { StaffType, setStaff } from "../features/load/staff/staffSlice";
+import { setCentralDashboardData } from "../features/dashboard/dashboardSlice";
 
 type AssignLoad = {
   courses: string;
@@ -38,7 +39,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const semList = useAppSelector((state) => state.courses.semList);
   const staff = useAppSelector((state) => state.staff.staff);
 
-  console.log("RTK sem list in assign: ", semList);
+  // console.log("RTK sem list in assign: ", semList);
 
   const navigate = useNavigate();
   // const queryClient = new QueryClient();
@@ -134,7 +135,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       const status = response.data.status;
       // // console.log("Status: ", status);
 
-    console.log("Response: ", response.data);
+    // console.log("Response: ", response.data);
 
 
       if (status === false) {
@@ -153,7 +154,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       // console.log("Data: ", response.data);
 
       // console.log("When true: ", response.data?.assignments?.assignments)
-      // setLecturerLoad(response.data?.assignments?.assignments);
+      setLecturerLoad(response.data?.assignments?.assignments);
       successNotification(response.data?.message);
       reset();
 
@@ -207,7 +208,11 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
       const response = await axios.put(url);
 
+
+      // console.log("Response: ", response.data)
+      dispatch(setCentralDashboardData(response.data.others));
       setCentralDashboard(response.data?.others);
+      
       setBroadcasting(false);
       successNotification("The assigned load has been successfully broadcast");
       navigate("/teaching-load/central");
@@ -215,6 +220,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       console.error(error);
     }
   };
+
+  
 
   return (
     <>
