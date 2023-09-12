@@ -7,10 +7,14 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../store/hooks";
 
 const CentralDashboard = () => {
+  const centralDashboardData = useAppSelector(
+    (state) => state.dashboard.allData
+  );
 
-  const centralDashboardData = useAppSelector((state) => state.dashboard.allData);
-
-  // console.log("RTK central dashboard data: ", centralDashboardData)
+  console.log(
+    "RTK central dashboard data: ",
+    centralDashboardData.department_load
+  );
 
   const centralDashboard = useNewLoadStore21((state) => state.centralDashboard);
   const [message, setMessage] = useState();
@@ -39,7 +43,7 @@ const CentralDashboard = () => {
           <div>
             <TopCharts />
             <div className="grid grid-cols-12 gap-2 px-5">
-              {centralDashboard?.department_load?.map(
+              {centralDashboardData?.department_load?.map(
                 (department: any, index: number) => (
                   <div key={index} className="col-span-3">
                     <Departments
@@ -49,6 +53,17 @@ const CentralDashboard = () => {
                   </div>
                 )
               )}
+
+              {/* {centralDashboard?.department_load?.map(
+                (department: any, index: number) => (
+                  <div key={index} className="col-span-3">
+                    <Departments
+                      department={department}
+                      staff={centralDashboard.staff}
+                    />
+                  </div>
+                )
+              )} */}
             </div>
           </div>
         )}

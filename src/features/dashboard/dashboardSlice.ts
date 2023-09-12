@@ -49,7 +49,7 @@ type UnallocatedCourses = {
 
 type CentralDashboard = {
     course_summary: CourseSummary,
-    department_load: DepartmentLoad,
+    department_load: DepartmentLoad[],
     overall_total_load: OverallTotalLoad,
     staff: StaffLoad,
     unallocated_courses: UnallocatedCourses,
