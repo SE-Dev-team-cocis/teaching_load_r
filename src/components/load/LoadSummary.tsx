@@ -15,7 +15,7 @@ const LoadSummary = () => {
   const dispatch = useAppDispatch()
 
 
-  console.log("RTK load: ", rtKLoad)
+  // console.log("RTK load: ", rtKLoad)
 
 
   const deleteLoadRef = useRef<HTMLDialogElement>(null)

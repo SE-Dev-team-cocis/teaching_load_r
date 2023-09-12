@@ -7,11 +7,16 @@ import axios from "axios";
 import useNewLoadStore21 from "../zustand/newLoadStore2";
 import { useRef, useState } from "react";
 import { successNotification } from "./utilities/toastify/Toastify";
-import { useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setLoad } from "../features/load/loadSlice";
+import { setCentralDashboardData } from "../features/dashboard/dashboardSlice";
 
 export default function HomeAssign() {
+
+  //RTK
   const courses = useAppSelector((state) => state.courses.course);
   const userId = useAppSelector((state) => state.user.user.id);
+  const dispatch = useAppDispatch()
 
   // console.log("RTL courses: ", courses);
 
@@ -40,6 +45,12 @@ export default function HomeAssign() {
     try {
       const url = `https://teaching-load-api.onrender.com/api/delete`;
       const response = await axios.delete(url, { data });
+
+      dispatch(setLoad(response.data?.assignments?.assignments))
+      dispatch(setCentralDashboardData(response.data?.others));
+
+
+
       setLecturerLoad(response.data?.assignments?.assignments);
       setCentralDashboard(response.data?.others);
       setDeleting(false);

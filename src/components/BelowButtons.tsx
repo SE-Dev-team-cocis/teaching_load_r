@@ -38,12 +38,18 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const dispatch = useAppDispatch();
   const semList = useAppSelector((state) => state.courses.semList);
   const staff = useAppSelector((state) => state.staff.staff);
+  const userId = useAppSelector(state => state.user.user.id)
 
   // console.log("RTK sem list in assign: ", semList);
 
   const navigate = useNavigate();
+
+
+
   // const queryClient = new QueryClient();
   const { id } = useUserstore((state) => state.user);
+
+
 
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   // const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
@@ -135,28 +141,30 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       const status = response.data.status;
       // // console.log("Status: ", status);
 
-    // console.log("Response: ", response.data);
+    console.log("Assignment Response: ", response.data);
 
 
       if (status === false) {
         errorNotification(response.data?.message);
         // console.log("Response on already assigned: ", response.data.load.assignments);
         // setLecturerLoad(response.data?.load?.assignments);
-        setLecturerLoad(response.data?.assignments?.assignments);
+        setLecturerLoad(response.data?.load?.assignments);
 
-        dispatch(setLoad(response.data.assignments?.assignments));
+        dispatch(setLoad(response.data.load?.assignments));
         reset();
-        return
+        // return
       }
 
-      // const load = response;
-      dispatch(setLoad(response.data.assignments?.assignments));
-      // console.log("Data: ", response.data);
+      if(status === true) {
+        // const load = response;
+        dispatch(setLoad(response.data.assignments?.assignments));
+        // console.log("Data: ", response.data);
 
-      // console.log("When true: ", response.data?.assignments?.assignments)
-      setLecturerLoad(response.data?.assignments?.assignments);
-      successNotification(response.data?.message);
-      reset();
+        // console.log("When true: ", response.data?.assignments?.assignments)
+        setLecturerLoad(response.data?.assignments?.assignments);
+        successNotification(response.data?.message);
+        reset();
+      }
 
     } catch (error) {
       setAssigning(false)
@@ -221,6 +229,9 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     }
   };
 
+
+  // console.log(semList)
+
   
 
   return (
@@ -244,7 +255,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           type="button"
           onClick={() => assignCourses()}
           disabled={
-            (checkedCourses?.length === 0 || checkedLecturer === undefined) && assigning
+            (checkedCourses?.length === 0 || checkedLecturer === undefined) &&
+            assigning
           }
         >
           {assigning ? "Assigning load..." : "Assign"}
@@ -254,7 +266,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           type="button"
           // disabled={broadcast === false ? true : true}
           disabled={!broadcast}
-          onClick={() => broadcastLoad(user.id)}
+          // onClick={() => broadcastLoad(user.id)}
+          onClick={() => broadcastLoad(userId)}
         >
           {broadcasting ? "Broadcasting load..." : "Broadcast"}
         </button>

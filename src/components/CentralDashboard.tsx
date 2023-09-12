@@ -10,7 +10,7 @@ const CentralDashboard = () => {
 
   const centralDashboardData = useAppSelector((state) => state.dashboard.allData);
 
-  console.log("RTK central dashboard data: ", centralDashboardData)
+  // console.log("RTK central dashboard data: ", centralDashboardData)
 
   const centralDashboard = useNewLoadStore21((state) => state.centralDashboard);
   const [message, setMessage] = useState();

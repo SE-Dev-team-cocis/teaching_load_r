@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Link } from "react-router-dom";
 import UnassignedCourses from "./UnassignedCourses";
+import { useAppSelector } from "../../store/hooks";
 
 type LecturerDetailsProps = {
   lectID: number;
@@ -11,6 +12,12 @@ type LecturerDetailsProps = {
 };
 
 const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => {
+
+  const rtkLoad = useAppSelector(state => state.load.load)
+
+  // console.log("RTK lecturer load: ", rtkLoad)
+
+
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const allcourses = useNewLoadStore21((state) => state.allCourses);
   const lecturers = useNewLoadStore21((state) => state.lecturers);
@@ -64,7 +71,7 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
   }
 
   return (
-    <>
+    <section>
       <div className="lecturer_details">
         <p className="mt-2 text-center text-3xl">
           Details for {lecturer?.firstName} {lecturer?.lastName}
@@ -130,7 +137,7 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
       <dialog ref={unassignedRef} className="unassigned_dialog rounded-md">
         <UnassignedCourses id={lectID} close={closeUnassigned} />
       </dialog>
-    </>
+    </section>
   );
 };
 
