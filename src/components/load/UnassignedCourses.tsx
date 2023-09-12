@@ -2,6 +2,9 @@ import axios from "axios";
 import { Course, Load } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { useEffect, useMemo, useState } from "react";
+import { useAppDispatch } from "../../store/hooks";
+import { setCentralDashboardData } from "../../features/dashboard/dashboardSlice";
+import { setLoad } from "../../features/load/loadSlice";
 
 type UnassignedProps = {
   id: number;
@@ -9,6 +12,10 @@ type UnassignedProps = {
 };
 
 const UnassignedCourses = ({ id, close }: UnassignedProps) => {
+  // RTK
+  const dispatch = useAppDispatch()
+
+
   const [assigning, setAssigning] = useState(false);
   const courses = useNewLoadStore21((state) => state.allCourses);
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
@@ -87,7 +94,6 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       const theData = response.data?.load;
       const centralDashboardData = response.data?.others;
 
-      // console.log("Response: ", response.data)
       const load = theData?.map((load: any) => {
         return {
           id: load.id,
@@ -103,6 +109,10 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       setLecturerLoad(load);
       setReassignLecturer([]);
       setCentralDashboard(centralDashboardData);
+
+      // RTK
+      dispatch(setCentralDashboardData(centralDashboardData));
+      dispatch(setLoad(load))
 
       setAssigning(false);
       //TODO: Resetting the central dashboard data
