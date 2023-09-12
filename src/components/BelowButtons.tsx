@@ -38,18 +38,14 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const dispatch = useAppDispatch();
   const semList = useAppSelector((state) => state.courses.semList);
   const staff = useAppSelector((state) => state.staff.staff);
-  const userId = useAppSelector(state => state.user.user.id)
+  const userId = useAppSelector((state) => state.user.user.id);
 
   // console.log("RTK sem list in assign: ", semList);
 
   const navigate = useNavigate();
 
-
-
   // const queryClient = new QueryClient();
   const { id } = useUserstore((state) => state.user);
-
-
 
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   // const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
@@ -95,8 +91,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     })
     .filter((course) => course !== undefined);
 
-  // console.log("New checked staff: ", newCheckedStaff);
-  // console.log("New checked courses: ", newCheckedCourses);
 
   const myid: any = checkedLecturer?.id;
 
@@ -127,8 +121,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       assignee_id: id,
     };
 
-    // console.log("Assigned load: ", data);
-
     const url = "https://teaching-load-api.onrender.com/api/assign";
     try {
       setAssigning(true);
@@ -138,43 +130,28 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
           // "Authorization" : `Bearer ${localStorage.getItem('token')?JSON.parse(localStorage.getItem('token')):null}`
         },
       });
-      const status = response.data.status;
-      // // console.log("Status: ", status);
-
-    console.log("Assignment Response: ", response.data);
-
+      const status = response.data?.status;
 
       if (status === false) {
         errorNotification(response.data?.message);
-        // console.log("Response on already assigned: ", response.data.load.assignments);
-        // setLecturerLoad(response.data?.load?.assignments);
         setLecturerLoad(response.data?.load?.assignments);
-
         dispatch(setLoad(response.data.load?.assignments));
         reset();
         // return
       }
 
-      if(status === true) {
-        // const load = response;
-        dispatch(setLoad(response.data.assignments?.assignments));
-        // console.log("Data: ", response.data);
+      if (status === true) {
 
-        // console.log("When true: ", response.data?.assignments?.assignments)
-        setLecturerLoad(response.data?.assignments?.assignments);
+        dispatch(setLoad(response.data.assignments?.assignments));
+        setLecturerLoad(response.data?.assignments?.assignments); // might delete later
         successNotification(response.data?.message);
         reset();
       }
-
     } catch (error) {
-      setAssigning(false)
+      setAssigning(false);
       errorNotification("Unable to assign load");
-      // errorNotification(error.response);
-
       console.error(error);
     }
-
-    // mutate(data); // call the mutation function which will update the assigned load table
   };
 
   const reset = () => {
@@ -210,17 +187,16 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   };
 
   const user = useUserstore((state) => state.user);
+
   const broadcastLoad = async (id: number) => {
     setBroadcasting(true);
     try {
       const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
       const response = await axios.put(url);
 
-
-      // console.log("Response: ", response.data)
       dispatch(setCentralDashboardData(response.data.others));
-      setCentralDashboard(response.data?.others);
-      
+      setCentralDashboard(response.data?.others); // might delete later
+
       setBroadcasting(false);
       successNotification("The assigned load has been successfully broadcast");
       navigate("/teaching-load/central");
@@ -229,10 +205,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     }
   };
 
-
   // console.log(semList)
-
-  
 
   return (
     <>
