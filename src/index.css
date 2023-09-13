@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+body{
+  background-color: #f7f7f9
+}
+
 .login_form{
   /* Used inset to position the form in the center */
     width: 440px;

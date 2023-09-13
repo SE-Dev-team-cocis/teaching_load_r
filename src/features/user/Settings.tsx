@@ -8,7 +8,7 @@ const Settings = () => {
     <div className="relative">
       <section
         className="text-black p-4 m-5"
-        style={{ backgroundColor: "#f7f7f9" }}
+        // style={{ backgroundColor: "#f7f7f9" }}
       >
         {/* // <section className='text-white p-4' style={{ backgroundColor: "black" }}> */}
 
