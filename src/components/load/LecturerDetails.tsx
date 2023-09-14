@@ -3,7 +3,9 @@ import { useRef, useState } from "react";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { Link } from "react-router-dom";
 import UnassignedCourses from "./UnassignedCourses";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { LoadType } from "../../features/load/loadSlice";
+import { setNewSelectedLecturer } from "../../features/dashboard/dashboardSlice";
 
 type LecturerDetailsProps = {
   lectID: number;
@@ -12,11 +14,12 @@ type LecturerDetailsProps = {
 };
 
 const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => {
-
-  const rtkLoad = useAppSelector(state => state.load.load)
+  //RTK
+  const rtkLoad = useAppSelector((state) => state.load.load);
+  const dispatch = useAppDispatch()
 
   // console.log("RTK lecturer load: ", rtkLoad)
-
+  const [lecturerId, setLecturerId] = useState(0);
 
   const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
   const allcourses = useNewLoadStore21((state) => state.allCourses);
@@ -26,15 +29,19 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
   );
   const unassignedRef = useRef<HTMLDialogElement>(null);
 
-  // const [lecturerId, setLecturerId] = useState(null);
-
   const lecturerLoadDetails = lecturerLoad.filter(
-    (load) => load.staff_id === lectID
+    (load: LoadType) => load.staff_id === lectID
   );
 
+  // console.log("Lecturer load details: ", lecturerLoadDetails)
 
   function showUnassigned() {
+    setLecturerId(lectID)
     setReassignLecturer(lecturerLoadDetails);
+
+    //RTK
+    dispatch(setNewSelectedLecturer(lecturerLoadDetails[0]))
+  
     unassignedRef?.current?.showModal();
   }
   function closeUnassigned() {
@@ -135,7 +142,8 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
         </table>
       </div>
       <dialog ref={unassignedRef} className="unassigned_dialog rounded-md">
-        <UnassignedCourses id={lectID} close={closeUnassigned} />
+        {/* <UnassignedCourses id={lectID} close={closeUnassigned} /> */}
+        <UnassignedCourses id={lecturerId} close={closeUnassigned} />
       </dialog>
     </section>
   );

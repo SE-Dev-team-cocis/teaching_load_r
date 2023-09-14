@@ -2,9 +2,9 @@ import axios from "axios";
 import { Course, Load } from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
 import { useEffect, useMemo, useState } from "react";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCentralDashboardData } from "../../features/dashboard/dashboardSlice";
-import { setLoad } from "../../features/load/loadSlice";
+import { LoadType, setLoad } from "../../features/load/loadSlice";
 
 type UnassignedProps = {
   id: number;
@@ -12,9 +12,44 @@ type UnassignedProps = {
 };
 
 const UnassignedCourses = ({ id, close }: UnassignedProps) => {
+  // console.log("lecturer id: ", id)
   // RTK
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const rtkUnallocated = useAppSelector(
+    (state) => state.dashboard.allData.unallocated_courses
+  );
+  const rtkCourses = useAppSelector((state) => state.courses.course);
+  const load = useAppSelector((state) => state.load.load);
 
+  const selectedLecturer = useAppSelector(state => state.dashboard.newSelectedLecturer)
+
+  // console.log("Lecturer id: ", selectedLecturer);
+
+  // const theLect = load?.map((load) => {
+  //   if (load.staff_id === id) {
+  //     return load;
+  //   }
+  //   // load.staff_id === id;
+  // })[0]
+
+    // const theLect = load.filter(
+    //   (load: LoadType) => load.staff_id === id
+    // );
+
+     const theLect = load?.filter(
+       (load: LoadType) => load.staff_id === selectedLecturer.staff_id);
+
+       const newStaffId = theLect[0].staff_id
+
+    // console.log("The kect: ", theLect)
+
+
+
+
+  // if(theLect !== undefined){
+    
+  // }
+  // console.log("The selected lecturer: ", theLect);
 
   const [assigning, setAssigning] = useState(false);
   const courses = useNewLoadStore21((state) => state.allCourses);
@@ -41,15 +76,13 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
     }
   };
 
-  // console.log("The courses: ", theCourses)
-
-  courses?.map((course: any, index: number) => {
-    if (theCourses?.includes(course.course_name)) {
+  // courses?.map((course: any, index: number) => {
+  rtkCourses?.map((course: any, index: number) => {
+    // if (theCourses?.includes(course.course_name)) {
+    if (rtkUnallocated?.includes(course.course_name)) {
       data.push(course);
     }
   });
-
-  // console.log("Unassigned full course: ", data)
 
   const handleAssign = async (
     courseName: string,
@@ -58,12 +91,24 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   ) => {
     // console.log("selected lecturer: ", selectedLecturer);
 
-    const data: any = reassignLecturer?.map((load: Load) => {
+    // const data: any = reassignLecturer?.map((load: Load) => {
+    const data = reassignLecturer?.map((load: Load) => {
       return {
         courses: JSON.parse(load?.courses),
         CUs: load?.CUs,
       };
-    });
+    })
+
+    const newCus = theLect[0]?.CUs
+    let newCourses = JSON.parse(theLect[0].courses);
+
+    // console.log("New courses: ", newCourses)
+
+    const theNewRealCourses = JSON.stringify([...newCourses, courseName]);
+    const theNewRealCUs = JSON.stringify([...newCus, +courseCus]);
+
+
+    // console.log("Data to reasiign", theNewRealCourses, theNewRealCUs);
 
     const theData = data[0];
     const theCus: any[] = theData?.CUs;
@@ -77,10 +122,15 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       setAssigning(true);
       const response = await axios.put(
         "https://teaching-load-api.onrender.com/api/assign",
+        // {
+        //   courses: theRealCourses,
+        //   CUs: theRealCUs,
+        //   staff_id: staffId,
+        // },
         {
-          courses: theRealCourses,
-          CUs: theRealCUs,
-          staff_id: staffId,
+          courses: theNewRealCourses,
+          CUs: theNewRealCUs,
+          staff_id: newStaffId,
         },
         {
           headers: {
@@ -112,7 +162,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
 
       // RTK
       dispatch(setCentralDashboardData(centralDashboardData));
-      dispatch(setLoad(load))
+      dispatch(setLoad(load));
 
       setAssigning(false);
       //TODO: Resetting the central dashboard data
@@ -123,14 +173,18 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
     }
   };
   useMemo(() => {
-    fetchUnallocated();
+    // fetchUnallocated();
   }, []);
+
+  // console.log("RTK unallocated courses: ", rtkUnallocated)
 
   return (
     <section>
       {/* <div className=" bg-white relative" style={{ width: 1000 }}> */}
       <div className=" bg-white relative">
         <p className="m-4 text-center text-3xl uppercase">Unassigned courses</p>
+
+        <p>{id}</p>
 
         <p
           className="absolute w-6 h-6 rounded-full bg-red-500 text-white text-center cursor-pointer right-3 -top-2"
@@ -176,7 +230,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
                 </td>
                 <td className="p-2 text-sm text-gray-700 text-center">
                   <button
-                    className="hover:bg-green-700 text-green-700 hover:text-white border-2 border-green-700 px-4 py-2 rounded duration-200"
+                    className="hover:bg-green-700 text-green-700 hover:text-white border-2 border-green-700 px-4 py-2 rounded duration-200 disabled:bg-opacity-30"
                     onClick={() =>
                       handleAssign(course.course_name, course.course_cus, id)
                     }

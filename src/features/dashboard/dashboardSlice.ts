@@ -52,16 +52,18 @@ type CentralDashboard = {
     department_load: DepartmentLoad[],
     overall_total_load: OverallTotalLoad,
     staff: StaffLoad,
-    unallocated_courses: UnallocatedCourses,
+    unallocated_courses: UnallocatedCourses[],
     total_staff: number
 }
 
 type InitialStateType = {
-    allData: CentralDashboard
+    allData: CentralDashboard,
+    newSelectedLecturer: LoadType
 }
 
 const initialState: InitialStateType = {
-    allData: {} as CentralDashboard
+    allData: {} as CentralDashboard,
+    newSelectedLecturer: {} as LoadType
 }
 
 export const centralDashboardSlice = createSlice({
@@ -71,12 +73,16 @@ export const centralDashboardSlice = createSlice({
         setCentralDashboardData: (state, action:PayloadAction<CentralDashboard> ) =>{
             const data = action.payload        
             state.allData = data
+        },
+         setNewSelectedLecturer: (state, action:PayloadAction<LoadType> ) =>{
+            const data = action.payload        
+            state.newSelectedLecturer = data
         }
     }
 })
 
 
-// // console.log("User: ", loadSlice)
+// console.log("Dashboard slice: ", centralDashboardSlice)
 
-export const { setCentralDashboardData } = centralDashboardSlice.actions
+export const { setCentralDashboardData, setNewSelectedLecturer } = centralDashboardSlice.actions
 export default centralDashboardSlice.reducer

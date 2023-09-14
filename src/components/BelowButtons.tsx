@@ -197,6 +197,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       dispatch(setCentralDashboardData(response.data.others));
       setCentralDashboard(response.data?.others); // might delete later
 
+      // console.log("Broadcast response: ", response.data)
+
       setBroadcasting(false);
       successNotification("The assigned load has been successfully broadcast");
       navigate("/teaching-load/central");

@@ -11,10 +11,10 @@ const CentralDashboard = () => {
     (state) => state.dashboard.allData
   );
 
-  console.log(
-    "RTK central dashboard data: ",
-    centralDashboardData.department_load
-  );
+  // console.log(
+  //   "RTK central dashboard data: ",
+  //   centralDashboardData.department_load
+  // );
 
   const centralDashboard = useNewLoadStore21((state) => state.centralDashboard);
   const [message, setMessage] = useState();
@@ -24,9 +24,16 @@ const CentralDashboard = () => {
     setMessage(centralDashboard?.message);
     // return <p>{centralDashboard.message}</p>
   }
+
+
+  //  const lecturerId = useAppSelector(
+  //    (state) => state.dashboard.allData
+  //  );
+
+  //  console.log("Lecturer id: ", lecturerId);
   return (
-    <>
-      <p>
+    
+      <section>
         {centralDashboard?.count === 0 ? (
           <section className="flex flex-col items-center">
             <p className="text-center mt-11 text-2xl">
@@ -67,8 +74,8 @@ const CentralDashboard = () => {
             </div>
           </div>
         )}
-      </p>
-    </>
+      </section>
+
   );
 };
 
