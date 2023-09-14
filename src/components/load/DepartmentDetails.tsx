@@ -3,6 +3,7 @@ import { Lecturer, Load } from "../../zustand/api/apis";
 import { useRef, useState } from "react";
 import LecturerDetails from "./LecturerDetails";
 import UnassignedCourses from "./UnassignedCourses";
+import { useAppSelector } from "../../store/hooks";
 
 type DepartmentDetailsProps = {
   id: number;
@@ -12,6 +13,11 @@ type DepartmentDetailsProps = {
 const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const lecturerRef = useRef<HTMLDialogElement>(null);
   const lecturerRef2 = useRef<HTMLDialogElement>(null);
+
+  //RTK
+  const staff = useAppSelector(state=>state.staff.staff)
+  const load = useAppSelector((state) => state.load.load);
+  // const depts = useAppSelector((state) => state.);
 
    function closeLecturerModal2() {
      lecturerRef2?.current?.close();
@@ -54,17 +60,25 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   })
 
 
-  const staffIds = lecturers.map((lecturer: Lecturer) => {
+  // const staffIds = lecturers.map((lecturer: Lecturer) => {
+  const staffIds = staff?.map((lecturer: Lecturer) => {
+
     return lecturer.id;
   });
-  const assignedLecturers = lecturerLoad?.filter((load) => {
+
+  // const assignedLecturers = lecturerLoad?.filter((load) => {
+  const assignedLecturers = load?.filter((load) => {
+
     return load.staff_id in staffIds;
   });
+
   const assignedIds = assignedLecturers.map((lecturer) => {
     return lecturer.staff_id;
   });
 
-  const lecturerDetails = lecturers.map((lecturer: Lecturer) => {
+  // const lecturerDetails = lecturers.map((lecturer: Lecturer) => {
+  const lecturerDetails = staff?.map((lecturer: Lecturer) => {
+
     if (assignedIds.includes(lecturer.id)) {
       return {
         id: lecturer.id,
@@ -81,7 +95,9 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
     return name !== null;
   });
 
-  const lecturerLoads = lecturerLoad?.map((load: Load) => {
+  // const lecturerLoads = lecturerLoad?.map((load: Load) => {
+  const lecturerLoads = load?.map((load: Load) => {
+
     if (assignedIds.includes(load.staff_id)) {
       return {
         total: load?.CUs?.reduce((a: number, b: number) => a + b, 0),
