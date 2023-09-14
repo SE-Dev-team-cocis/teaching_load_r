@@ -15,14 +15,13 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const lecturerRef2 = useRef<HTMLDialogElement>(null);
 
   //RTK
-  const staff = useAppSelector(state=>state.staff.staff)
+  const staff = useAppSelector((state) => state.staff.staff);
   const load = useAppSelector((state) => state.load.load);
   // const depts = useAppSelector((state) => state.);
 
-   function closeLecturerModal2() {
-     lecturerRef2?.current?.close();
-   }
-
+  function closeLecturerModal2() {
+    lecturerRef2?.current?.close();
+  }
 
   const closeLecturerModal = () => {
     lecturerRef.current?.close();
@@ -39,14 +38,13 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
   const [lecturerId, setLecturerId] = useState<any>(0);
 
   function toggleDetailsDialog(lect_id: any, action: number) {
-    if(action ===1 ){
+    if (action === 1) {
       lect_id && lect_id !== undefined && setLecturerId(lect_id);
       showLecturerModal();
-    }else{
-       lect_id && lect_id !== undefined && setLecturerId(lect_id);
-       lecturerRef2?.current?.showModal();
+    } else {
+      lect_id && lect_id !== undefined && setLecturerId(lect_id);
+      lecturerRef2?.current?.showModal();
     }
-  
   }
 
   let dept = id;
@@ -57,18 +55,15 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
 
   const the_dept = oldDepartments.find((department: any) => {
     return department.id === dept;
-  })
-
+  });
 
   // const staffIds = lecturers.map((lecturer: Lecturer) => {
   const staffIds = staff?.map((lecturer: Lecturer) => {
-
     return lecturer.id;
   });
 
   // const assignedLecturers = lecturerLoad?.filter((load) => {
   const assignedLecturers = load?.filter((load) => {
-
     return load.staff_id in staffIds;
   });
 
@@ -78,7 +73,6 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
 
   // const lecturerDetails = lecturers.map((lecturer: Lecturer) => {
   const lecturerDetails = staff?.map((lecturer: Lecturer) => {
-
     if (assignedIds.includes(lecturer.id)) {
       return {
         id: lecturer.id,
@@ -97,7 +91,6 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
 
   // const lecturerLoads = lecturerLoad?.map((load: Load) => {
   const lecturerLoads = load?.map((load: Load) => {
-
     if (assignedIds.includes(load.staff_id)) {
       return {
         total: load?.CUs?.reduce((a: number, b: number) => a + b, 0),
@@ -131,7 +124,6 @@ const DepartmentDetails = ({ id, closeModal }: DepartmentDetailsProps) => {
           .filter((load) => {
             return load !== undefined;
           }),
-
       };
     })
     .filter((data) => {
