@@ -11,10 +11,6 @@ const CentralDashboard = () => {
     (state) => state.dashboard.allData
   );
 
-  // console.log(
-  //   "RTK central dashboard data: ",
-  //   centralDashboardData.department_load
-  // );
 
   const centralDashboard = useNewLoadStore21((state) => state.centralDashboard);
   const [message, setMessage] = useState();
@@ -38,6 +34,7 @@ const CentralDashboard = () => {
           <section className="flex flex-col items-center">
             <p className="text-center mt-11 text-2xl">
               {centralDashboard.message}
+              {/* There is currently no broadcast load */}
             </p>
 
             <p className="">
@@ -61,16 +58,6 @@ const CentralDashboard = () => {
                 )
               )}
 
-              {/* {centralDashboard?.department_load?.map(
-                (department: any, index: number) => (
-                  <div key={index} className="col-span-3">
-                    <Departments
-                      department={department}
-                      staff={centralDashboard.staff}
-                    />
-                  </div>
-                )
-              )} */}
             </div>
           </div>
         )}
