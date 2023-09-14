@@ -16,6 +16,7 @@ type LecturerDetailsProps = {
 const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => {
   //RTK
   const rtkLoad = useAppSelector((state) => state.load.load);
+  const courses = useAppSelector(state => state.courses.course)
   const dispatch = useAppDispatch()
 
   // console.log("RTK lecturer load: ", rtkLoad)
@@ -29,9 +30,13 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
   );
   const unassignedRef = useRef<HTMLDialogElement>(null);
 
-  const lecturerLoadDetails = lecturerLoad.filter(
-    (load: LoadType) => load.staff_id === lectID
-  );
+  // const lecturerLoadDetails = lecturerLoad.filter(
+  //   (load: LoadType) => load.staff_id === lectID
+  // );
+
+    const lecturerLoadDetails = rtkLoad.filter(
+      (load: LoadType) => load.staff_id === lectID
+    );
 
   // console.log("Lecturer load details: ", lecturerLoadDetails)
 
@@ -63,7 +68,8 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
     return cs.courses;
   });
 
-  const courseDetails = allcourses?.filter((course) => {
+  // const courseDetails = allcourses?.filter((course) => {
+  const courseDetails = courses?.filter((course) => {
     if (theCoursesOnly[0]?.includes(course.course_name)) {
       return {
         course_name: course.course_name,
@@ -143,7 +149,7 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
       </div>
       <dialog ref={unassignedRef} className="unassigned_dialog rounded-md">
         {/* <UnassignedCourses id={lectID} close={closeUnassigned} /> */}
-        <UnassignedCourses id={lecturerId} close={closeUnassigned} />
+        <UnassignedCourses close={closeUnassigned} />
       </dialog>
     </section>
   );

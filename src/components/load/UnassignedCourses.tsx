@@ -7,11 +7,13 @@ import { setCentralDashboardData } from "../../features/dashboard/dashboardSlice
 import { LoadType, setLoad } from "../../features/load/loadSlice";
 
 type UnassignedProps = {
-  id: number;
+  // id: number;
   close: () => void;
 };
 
-const UnassignedCourses = ({ id, close }: UnassignedProps) => {
+// const UnassignedCourses = ({ id, close }: UnassignedProps) => {
+const UnassignedCourses = ({ close }: UnassignedProps) => {
+
   // console.log("lecturer id: ", id)
   // RTK
   const dispatch = useAppDispatch();
@@ -39,7 +41,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
      const theLect = load?.filter(
        (load: LoadType) => load.staff_id === selectedLecturer.staff_id);
 
-       const newStaffId = theLect[0].staff_id
+       const newStaffId = theLect[0]?.staff_id
 
     // console.log("The kect: ", theLect)
 
@@ -87,7 +89,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
   const handleAssign = async (
     courseName: string,
     courseCus: number,
-    staffId: number
+    // staffId: number
   ) => {
     // console.log("selected lecturer: ", selectedLecturer);
 
@@ -184,7 +186,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
       <div className=" bg-white relative">
         <p className="m-4 text-center text-3xl uppercase">Unassigned courses</p>
 
-        <p>{id}</p>
+        {/* <p>{theLect[0]?.staff_id}</p> */}
 
         <p
           className="absolute w-6 h-6 rounded-full bg-red-500 text-white text-center cursor-pointer right-3 -top-2"
@@ -232,7 +234,7 @@ const UnassignedCourses = ({ id, close }: UnassignedProps) => {
                   <button
                     className="hover:bg-green-700 text-green-700 hover:text-white border-2 border-green-700 px-4 py-2 rounded duration-200 disabled:bg-opacity-30"
                     onClick={() =>
-                      handleAssign(course.course_name, course.course_cus, id)
+                      handleAssign(course.course_name, course.course_cus)
                     }
                     disabled={assigning}
                   >
