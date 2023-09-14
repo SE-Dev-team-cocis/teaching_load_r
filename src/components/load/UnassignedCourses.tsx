@@ -112,13 +112,13 @@ const UnassignedCourses = ({ close }: UnassignedProps) => {
 
     // console.log("Data to reasiign", theNewRealCourses, theNewRealCUs);
 
-    const theData = data[0];
-    const theCus: any[] = theData?.CUs;
-    const realCUs: any[] = [...theCus, +courseCus];
+    // const theData = data[0];
+    // const theCus: any[] = theData?.CUs;
+    // const realCUs: any[] = [...theCus, +courseCus];
 
-    const theCourses: any[] = theData?.courses;
-    const theRealCourses = JSON.stringify([...theCourses, courseName]);
-    const theRealCUs = JSON.stringify(realCUs);
+    // const theCourses: any[] = theData?.courses;
+    // const theRealCourses = JSON.stringify([...theCourses, courseName]);
+    // const theRealCUs = JSON.stringify(realCUs);
 
     try {
       setAssigning(true);

@@ -1,7 +1,4 @@
-import { all } from "axios";
-import { useRef, useState } from "react";
-import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { Link } from "react-router-dom";
+import { useRef } from "react";
 import UnassignedCourses from "./UnassignedCourses";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { LoadType } from "../../features/load/loadSlice";
@@ -16,37 +13,20 @@ type LecturerDetailsProps = {
 const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => {
   //RTK
   const rtkLoad = useAppSelector((state) => state.load.load);
-  const courses = useAppSelector(state => state.courses.course)
-  const dispatch = useAppDispatch()
+  const courses = useAppSelector((state) => state.courses.course);
+  const staff = useAppSelector((state) => state.staff.staff);
+  const dispatch = useAppDispatch();
 
-  // console.log("RTK lecturer load: ", rtkLoad)
-  const [lecturerId, setLecturerId] = useState(0);
-
-  const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
-  const allcourses = useNewLoadStore21((state) => state.allCourses);
-  const lecturers = useNewLoadStore21((state) => state.lecturers);
-  const setReassignLecturer = useNewLoadStore21(
-    (state) => state.setReassignLecturer
-  );
   const unassignedRef = useRef<HTMLDialogElement>(null);
 
-  // const lecturerLoadDetails = lecturerLoad.filter(
-  //   (load: LoadType) => load.staff_id === lectID
-  // );
-
-    const lecturerLoadDetails = rtkLoad.filter(
-      (load: LoadType) => load.staff_id === lectID
-    );
-
-  // console.log("Lecturer load details: ", lecturerLoadDetails)
+  const lecturerLoadDetails = rtkLoad.filter(
+    (load: LoadType) => load.staff_id === lectID
+  );
 
   function showUnassigned() {
-    setLecturerId(lectID)
-    setReassignLecturer(lecturerLoadDetails);
-
     //RTK
-    dispatch(setNewSelectedLecturer(lecturerLoadDetails[0]))
-  
+    dispatch(setNewSelectedLecturer(lecturerLoadDetails[0]));
+
     unassignedRef?.current?.showModal();
   }
   function closeUnassigned() {
@@ -54,11 +34,9 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
   }
 
   // Personal details of the lecturer
-  const lecturer = lecturers.find((lecturer) => lecturer.id === lectID);
+  const lecturer = staff?.find((lecturer) => lecturer.id === lectID);
 
   const assignedCourses = lecturerLoadDetails?.map((load: any) => {
-    const courses = load.courses;
-    // console.log("Courses: ", courses)
     return {
       courses: load.courses,
     };
@@ -148,7 +126,6 @@ const LecturerDetails = ({ lectID, closeModal, edit }: LecturerDetailsProps) => 
         </table>
       </div>
       <dialog ref={unassignedRef} className="unassigned_dialog rounded-md">
-        {/* <UnassignedCourses id={lectID} close={closeUnassigned} /> */}
         <UnassignedCourses close={closeUnassigned} />
       </dialog>
     </section>
