@@ -8,8 +8,13 @@ export const fetchCentralDashboardData = async () => {
     const setCentralDashboard = useNewLoadStore21(state => state.setCentralDashboard)
     const [data, setData] = useState();
     //  try {
-      const url = "https://teaching-load-api.onrender.com/api/dashboard";
+      // const url = "https://teaching-load-api.onrender.com/api/dashboard";
+
+       const url =
+        "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/dashboard";
       const response = await axios.get(url);
+
+      // console.log(response.data)
 
       const loadCount = response.data?.count;
       if (loadCount === 0) {

@@ -104,6 +104,9 @@ export default function Home() {
     queryFn: fetchCentralDashboardDataNew,
   });
 
+
+  // console.log("central: ", central)
+
   useMemo(() => {
     setLecturerLoad(loads);
 

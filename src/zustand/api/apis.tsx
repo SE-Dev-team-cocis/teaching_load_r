@@ -81,7 +81,9 @@ export type Department = {
 };
 
 export const fetchLecturers = async () => {
-  const url = "https://teaching-load-api.onrender.com/api/getStaff";
+  // const url = "https://teaching-load-api.onrender.com/api/getStaff";
+   const url =
+     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/getStaff";
 
   const response = await axios.get(url, {
     headers: {
@@ -106,7 +108,10 @@ export const fetchLecturers = async () => {
 };
 
 export const fetchLoad = async () => {
-  const url = "https://teaching-load-api.onrender.com/api/allAssign";
+  // const url = "https://teaching-load-api.onrender.com/api/allAssign";
+
+   const url =
+     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/allAssign";
 
   const response = await axios.get(url, {
     headers: {
@@ -132,7 +137,9 @@ export const fetchLoad = async () => {
 };
 
 export const fetchCourses = async () => {
-  const url = "https://teaching-load-api.onrender.com/api/courseUnits";
+  // const url = "https://teaching-load-api.onrender.com/api/courseUnits";
+   const url =
+     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/courseUnits";
 
   const response = await axios.get(url, {
     headers: {
@@ -156,7 +163,10 @@ export const fetchCourses = async () => {
 };
 
 export const fetchSemesterList = async () => {
-  const url = "https://teaching-load-api.onrender.com/api/semesterlist";
+  // const url = "https://teaching-load-api.onrender.com/api/semesterlist";
+   const url =
+     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/semesterlist";
+  
 
   const response = await axios.get(url, {
     headers: {
@@ -182,7 +192,9 @@ export const fetchSemesterList = async () => {
 };
 
 export const assignLoad = async (data: AssignLoad) => {
-  const url = "https://teaching-load-api.onrender.com/api/assign";
+  // const url = "https://teaching-load-api.onrender.com/api/assign";
+   const url =
+     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/assign";
 
   const response = await axios.post(url, data, {
     headers: {
@@ -195,7 +207,9 @@ export const assignLoad = async (data: AssignLoad) => {
 };
 
 export const UserLogin = async (data: LoginData) => {
-  const url = "https://teaching-load-api.onrender.com/api/login";
+  // const url = "https://teaching-load-api.onrender.com/api/login";
+   const url =
+     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/login";
 
   const response = await axios.post(url, data, {
     headers: {
@@ -209,7 +223,9 @@ export const UserLogin = async (data: LoginData) => {
 };
 
 export const fetchDepartments = async () => {
-  const url = "https://teaching-load-api.onrender.com/api/department";
+  // const url = "https://teaching-load-api.onrender.com/api/department";
+   const url =
+     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/department";
 
   const response = await axios.get(url, {
     headers: {
@@ -232,7 +248,9 @@ export const fetchDepartments = async () => {
 };
 
 export const fetchCentralDashboardDataNew = async () => {
-  const url = "https://teaching-load-api.onrender.com/api/dashboard";
+  // const url = "https://teaching-load-api.onrender.com/api/dashboard";
+   const url =
+     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/department";
 
   const response = await axios.get(url, {
     headers: {
