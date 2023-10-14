@@ -40,12 +40,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const staff = useAppSelector((state) => state.staff.staff);
   const userId = useAppSelector((state) => state.user.user.id);
 
-  // console.log("RTK sem list in assign: ", semList);
-
   const navigate = useNavigate();
 
-  // const queryClient = new QueryClient();
-  const { id } = useUserstore((state) => state.user);
 
   const setLecturerLoad = useNewLoadStore21((state) => state.setLecturerLoad);
   // const lecturerLoad = useNewLoadStore21((state) => state.lecturerLoad);
@@ -53,9 +49,9 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const lecturers = useNewLoadStore21((state) => state.lecturers);
 
   // Central dashboard
-  const setCentralDashboard = useNewLoadStore21(
-    (state) => state.setCentralDashboard
-  );
+  // const setCentralDashboard = useNewLoadStore21(
+  //   (state) => state.setCentralDashboard
+  // );
 
   const checkedCourses = useNewLoadStore21((state) => state.checkedCourses);
 
@@ -91,9 +87,6 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
     })
     .filter((course) => course !== undefined);
 
-
-  const myid: any = checkedLecturer?.id;
-
   const lecturerId: any = newCheckedStaff?.id;
 
   const [assigning, setAssigning] = useState(false);
@@ -101,11 +94,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   // Function to assign courses
   const assignCourses = async () => {
-    // checkedCourses.forEach((course) => {
-    //   courseNames.push(course.course_name);
-    //   courseCreditUnits.push(+course.course_cus); // convert to number by adding a + sign
-    // });
-
+  
     newCheckedCourses?.forEach((course: any) => {
       courseNames.push(course.course.course_name);
       courseCreditUnits.push(+course.course.course_cus); // convert to number by adding a + sign
@@ -118,7 +107,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       staff_id: lecturerId,
 
       CUs: JSON.stringify(courseCreditUnits),
-      assignee_id: id,
+      // assignee_id: id,
+      assignee_id: userId,
     };
 
     const url = "https://teaching-load-api.onrender.com/api/assign";
@@ -195,7 +185,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       const response = await axios.put(url);
 
       dispatch(setCentralDashboardData(response.data.others));
-      setCentralDashboard(response.data?.others); // might delete later
+      // setCentralDashboard(response.data?.others); // might delete later
 
       // console.log("Broadcast response: ", response.data)
 

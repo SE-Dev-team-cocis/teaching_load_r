@@ -51,6 +51,7 @@ const Login = () => {
     onSubmit: async (values) => {
       const url = "https://teaching-load-api.onrender.com/api/login";
 
+
       try {
         const response = await axios.post(
           url,
@@ -61,12 +62,19 @@ const Login = () => {
             },
           }
         );
+
+          // console.log("Response: ", response.data);
+
+
         if (response.data.login === false) {
           await errorNotification(response.data.message);
           return;
         }
         if (response.data.login === true) {
           successNotification("You have logged in successfully");
+
+          // console.log("Response: ",response.data)
+
           setUser(response.data.user); // setting the user using zustand
           localStorage.setItem(
             "access_token",
