@@ -61,7 +61,11 @@ const Form = () => {
 
   const handleRegistration = async (data: RegistrationSchemaType) => {
     console.log("Data: ", data);
-    const url = "https://teaching-load-api.onrender.com/api/register";
+    // const url = "https://teaching-load-api.onrender.com/api/register";
+
+      const url =
+        "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/register";
+
     try {
       const response = await axios.post(
         url,
@@ -72,6 +76,8 @@ const Form = () => {
           },
         }
       );
+
+      console.log("response: ", response)
 
       if (response.data.register !== true) {
         // setMessage(response.data.message);
@@ -86,7 +92,7 @@ const Form = () => {
       localStorage.setItem("token", JSON.stringify(response.data.access_token));
       successNotification("You have registered successfully");
       dispatch(setUser(response.data?.user));
-      navigate("/teaching-load");
+      // navigate("/teaching-load");
       // setRegistering(false);
       // }
     } catch (err) {
