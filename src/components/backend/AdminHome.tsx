@@ -2,14 +2,25 @@ import { useMemo, useState, useRef } from "react";
 import { Lecturer, User } from "../../zustand/api/apis";
 import axios from "axios";
 import CreateCourse from "./course/CreateCourse";
+import CreateCollege from "./course/CreateCollege";
 
 const AdminHome = () => {
-
-  const createCourseRef = useRef<HTMLDialogElement>(null)
+  const createCourseRef = useRef<HTMLDialogElement>(null);
+  const createCollegeRef = useRef<HTMLDialogElement>(null);
 
   const openCreateCourseModal = () => {
     createCourseRef.current?.showModal()
-  }
+  };
+  const openCreateCollegeModal = () => {
+    createCollegeRef.current?.showModal()
+  };
+
+   const closeCreateCourseModal = () => {
+     createCourseRef.current?.close();
+   };
+   const closeCreateCollegeModal = () => {
+     createCollegeRef.current?.close();
+   };
 
   // const url = "https://teaching-load-api.onrender.com/api/getStaff"
   const url =
@@ -36,12 +47,20 @@ const AdminHome = () => {
 
   return (
     <div className="p-4">
-      <button
-        className="px-4 py-2 bg-green-700 rounded text-white my-4"
-        onClick={openCreateCourseModal}
-      >
-        Add Course
-      </button>
+      <div className="flex gap-4">
+        <button
+          className="px-4 py-2 bg-green-700 rounded text-white my-4"
+          onClick={openCreateCourseModal}
+        >
+          Add Course
+        </button>
+        <button
+          className="px-4 py-2 bg-green-700 rounded text-white my-4"
+          onClick={openCreateCollegeModal}
+        >
+          Add College
+        </button>
+      </div>
       <table className="w-full border-2 border-b-gray-400 rounded">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
           <tr>
@@ -86,7 +105,10 @@ const AdminHome = () => {
       </table>
 
       <dialog ref={createCourseRef} className="rounded-lg ">
-        <CreateCourse />
+        <CreateCourse closeModal={closeCreateCourseModal} />
+      </dialog>
+      <dialog ref={createCollegeRef} className="rounded-lg ">
+        <CreateCollege />
       </dialog>
     </div>
   );
