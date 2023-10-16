@@ -108,7 +108,7 @@ const AdminHome = () => {
         <CreateCourse closeModal={closeCreateCourseModal} />
       </dialog>
       <dialog ref={createCollegeRef} className="rounded-lg ">
-        <CreateCollege />
+        <CreateCollege closeModal={closeCreateCollegeModal} />
       </dialog>
     </div>
   );
