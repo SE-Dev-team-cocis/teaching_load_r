@@ -34,6 +34,7 @@ const App = () => {
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminHome />} />
+        {/* <Route index element={<AdminHome />} /> */}
       </Route>
     </Routes>
   );

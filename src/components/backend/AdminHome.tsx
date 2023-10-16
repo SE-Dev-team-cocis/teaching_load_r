@@ -1,10 +1,20 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { Lecturer, User } from "../../zustand/api/apis";
 import axios from "axios";
+import CreateCourse from "./course/CreateCourse";
 
 const AdminHome = () => {
 
-  const url = "https://teaching-load-api.onrender.com/api/getStaff"
+  const createCourseRef = useRef<HTMLDialogElement>(null)
+
+  const openCreateCourseModal = () => {
+    createCourseRef.current?.showModal
+  }
+
+  // const url = "https://teaching-load-api.onrender.com/api/getStaff"
+  const url =
+    "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/getStaff";
+
   const [lecturers, setLecturers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -18,57 +28,68 @@ const AdminHome = () => {
     } catch (error) {
       console.error("Error: ", error);
     }
-  }
+  };
 
-  useMemo(()=>{
+  useMemo(() => {
     fetchLecturers();
-  }, [])
-  
+  }, []);
+
   return (
-  <div className="p-4">
-        <table className="w-full border-2 border-b-gray-400 rounded">
-            <thead className="bg-gray-50 bottom-2 border-gray-200">
-              <tr>
-                <th className="w-10 p-2 text-sm font-semibold tracking-wide text-left">
-                  No.
-                </th>
-                <th className=" w-20 p-2 text-sm font-semibold tracking-wide text-left">
-                  Name
-                </th>
-                <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
-                 Role
-                </th>
-                <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
-                 Department
-                </th>
-{/*                 <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+    <div className="p-4">
+      <button
+        className="px-4 py-2 bg-green-700 rounded text-white my-4"
+        onClick={openCreateCourseModal}
+      >
+        Add Course
+      </button>
+      <table className="w-full border-2 border-b-gray-400 rounded">
+        <thead className="bg-gray-50 bottom-2 border-gray-200">
+          <tr>
+            <th className="w-10 p-2 text-sm font-semibold tracking-wide text-left">
+              No.
+            </th>
+            <th className=" w-20 p-2 text-sm font-semibold tracking-wide text-left">
+              Name
+            </th>
+            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+              Role
+            </th>
+            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+              Department
+            </th>
+            {/*                 <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
                   Action
                 </th> */}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-400">
-              {lecturers.map((lecturer: any, index) => (
-                <tr key={index} className="hover:bg-green-400 hover:bg-opacity-20">
-                  <td className="p-2 text-sm text-gray-700 text-left">
-                    {index + 1}
-                  </td>
-                  <td className="p-2 text-sm text-gray-700 text-left">
-                    {lecturer.firstName} {lecturer.lastName}
-                  </td>
-                  <td className="p-2 text-sm text-gray-700 text-left">
-                    {lecturer.role}
-                  </td>
-                  <td className="p-2 text-sm text-gray-700 text-left">
-                    {lecturer.department}
-                  </td>
-                  {/* <td className="p-2 text-sm text-gray-700 text-center">
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-400">
+          {lecturers.map((lecturer: any, index) => (
+            <tr key={index} className="hover:bg-green-400 hover:bg-opacity-20">
+              <td className="p-2 text-sm text-gray-700 text-left">
+                {index + 1}
+              </td>
+              <td className="p-2 text-sm text-gray-700 text-left">
+                {lecturer.firstName} {lecturer.lastName}
+              </td>
+              <td className="p-2 text-sm text-gray-700 text-left">
+                {lecturer.role}
+              </td>
+              <td className="p-2 text-sm text-gray-700 text-left">
+                {lecturer.department}
+              </td>
+              {/* <td className="p-2 text-sm text-gray-700 text-center">
                     Delete
                   </td> */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-  </div>);
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <dialog ref={createCourseRef} open>
+        <CreateCourse />
+      </dialog>
+    </div>
+  );
 };
 
 export default AdminHome;
