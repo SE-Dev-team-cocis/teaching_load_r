@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
 const CreateCourse = () => {
   return (
-    <div>Create course</div>
-  )
-}
+    <div className="p-5 outline-none mydialog">Create course</div>
+  );
+};
 
 export default CreateCourse;

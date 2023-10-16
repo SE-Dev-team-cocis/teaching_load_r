@@ -8,7 +8,7 @@ const AdminHome = () => {
   const createCourseRef = useRef<HTMLDialogElement>(null)
 
   const openCreateCourseModal = () => {
-    createCourseRef.current?.showModal
+    createCourseRef.current?.showModal()
   }
 
   // const url = "https://teaching-load-api.onrender.com/api/getStaff"
@@ -85,7 +85,7 @@ const AdminHome = () => {
         </tbody>
       </table>
 
-      <dialog ref={createCourseRef} open>
+      <dialog ref={createCourseRef} className="rounded-lg ">
         <CreateCourse />
       </dialog>
     </div>
