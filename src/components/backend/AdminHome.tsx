@@ -1,8 +1,8 @@
 import { useMemo, useState, useRef } from "react";
 import { Lecturer, User } from "../../zustand/api/apis";
 import axios from "axios";
-import CreateCourse from "./course/CreateCourse";
-import CreateCollege from "./course/CreateCollege";
+import CreateCourse from "./popups/CreateCourse";
+import CreateCollege from "./popups/CreateCollege";
 
 const AdminHome = () => {
   const createCourseRef = useRef<HTMLDialogElement>(null);
