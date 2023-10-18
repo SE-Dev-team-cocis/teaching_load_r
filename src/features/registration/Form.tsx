@@ -7,13 +7,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "../../store/hooks";
 import { errorNotification, successNotification } from "../../utils/Toastify";
 import { setUser } from "../user/userSlice";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   RegistrationSchema,
   RegistrationSchemaType,
 } from "../zod/schemas/Schemas";
+import { fetchDepartments } from "./fetchDepartments";
 
 const Form = () => {
+
+
   const navigate = useNavigate();
   //RTK
   const dispatch = useAppDispatch();
@@ -32,6 +35,9 @@ const Form = () => {
   const [inputType, setInputType] = useState<string>("password");
   const [visible1, setVisible1] = useState<boolean>(true);
   const [inputType1, setInputType1] = useState<string>("password");
+
+  const [departments, setDepartments] = useState([]);
+
 
   function handleToggle() {
     setVisible((prev) => !prev);
@@ -60,7 +66,7 @@ const Form = () => {
   ];
 
   const handleRegistration = async (data: RegistrationSchemaType) => {
-    console.log("Data: ", data);
+    // console.log("Data: ", data);
     // const url = "https://teaching-load-api.onrender.com/api/register";
 
       const url =
@@ -102,6 +108,26 @@ const Form = () => {
     }
   };
 
+  const fetchDepts = async () => {
+    try {
+      const url  = "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/department"
+
+      const response = await axios.get(url)
+
+      const data = response.data?.departments
+
+      setDepartments(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useMemo(() => {
+    fetchDepts()
+  }, [])
+
+
+  console.log(departments)
   return (
     <form className="" onSubmit={handleSubmit(handleRegistration)}>
       <div className="grid grid-cols-12 gap-2">
@@ -174,9 +200,11 @@ const Form = () => {
               : " focus:ring-blue-700 "
           } `}
         >
-          {departmentOptions.map((dept: string, index) => (
-            <option value={dept} key={index}>
-              {dept}
+          {departments?.map((dept: any, index) => (
+          // {departmentOptions.map((dept: string, index) => (
+
+            <option value={dept.department} key={index}>
+              {dept.department}
             </option>
           ))}
         </select>
