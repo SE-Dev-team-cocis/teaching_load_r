@@ -192,12 +192,16 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
   const broadcastLoad = async (id: number) => {
     setBroadcasting(true);
     try {
-      const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
+      // const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
 
-      // const url =
-      // "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/login";
+      const url =
+      `https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/broadcast/${id}`;
   
       const response = await axios.put(url);
+
+
+      console.log("Response: ", response?.data)
+      return
 
       dispatch(setCentralDashboardData(response.data.others));
       // setCentralDashboard(response.data?.others); // might delete later
