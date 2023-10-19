@@ -69,8 +69,12 @@ const SemesterCourses = () => {
     // console.log("Data: ", data);
     // 
 
+    // const url =
+    //   "https://teaching-load-api.onrender.com/api/semesterlist/create";
+
     const url =
-      "https://teaching-load-api.onrender.com/api/semesterlist/create";
+      "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/semesterlist/create";
+    
     setCreating(true);
     try {
       const response = await axios.post(
