@@ -99,6 +99,11 @@ dialog::backdrop{
   /* padding: 0; */
 }
 
+.collegeDialog{
+  min-width: 450px;
+  min-height: 300px;
+}
+
 .confirm {
   min-width: 50px;
   min-height: 200px;

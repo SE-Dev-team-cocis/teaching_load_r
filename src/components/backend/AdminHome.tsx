@@ -104,10 +104,10 @@ const AdminHome = () => {
         </tbody>
       </table>
 
-      <dialog ref={createCourseRef} className="rounded-lg ">
+      <dialog ref={createCourseRef} className="rounded-lg">
         <CreateCourse closeModal={closeCreateCourseModal} />
       </dialog>
-      <dialog ref={createCollegeRef} className="rounded-lg ">
+      <dialog ref={createCollegeRef} className="rounded-lg collegeDialog">
         <CreateCollege closeModal={closeCreateCollegeModal} />
       </dialog>
     </div>
