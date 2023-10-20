@@ -16,7 +16,7 @@ const CentralDashboard = () => {
   const [message, setMessage] = useState();
 
   if (centralDashboard?.count) {
-    console.log("We have count");
+    // console.log("We have count");
     setMessage(centralDashboard?.message);
     // return <p>{centralDashboard.message}</p>
   }

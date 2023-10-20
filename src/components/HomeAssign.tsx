@@ -43,8 +43,15 @@ export default function HomeAssign() {
     };
 
     try {
-      const url = `https://teaching-load-api.onrender.com/api/delete`;
+      // const url = `https://teaching-load-api.onrender.com/api/delete`;
+      const url =
+      "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/delete";
+  
       const response = await axios.delete(url, { data });
+
+
+      console.log("response: ", response.data)
+      // return
 
       dispatch(setLoad(response.data?.assignments?.assignments))
       dispatch(setCentralDashboardData(response.data?.others));

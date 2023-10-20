@@ -200,8 +200,8 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       const response = await axios.put(url);
 
 
-      console.log("Response: ", response?.data)
-      return
+      // console.log("Response: ", response?.data)
+      // return
 
       dispatch(setCentralDashboardData(response.data.others));
       // setCentralDashboard(response.data?.others); // might delete later
