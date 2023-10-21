@@ -1,8 +1,18 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { CollegeType } from "./functions/BackendSchemas";
 import axios from "axios";
+import CreateCollege from "./popups/CreateCollege";
 
 const Colleges = () => {
+    const createCollegeRef = useRef<HTMLDialogElement>(null);
+
+    const openCreateCollegeModal = () => {
+        createCollegeRef.current?.showModal()
+    };
+
+    const closeCreateCollegeModal = () => {
+     createCollegeRef.current?.close();
+   };
 
     const url =
     "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/college";
@@ -25,6 +35,13 @@ const Colleges = () => {
   }, []);
   return (
     <section className="mt-4 px-4">
+         <button
+          className="px-4 py-2 bg-green-700 rounded text-white mt-3 mb-1 "
+          onClick={openCreateCollegeModal}
+        >
+          Add College
+        </button>
+     
          <table className="w-full border-2 border-b-gray-400 rounded">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
           <tr>
@@ -32,7 +49,7 @@ const Colleges = () => {
               No.
             </th>
             <th className=" w-20 p-2 text-sm font-semibold tracking-wide text-left">
-              Name
+              College Name
             </th>
             <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
                 College Code 
@@ -62,6 +79,10 @@ const Colleges = () => {
           ))}
         </tbody>
       </table>
+
+         <dialog ref={createCollegeRef} className="rounded-lg collegeDialog">
+        <CreateCollege closeModal={closeCreateCollegeModal} />
+      </dialog>
     </section>
   )
 }

@@ -6,21 +6,16 @@ import CreateCollege from "./popups/CreateCollege";
 
 const AdminHome = () => {
   const createCourseRef = useRef<HTMLDialogElement>(null);
-  const createCollegeRef = useRef<HTMLDialogElement>(null);
+  
 
   const openCreateCourseModal = () => {
     createCourseRef.current?.showModal()
-  };
-  const openCreateCollegeModal = () => {
-    createCollegeRef.current?.showModal()
   };
 
    const closeCreateCourseModal = () => {
      createCourseRef.current?.close();
    };
-   const closeCreateCollegeModal = () => {
-     createCollegeRef.current?.close();
-   };
+
 
   // const url = "https://teaching-load-api.onrender.com/api/getStaff"
   const url =
@@ -54,12 +49,7 @@ const AdminHome = () => {
         >
           Add Course
         </button>
-        <button
-          className="px-4 py-2 bg-green-700 rounded text-white my-4"
-          onClick={openCreateCollegeModal}
-        >
-          Add College
-        </button>
+       
       </div>
       <table className="w-full border-2 border-b-gray-400 rounded">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
@@ -107,9 +97,7 @@ const AdminHome = () => {
       <dialog ref={createCourseRef} className="rounded-lg">
         <CreateCourse closeModal={closeCreateCourseModal} />
       </dialog>
-      <dialog ref={createCollegeRef} className="rounded-lg collegeDialog">
-        <CreateCollege closeModal={closeCreateCollegeModal} />
-      </dialog>
+      
     </div>
   );
 };
