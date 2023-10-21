@@ -13,6 +13,7 @@ import AdminHome from "./components/backend/AdminHome";
 import Register from "./features/registration/Register";
 import Login from "./features/login/Login";
 import Settings from "./features/user/Settings";
+import Colleges from "./components/backend/Colleges";
 
 const App = () => {
   return (
@@ -26,14 +27,15 @@ const App = () => {
         <Route path="/teaching-load" element={<Home />} />
         <Route path="/teaching-load/new" element={<HomeAssign />} />
         <Route path="/teaching-load/central" element={<CentralDashboard />} />
-        {/* <Route path="/settings" element={<Settings />} /> */}
         <Route path="/settings" element={<Settings />} />
 
         <Route path="/semestercourses" element={<SemesterCourses />} />
-        {/* <Route path="/trial" element={<UnassignedCourses id={1}/>} /> */}
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminHome />} />
+        {/* <Route index element={<AdminHome />} /> */}
+        <Route path="staff" element={<AdminHome />} />
+        <Route path="colleges" element={<Colleges />} />
+
         {/* <Route index element={<AdminHome />} /> */}
       </Route>
     </Routes>

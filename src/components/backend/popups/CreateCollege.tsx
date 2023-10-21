@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CollegeSchema, CollegeType } from '../functions/BackendSchemas';
+
 type CreateCollegeProps = {
     closeModal: () => void
 }
