@@ -20,10 +20,10 @@ const CreateCollege = ({ closeModal }: CreateCollegeProps) => {
   }
 
   return (
-    <section className="outline-none">
-      <p onClick={closeModal} className="cursor-pointer">
-        X
-      </p>
+    <section className="outline-none relative">
+      <span onClick={closeModal} className="cursor-pointer absolute right-0 w-6 h-6 bg-red-500 text-center text-white rounded-full font-semibold">
+      X
+    </span>
       <p className='text-center text-lg font-semibold text-green-700'>Create college</p>
 
       <form className="" onSubmit={handleSubmit(handleCollege)}>

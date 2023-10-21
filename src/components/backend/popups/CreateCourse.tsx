@@ -22,10 +22,10 @@ const CreateCourse = ({closeModal}: CreateCourseProps) => {
   }
 
   return (
-    <section className="outline-none">
-    <p onClick={closeModal} className="cursor-pointer">
+    <section className="outline-none relative">
+    <span onClick={closeModal} className="cursor-pointer absolute right-0 w-6 h-6 bg-red-500 text-center text-white rounded-full font-semibold">
       X
-    </p>
+    </span>
     <p className='text-center text-lg font-semibold text-green-700'>Create Course</p>
 
     <form className="" onSubmit={handleSubmit(handleCollege)}>
@@ -71,7 +71,7 @@ const CreateCourse = ({closeModal}: CreateCourseProps) => {
         Course Credit units
       </label>
       <input
-        type="text"
+        type="number"
         {...register("course_cus")}
         placeholder="Enter college code eg. COCIS"
         className={`border-2 rounded-md p-2 outline-none w-full focus:ring-1 ${
@@ -114,7 +114,7 @@ const CreateCourse = ({closeModal}: CreateCourseProps) => {
         // disabled={isSubmitting}
       >
         {/* {isSubmitting ? "Logging in..." : "Login"} */}
-        Create College
+        Create Course
       </button>
     </div>
 
