@@ -7,7 +7,7 @@ const AdminNavbar = () => {
         <ul className='flex gap-5'>
             <NavLink to={"/admin/staff"}><li>Staff</li></NavLink>
             <NavLink to={"/admin/colleges"}><li>Colleges</li></NavLink>
-            <li>Courses</li>
+            <NavLink to={"/admin/courses"}><li>Courses</li></NavLink>
             <li>Departments</li>
         </ul>
     </nav>

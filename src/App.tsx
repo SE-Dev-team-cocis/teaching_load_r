@@ -14,6 +14,7 @@ import Register from "./features/registration/Register";
 import Login from "./features/login/Login";
 import Settings from "./features/user/Settings";
 import Colleges from "./components/backend/Colleges";
+import Courses from "./components/backend/Courses";
 
 const App = () => {
   return (
@@ -35,6 +36,8 @@ const App = () => {
         {/* <Route index element={<AdminHome />} /> */}
         <Route path="staff" element={<AdminHome />} />
         <Route path="colleges" element={<Colleges />} />
+        <Route path="courses" element={<Courses />} />
+
 
         {/* <Route index element={<AdminHome />} /> */}
       </Route>

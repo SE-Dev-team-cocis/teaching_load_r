@@ -8,14 +8,7 @@ const AdminHome = () => {
   const createCourseRef = useRef<HTMLDialogElement>(null);
   
 
-  const openCreateCourseModal = () => {
-    createCourseRef.current?.showModal()
-  };
-
-   const closeCreateCourseModal = () => {
-     createCourseRef.current?.close();
-   };
-
+  
 
   // const url = "https://teaching-load-api.onrender.com/api/getStaff"
   const url =
@@ -43,13 +36,7 @@ const AdminHome = () => {
   return (
     <div className="p-4">
       <div className="flex gap-4">
-        <button
-          className="px-4 py-2 bg-green-700 rounded text-white my-4"
-          onClick={openCreateCourseModal}
-        >
-          Add Course
-        </button>
-       
+      
       </div>
       <table className="w-full border-2 border-b-gray-400 rounded">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
@@ -93,11 +80,7 @@ const AdminHome = () => {
           ))}
         </tbody>
       </table>
-
-      <dialog ref={createCourseRef} className="rounded-lg">
-        <CreateCourse closeModal={closeCreateCourseModal} />
-      </dialog>
-      
+  
     </div>
   );
 };
