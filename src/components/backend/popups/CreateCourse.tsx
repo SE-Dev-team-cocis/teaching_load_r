@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 type CreateCourseProps = {
   closeModal: () => void
 };
+
 const CreateCourse = ({closeModal}: CreateCourseProps) => {
 
   const {

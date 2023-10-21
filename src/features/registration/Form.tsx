@@ -98,7 +98,7 @@ const Form = () => {
       localStorage.setItem("token", JSON.stringify(response.data.access_token));
       successNotification("You have registered successfully");
       dispatch(setUser(response.data?.user));
-      // navigate("/teaching-load");
+      navigate("/teaching-load");
       // setRegistering(false);
       // }
     } catch (err) {
