@@ -1,15 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { CollegeSchema, CollegeType } from '../../functions/BackendSchemas';
-import EditCollege from './EditCollege';
-import { useRef } from 'react';
 
 type CreateCollegeProps = {
     closeModal: () => void
 }
-const CreateCollege = ({ closeModal }: CreateCollegeProps) => {
 
-  const {
+
+
+const EditCollege = ({closeModal}: CreateCollegeProps) => {
+     const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -21,13 +21,12 @@ const CreateCollege = ({ closeModal }: CreateCollegeProps) => {
   const handleCollege = (data: CollegeType) => {
       console.log(data)
   }
-
   return (
-    <section className="outline-none relative">
+     <section className="outline-none relative">
       <span onClick={closeModal} className="cursor-pointer absolute right-0 w-6 h-6 bg-red-500 text-center text-white rounded-full font-semibold">
       X
     </span>
-      <p className='text-center text-lg font-semibold text-green-700'>Create college</p>
+      <p className='text-center text-lg font-semibold text-green-700'>Edit college details</p>
 
       <form className="" onSubmit={handleSubmit(handleCollege)}>
       <div className="mb-3 mt-2">
@@ -75,15 +74,14 @@ const CreateCollege = ({ closeModal }: CreateCollegeProps) => {
           // disabled={isSubmitting}
         >
           {/* {isSubmitting ? "Logging in..." : "Login"} */}
-          Create College
+          Save Changes
         </button>
       </div>
 
 
       </form>
-
     </section>
-  );
-};
+  )
+}
 
-export default CreateCollege
+export default EditCollege

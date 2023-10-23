@@ -2,9 +2,18 @@ import { useMemo, useRef, useState } from "react";
 import { CollegeType } from "../../functions/BackendSchemas";
 import axios from "axios";
 import CreateCollege from "./CreateCollege";
+import EditCollege from "./EditCollege";
 
 const Colleges = () => {
     const createCollegeRef = useRef<HTMLDialogElement>(null);
+    const editCollegeRef = useRef<HTMLDialogElement>(null)
+
+  const closeEditModal = () => {
+    if (editCollegeRef.current) {
+      editCollegeRef.current?.close()
+    }
+
+  }
 
     const openCreateCollegeModal = () => {
         createCollegeRef.current?.showModal()
@@ -45,18 +54,18 @@ const Colleges = () => {
          <table className="w-full border-2 border-b-gray-400 rounded">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
           <tr>
-            <th className="w-10 p-2 text-sm font-semibold tracking-wide text-left">
+            <th className=" p-2 text-sm font-semibold tracking-wide text-left">
               No.
             </th>
-            <th className=" w-20 p-2 text-sm font-semibold tracking-wide text-left">
+            <th className=" p-2 text-sm font-semibold tracking-wide text-left">
               College Name
             </th>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+            <th className=" p-2 text-sm font-semibold tracking-wide text-left">
                 College Code 
             </th>
-            {/*                 <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
-                  Action
-                </th> */}
+            <th className=" p-2 text-sm font-semibold tracking-wide text-center">
+                Action
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-400">
@@ -72,17 +81,26 @@ const Colleges = () => {
               <td className="p-2 text-sm text-gray-700 text-left">
                 {college.college_code}
               </td>
-              {/* <td className="p-2 text-sm text-gray-700 text-center">
+              <td className="p-2 text-sm text-gray-700 text-center">
+                 <span className="mr-3 text-blue-700 cursor-pointer" onClick={()=>editCollegeRef.current?.showModal()}>
+                    Edit
+                </span>
+                <span>
                     Delete
-                  </td> */}
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-         <dialog ref={createCollegeRef} className="rounded-lg collegeDialog">
+      <dialog ref={createCollegeRef} className="rounded-lg collegeDialog">
         <CreateCollege closeModal={closeCreateCollegeModal} />
       </dialog>
+
+    <dialog ref={editCollegeRef} className="rounded-lg collegeDialog">
+      <EditCollege closeModal={closeEditModal}/>
+    </dialog>
     </section>
   )
 }
