@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { CourseSchema, CourseType } from "../functions/BackendSchemas";
+import { CourseSchema, CourseType } from "../../functions/BackendSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 

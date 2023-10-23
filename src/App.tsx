@@ -13,8 +13,8 @@ import AdminHome from "./components/backend/AdminHome";
 import Register from "./features/registration/Register";
 import Login from "./features/login/Login";
 import Settings from "./features/user/Settings";
-import Colleges from "./components/backend/Colleges";
-import Courses from "./components/backend/Courses";
+import Colleges from "./components/backend/features/college/Colleges";
+import Courses from "./components/backend/features/course/Courses";
 
 const App = () => {
   return (

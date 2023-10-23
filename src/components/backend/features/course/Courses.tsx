@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react'
-import { CourseType } from './functions/BackendSchemas';
+import { CourseType } from '../../functions/BackendSchemas';
 import axios from 'axios';
-import CreateCourse from './popups/CreateCourse';
+import CreateCourse from './CreateCourse';
 
 const Courses = () => {
 

@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
-import { CollegeType } from "./functions/BackendSchemas";
+import { CollegeType } from "../../functions/BackendSchemas";
 import axios from "axios";
-import CreateCollege from "./popups/CreateCollege";
+import CreateCollege from "./CreateCollege";
 
 const Colleges = () => {
     const createCollegeRef = useRef<HTMLDialogElement>(null);
