@@ -2,10 +2,20 @@ import React, { useMemo, useRef, useState } from 'react'
 import { CourseType } from '../../functions/BackendSchemas';
 import axios from 'axios';
 import CreateCourse from './CreateCourse';
+import EditCourse from './EditCourse';
 
 const Courses = () => {
 
        const createCourseRef = useRef<HTMLDialogElement>(null);
+       const editCourseRef = useRef<HTMLDialogElement>(null);
+
+
+      const closeEditModal = () => {
+        if (editCourseRef.current) {
+          editCourseRef.current?.close()
+        }
+      }
+
 
         const openCreateCourseModal = () => {
             createCourseRef.current?.showModal()
@@ -47,21 +57,21 @@ const Courses = () => {
          <table className="w-full border-2 border-b-gray-400 rounded">
         <thead className="bg-gray-50 bottom-2 border-gray-200">
           <tr>
-            <th className="w-10 p-2 text-sm font-semibold tracking-wide text-left">
+            <th className="p-2 text-sm font-semibold tracking-wide text-left">
               No.
             </th>
-            <th className=" w-20 p-2 text-sm font-semibold tracking-wide text-left">
+            <th className=" p-2 text-sm font-semibold tracking-wide text-left">
               Course Name
             </th>
-            <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+            <th className="  p-2 text-sm font-semibold tracking-wide text-left">
                 Course Code 
             </th>
-             <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-left">
+             <th className="  p-2 text-sm font-semibold tracking-wide text-left">
                 Course Cus 
             </th>
-            {/*                 <th className=" w-10 p-2 text-sm font-semibold tracking-wide text-center">
+            <th className="  p-2 text-sm font-semibold tracking-wide text-center">
                   Action
-                </th> */}
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-400">
@@ -80,16 +90,25 @@ const Courses = () => {
                 <td className="p-2 text-sm text-gray-700 text-left">
                 {course.course_cus}
               </td>
-              {/* <td className="p-2 text-sm text-gray-700 text-center">
+              <td className="p-2 text-sm text-gray-700 text-center">
+                    <span className="mr-3 text-blue-700 cursor-pointer" onClick={()=>editCourseRef.current?.showModal()}>
+                    Edit
+                </span>
+                <span className="text-red-700 cursor-pointer">
                     Delete
-                  </td> */}
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
         <dialog ref={createCourseRef} className="rounded-lg">
-        <CreateCourse closeModal={closeCreateCourseModal} />
+          <CreateCourse closeModal={closeCreateCourseModal} />
+      </dialog>
+
+      <dialog ref={editCourseRef} className="rounded-lg collegeDialog">
+        <EditCourse closeModal={closeEditModal}/>
       </dialog>
     </section>
   )

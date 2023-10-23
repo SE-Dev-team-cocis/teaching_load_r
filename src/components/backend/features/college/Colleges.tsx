@@ -85,7 +85,7 @@ const Colleges = () => {
                  <span className="mr-3 text-blue-700 cursor-pointer" onClick={()=>editCollegeRef.current?.showModal()}>
                     Edit
                 </span>
-                <span>
+                <span className="text-red-700 cursor-pointer">
                     Delete
                 </span>
               </td>
