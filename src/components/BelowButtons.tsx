@@ -129,25 +129,27 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       });
 
 
-      // console.log(response.data)
+      console.log(response.data)
       // return
       const status = response.data?.status;
 
       if (status === false) {
         errorNotification(response.data?.message);
-        setLecturerLoad(response.data?.load?.assignments);
+        // setLecturerLoad(response.data?.load?.assignments);
         dispatch(setLoad(response.data.load?.assignments));
         reset();
-        // return
+        return
       }
 
-      if (status === true) {
+      // if (status === true) {
 
         dispatch(setLoad(response.data.assignments?.assignments));
-        setLecturerLoad(response.data?.assignments?.assignments); // might delete later
+        // setLecturerLoad(response.data?.assignments?.assignments); // might delete later
         successNotification(response.data?.message);
         reset();
-      }
+      // }
+
+
     } catch (error) {
       setAssigning(false);
       errorNotification("Unable to assign load");
@@ -191,6 +193,9 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
 
   const broadcastLoad = async (id: number) => {
     setBroadcasting(true);
+
+    console.log("id: ", id)
+    // return 
     try {
       // const url = `https://teaching-load-api.onrender.com/api/broadcast/${id}`;
 
@@ -200,7 +205,7 @@ const BelowButtons = ({ broadcast }: ButtonProps) => {
       const response = await axios.put(url);
 
 
-      // console.log("Response: ", response?.data)
+      console.log("Response: ", response?.data)
       // return
 
       dispatch(setCentralDashboardData(response.data.others));

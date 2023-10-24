@@ -11,6 +11,10 @@ const CentralDashboard = () => {
     (state) => state.dashboard.allData
   );
 
+  console.log("Central dashboard data: ", centralDashboardData)
+
+  //const url = "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/department";
+
 
   const centralDashboard = useNewLoadStore21((state) => state.centralDashboard);
   const [message, setMessage] = useState();

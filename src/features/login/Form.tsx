@@ -44,7 +44,7 @@ const Form = () => {
         },
       });
 
-      console.log("response: ", response?.data)
+      // console.log("response: ", response?.data)
 
       if (response.data.login === false) {
         errorNotification(response.data.message);
