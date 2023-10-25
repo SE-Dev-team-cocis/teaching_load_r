@@ -3,19 +3,17 @@ import axios from "axios";
 import useUserstore from "../../zustand/userStore";
 import { Load} from "../../zustand/api/apis";
 import useNewLoadStore21 from "../../zustand/newLoadStore2";
-import { successNotification } from "../utilities/toastify/Toastify";
+import { successNotification, errorNotification } from "../utilities/toastify/Toastify";
 import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setLoad } from "../../features/load/loadSlice";
+import { setCentralDashboardData } from "../../features/dashboard/dashboardSlice";
 
 const LoadSummary = () => {
   //RTK
   const rtKLoad = useAppSelector(state => state.load.load)
   const staff = useAppSelector((state) => state.staff.staff);
   const dispatch = useAppDispatch()
-
-
-  console.log("RTK load: ", rtKLoad)
 
 
   const deleteLoadRef = useRef<HTMLDialogElement>(null)
@@ -29,7 +27,7 @@ const LoadSummary = () => {
   );
 
 
-  const allLecturers = useNewLoadStore21((state) => state.lecturers);
+  // const allLecturers = useNewLoadStore21((state) => state.lecturers);
   const { id } = useUserstore((state) => state.user);
 
   // const newtotalLoad = lecturerLoad?.map((load: Load) => {
@@ -62,22 +60,34 @@ const LoadSummary = () => {
     };
 
     try {
-      const url = "https://teaching-load-api.onrender.com/api/deleteload";
+      // const url = "https://teaching-load-api.onrender.com/api/deleteload";
+       const url = "https://teachingloadfive-82f4e24a-6a04-4f8b-8cae.cranecloud.io/api/deleteload";
+      
       setDeleting(true)
+
       const response = await axios.delete(url, { data });
       if (response.status === 200) {
         setDeleting(false)
         successNotification("Load deleted successfully");
-        setCentralDashboard(response.data?.others)
-        setLecturerLoad(response.data?.assignments.assignments);
+        // setCentralDashboard(response.data?.others)
+        // setLecturerLoad(response.data?.assignments.assignments);
+
+        console.log(response.data)
         
         //RTK
         dispatch(setLoad(response.data?.assignments.assignments));
+        dispatch(setCentralDashboardData(response.data?.others)) // we must set the central dashboard data
 
         closeModal()
+      }else{
+
+        errorNotification(response.data?.message)
       }
-    } catch (error) {
-      console.error("Error: ", error);
+    } catch (error: any) {
+      console.error("Error: ", error.response.data.message);
+      setDeleting(false)
+      errorNotification(error.response.data.message);
+      closeModal()
     }
   };
 
